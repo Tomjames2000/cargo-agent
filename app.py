@@ -209,8 +209,14 @@ if run_btn:
         p_apts = tools.find_nearest_airports(p_addr)
         d_apts = tools.find_nearest_airports(d_addr)
         
-        if not p_apts or not d_apts:
-            st.error("Could not find addresses. Please check spelling.")
+        if not p_apts:
+            st.error(f"❌ Error: Could not locate the PICKUP address: '{p_addr}'")
+            st.info("💡 Tip: Try using just 'City, State' or removing unit numbers.")
+            st.stop()
+            
+        if not d_apts:
+            st.error(f"❌ Error: Could not locate the DELIVERY address: '{d_addr}'")
+            st.info("💡 Tip: Try using just 'City, State' or removing unit numbers.")
             st.stop()
             
         p_code = p_apts[0]['code']
@@ -318,3 +324,4 @@ if run_btn:
         st.dataframe(df[cols], hide_index=True, use_container_width=True)
     else:
         st.warning("No flights found meeting your criteria.")
+

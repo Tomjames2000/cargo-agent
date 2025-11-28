@@ -374,13 +374,33 @@ if run_btn:
                 # REJECTION LOGIC
                 reject_reason = None
                 
-                # Check 1: Departure
-                if f['Dep Time'] < earliest_dep_str: 
-                    reject_reason = f"Too Early (Dep {f['Dep Time']})"
+                # Parse flight times
+                try:
+                    flight_dep_time = datetime.datetime.strptime(f['Dep Time'], "%H:%M").time()
+                    flight_arr_time = datetime.datetime.strptime(f['Arr Time'], "%H:%M").time()
+                except:
+                    reject_reason = "Invalid time format"
                 
-                # Check 2: Arrival (if deadline set)
-                elif latest_arr_dt and f['Arr Time'] > latest_arr_str:
-                    reject_reason = f"Too Late (Arr {f['Arr Time']})"
+                if not reject_reason:
+                    # Check 1: Departure too early
+                    if f['Dep Time'] < earliest_dep_str: 
+                        reject_reason = f"Too Early (Dep {f['Dep Time']} < {earliest_dep_str})"
+                    
+                    # Check 2: Can we make the delivery deadline?
+                    elif del_time:
+                        # Flight arrives at airport
+                        flight_arr_dt = datetime.datetime.combine(datetime.date.today() + datetime.timedelta(days=1), flight_arr_time)
+                        
+                        # Add post-flight processing + delivery drive
+                        # total_post = 60 min (recovery) + delivery drive time (with buffer)
+                        delivery_eta_dt = flight_arr_dt + datetime.timedelta(minutes=total_post)
+                        
+                        # Compare to deadline
+                        deadline_dt = datetime.datetime.combine(datetime.date.today() + datetime.timedelta(days=1), del_time)
+                        
+                        if delivery_eta_dt > deadline_dt:
+                            time_late = int((delivery_eta_dt - deadline_dt).total_seconds() / 60)
+                            reject_reason = f"Misses Deadline (ETA {delivery_eta_dt.strftime('%H:%M')}, Late by {time_late}m)"
                 
                 if reject_reason:
                     f['Reason'] = reject_reason
@@ -388,21 +408,21 @@ if run_btn:
                     rejected_flights.append(f)
                 else:
                     # CALCULATE DELIVERY ETA
-                    # Flight arrives at destination airport, then add delivery drive time + buffer
-                    flight_arr_time = datetime.datetime.strptime(f['Arr Time'], "%H:%M").time()
-                    flight_arr_dt = datetime.datetime.combine(datetime.date.today() + datetime.timedelta(days=1), flight_arr_time)
+                    flight_arr_time_obj = datetime.datetime.strptime(f['Arr Time'], "%H:%M").time()
+                    flight_arr_dt = datetime.datetime.combine(datetime.date.today() + datetime.timedelta(days=1), flight_arr_time_obj)
                     
                     # Add delivery drive time + buffer (already calculated as total_post)
                     delivery_eta_dt = flight_arr_dt + datetime.timedelta(minutes=total_post)
                     f['Delivery ETA'] = delivery_eta_dt.strftime("%H:%M")
                     
-                    # Calculate if it meets deadline
-                    if latest_arr_dt:
-                        time_margin = (dummy_deadline - delivery_eta_dt).total_seconds() / 60
+                    # Calculate margin vs deadline
+                    if del_time:
+                        deadline_dt = datetime.datetime.combine(datetime.date.today() + datetime.timedelta(days=1), del_time)
+                        time_margin = int((deadline_dt - delivery_eta_dt).total_seconds() / 60)
                         if time_margin >= 0:
-                            f['Margin'] = f"+{int(time_margin)}m"
+                            f['Margin'] = f"+{time_margin}m"
                         else:
-                            f['Margin'] = f"{int(time_margin)}m"
+                            f['Margin'] = f"{time_margin}m"
                     else:
                         f['Margin'] = "N/A"
                     
@@ -430,8 +450,10 @@ if run_btn:
         delivery_info = f"""
         * **Deadline:** {del_time.strftime('%H:%M') if del_time else 'None'}
         * **Drive:** {d2['miles']} mi / {d2['time_str']}
-        * **Math:** MAX({d2['time_min']}, {custom_d_buff}) + 60 = **{total_post} min** post-flight
-        * **Must Arrive By:** {latest_arr_str}
+        * **Recovery Buffer:** 60 min
+        * **Delivery Drive Buffer:** {custom_d_buff} min
+        * **Total Post-Flight:** {total_post} min ({int(total_post/60)}h {total_post%60}m)
+        * **Flight Must Land By:** {latest_arr_str}
         """
         st.markdown(delivery_info)
 

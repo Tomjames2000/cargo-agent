@@ -36,17 +36,17 @@ if not check_password():
 
 try:
     SERPAPI_KEY = st.secrets["SERPAPI_KEY"]
-except:
-    st.error("❌ System Error: SERPAPI_KEY not found in Secrets.")
+    GOOGLE_MAPS_KEY = st.secrets["GOOGLE_MAPS_KEY"]
+except KeyError as e:
+    st.error(f"❌ System Error: {e} not found in Secrets.")
     st.stop()
 
 # ==============================================================================
 # 2. LOGISTICS ENGINE
 # ==============================================================================
 class LogisticsTools:
-    def __init__(self):
-        # Increased timeout and specific user agent for Geocoding
-        self.geolocator = Nominatim(user_agent="cargo_app_prod_v26_fix", timeout=20)
+    def __init__(self, google_key):
+        self.google_key = google_key
         self.geocode_cache = {}  # Cache successful geocodes
         self.AIRPORT_DB = {
             "SEA": (47.4489, -122.3094), "PDX": (45.5887, -122.5975),
@@ -63,7 +63,7 @@ class LogisticsTools:
         }
 
     def _get_coords(self, location: str):
-        """Get coordinates for a location (airport code or address)"""
+        """Get coordinates using Google Geocoding API"""
         # Check cache first
         if location in self.geocode_cache:
             return self.geocode_cache[location]
@@ -74,60 +74,30 @@ class LogisticsTools:
             self.geocode_cache[location] = coords
             return coords
         
-        # Try multiple geocoding strategies with delays
-        import time
-        
-        attempts = []
-        
-        # Strategy 1: Original address
-        attempts.append(("Full Address", location))
-        
-        # Strategy 2: Remove suite/apt info
-        clean = location
-        for remove in ["Suite", "Ste", "Apt", "Apartment", "#", "Unit"]:
-            clean = clean.replace(remove, "")
-        if clean != location:
-            attempts.append(("Without Suite", clean.strip()))
-        
-        # Strategy 3: Just street + city/state
-        parts = [p.strip() for p in location.split(",")]
-        if len(parts) >= 3:
-            # Has street, city, state
-            street_city_state = f"{parts[0]}, {parts[-2]}, {parts[-1]}"
-            attempts.append(("Street+City+State", street_city_state))
-        
-        # Strategy 4: Just city, state
-        if len(parts) >= 2:
-            city_state = f"{parts[-2]}, {parts[-1]}"
-            attempts.append(("City+State", city_state))
-        
-        # Strategy 5: Try with USA explicitly
-        if "USA" not in location and "United States" not in location:
-            attempts.append(("With USA", f"{location}, USA"))
-        
-        # Try each strategy with a small delay between attempts
-        for i, (strategy, attempt) in enumerate(attempts):
-            try:
-                if i > 0:
-                    time.sleep(1)  # Rate limiting: wait 1 second between attempts
+        # Use Google Geocoding API
+        try:
+            url = "https://maps.googleapis.com/maps/api/geocode/json"
+            params = {
+                "address": location,
+                "key": self.google_key
+            }
+            
+            r = requests.get(url, params=params, timeout=10)
+            data = r.json()
+            
+            if data["status"] == "OK" and data["results"]:
+                loc = data["results"][0]["geometry"]["location"]
+                coords = (loc["lat"], loc["lng"])
+                self.geocode_cache[location] = coords
+                print(f"✓ Google Geocoded '{location}': {coords}")
+                return coords
+            else:
+                print(f"✗ Google Geocoding failed for '{location}': {data.get('status', 'Unknown error')}")
+                return None
                 
-                print(f"Trying {strategy}: '{attempt}'")
-                loc = self.geolocator.geocode(attempt, timeout=20)
-                
-                if loc:
-                    coords = (loc.latitude, loc.longitude)
-                    self.geocode_cache[location] = coords
-                    print(f"✓ SUCCESS with {strategy}: {coords}")
-                    return coords
-                else:
-                    print(f"✗ {strategy} returned no results")
-                    
-            except Exception as e:
-                print(f"✗ {strategy} error: {e}")
-                continue
-        
-        print(f"✗ All geocoding attempts failed for '{location}'")
-        return None
+        except Exception as e:
+            print(f"✗ Geocoding error: {e}")
+            return None
 
     def find_nearest_airports(self, address: str):
         """Find the 3 nearest airports to an address"""
@@ -142,53 +112,44 @@ class LogisticsTools:
         return candidates[:3]
 
     def get_road_metrics(self, origin: str, destination: str):
-        """Calculate driving distance and time between two locations"""
-        coords_start = self._get_coords(origin)
-        coords_end = self._get_coords(destination)
-        if not coords_start or not coords_end: 
-            return None
-        
-        # OSRM Endpoint (HTTPS is more reliable)
-        url = f"https://router.project-osrm.org/route/v1/driving/{coords_start[1]},{coords_start[0]};{coords_end[1]},{coords_end[0]}"
-        
-        # Headers are CRITICAL for OSRM public server to accept the request
-        headers = {
-            "User-Agent": "CargoLogisticsApp/1.0"
-        }
-        
+        """Calculate driving distance and time using Google Distance Matrix API"""
         try:
-            r = requests.get(url, params={"overview": "false"}, headers=headers, timeout=15)
+            url = "https://maps.googleapis.com/maps/api/distancematrix/json"
+            params = {
+                "origins": origin,
+                "destinations": destination,
+                "mode": "driving",
+                "units": "imperial",
+                "key": self.google_key
+            }
             
-            if r.status_code != 200:
-                raise Exception(f"OSRM Error {r.status_code}")
-                
+            r = requests.get(url, params=params, timeout=15)
             data = r.json()
-            if data.get("code") != "Ok": 
-                raise Exception("No route found")
             
-            seconds = data['routes'][0]['duration']
-            miles = data['routes'][0]['distance'] * 0.000621371 # Meters to Miles
+            if data["status"] == "OK" and data["rows"]:
+                element = data["rows"][0]["elements"][0]
+                
+                if element["status"] == "OK":
+                    # Extract distance and duration
+                    miles = element["distance"]["value"] * 0.000621371  # meters to miles
+                    seconds = element["duration"]["value"]
+                    
+                    hours = int(seconds // 3600)
+                    mins = int((seconds % 3600) // 60)
+                    
+                    return {
+                        "miles": round(miles, 1),
+                        "time_str": f"{hours}h {mins}m" if hours > 0 else f"{mins}m",
+                        "time_min": round(seconds / 60)
+                    }
             
-            hours = int(seconds // 3600)
-            mins = int((seconds % 3600) // 60)
+            # If Google API fails, return None
+            print(f"Google Distance Matrix failed: {data.get('status', 'Unknown')}")
+            return None
             
-            return {
-                "miles": round(miles, 1),
-                "time_str": f"{hours}h {mins}m",
-                "time_min": round(seconds/60)
-            }
         except Exception as e:
-            # Fallback: Calculate Air Distance + 30% winding factor
-            # This ensures the app NEVER crashes, even if OSRM is down.
-            print(f"OSRM Failed: {e}")
-            dist = geodesic(coords_start, coords_end).miles * 1.3
-            hours = (dist / 50) + 0.5 # Assume 50mph + 30m traffic
-            
-            return {
-                "miles": round(dist, 1),
-                "time_str": f"{int(hours)}h {int((hours*60)%60)}m (Est)",
-                "time_min": int(hours*60)
-            }
+            print(f"Distance Matrix error: {e}")
+            return None
 
     def search_flights(self, origin, dest, date, show_all=False):
         """Search for flights using SerpAPI Google Flights"""
@@ -294,7 +255,7 @@ with st.sidebar:
     run_btn = st.button("Generate Logistics Plan", type="primary")
 
 if run_btn:
-    tools = LogisticsTools()
+    tools = LogisticsTools(GOOGLE_MAPS_KEY)
     
     with st.status("Running Logistics Engine...", expanded=True) as status:
         
@@ -343,16 +304,37 @@ if run_btn:
         d_code = d_apts[0]['code']
         
         # 2. ROADS
-        st.write("🚚 Calculating Drive Metrics...")
-        d1 = tools.get_road_metrics(p_addr, p_code)
-        d2 = tools.get_road_metrics(d_code, d_addr)
+        st.write("🚚 Calculating Drive Metrics with Google Maps...")
+        
+        # Get airport codes for formatting
+        p_airport_code = p_apts[0]['code']
+        d_airport_code = d_apts[0]['code']
+        
+        # For airport destinations, use the airport code directly
+        d1 = tools.get_road_metrics(p_addr, p_airport_code)
+        d2 = tools.get_road_metrics(d_airport_code, d_addr)
         
         if not d1:
-            st.warning("Pickup Road Routing failed. Using Air estimate.")
-            d1 = {"miles": 20, "time_str": "30m (Est)", "time_min": 30}
+            st.warning("⚠️ Pickup road routing failed. Using air distance estimate.")
+            p_coords = tools._get_coords(p_addr)
+            a_coords = tools.AIRPORT_DB[p_airport_code]
+            if p_coords and a_coords:
+                from geopy.distance import geodesic
+                dist = geodesic(p_coords, a_coords).miles * 1.3
+                d1 = {"miles": round(dist, 1), "time_str": f"{int(dist/50*60)}m (Est)", "time_min": int(dist/50*60)}
+            else:
+                d1 = {"miles": 20, "time_str": "30m (Est)", "time_min": 30}
+                
         if not d2:
-            st.warning("Delivery Road Routing failed. Using Air estimate.")
-            d2 = {"miles": 20, "time_str": "30m (Est)", "time_min": 30}
+            st.warning("⚠️ Delivery road routing failed. Using air distance estimate.")
+            d_coords = tools._get_coords(d_addr)
+            a_coords = tools.AIRPORT_DB[d_airport_code]
+            if d_coords and a_coords:
+                from geopy.distance import geodesic
+                dist = geodesic(a_coords, d_coords).miles * 1.3
+                d2 = {"miles": round(dist, 1), "time_str": f"{int(dist/50*60)}m (Est)", "time_min": int(dist/50*60)}
+            else:
+                d2 = {"miles": 20, "time_str": "30m (Est)", "time_min": 30}
             
         # 3. BUFFER MATH
         pickup_drive_used = max(d1['time_min'], custom_p_buff)
@@ -405,6 +387,25 @@ if run_btn:
                     f['Day'] = day_obj['day']
                     rejected_flights.append(f)
                 else:
+                    # CALCULATE DELIVERY ETA
+                    # Flight arrives at destination airport, then add delivery drive time + buffer
+                    flight_arr_time = datetime.datetime.strptime(f['Arr Time'], "%H:%M").time()
+                    flight_arr_dt = datetime.datetime.combine(datetime.date.today() + datetime.timedelta(days=1), flight_arr_time)
+                    
+                    # Add delivery drive time + buffer (already calculated as total_post)
+                    delivery_eta_dt = flight_arr_dt + datetime.timedelta(minutes=total_post)
+                    f['Delivery ETA'] = delivery_eta_dt.strftime("%H:%M")
+                    
+                    # Calculate if it meets deadline
+                    if latest_arr_dt:
+                        time_margin = (dummy_deadline - delivery_eta_dt).total_seconds() / 60
+                        if time_margin >= 0:
+                            f['Margin'] = f"+{int(time_margin)}m"
+                        else:
+                            f['Margin'] = f"{int(time_margin)}m"
+                    else:
+                        f['Margin'] = "N/A"
+                    
                     f['Days of Op'] = day_obj['day']
                     valid_flights.append(f)
         
@@ -426,11 +427,13 @@ if run_btn:
 
     with col2:
         st.success(f"**DELIVERY: {d_code}**")
-        st.markdown(f"""
+        delivery_info = f"""
         * **Deadline:** {del_time.strftime('%H:%M') if del_time else 'None'}
         * **Drive:** {d2['miles']} mi / {d2['time_str']}
+        * **Math:** MAX({d2['time_min']}, {custom_d_buff}) + 60 = **{total_post} min** post-flight
         * **Must Arrive By:** {latest_arr_str}
-        """)
+        """
+        st.markdown(delivery_info)
 
     st.divider()
     
@@ -453,8 +456,35 @@ if run_btn:
             final_rows.append(f)
             
         df = pd.DataFrame(final_rows)
-        cols = ["Airline", "Flight", "Days of Op", "Origin", "Dep Time", "Dest", "Arr Time", "Duration", "Conn Apt", "Conn Time"]
-        st.dataframe(df[cols], hide_index=True, use_container_width=True)
+        cols = ["Airline", "Flight", "Days of Op", "Origin", "Dep Time", "Dest", "Arr Time", "Duration", "Delivery ETA", "Margin", "Conn Apt", "Conn Time"]
+        
+        # Color code the Margin column
+        def highlight_margin(row):
+            margin_str = row['Margin']
+            if margin_str == 'N/A':
+                return [''] * len(row)
+            
+            # Parse margin value
+            try:
+                margin_val = int(margin_str.replace('m', '').replace('+', ''))
+                if margin_val >= 60:
+                    color = 'background-color: #d4edda'  # Green - lots of time
+                elif margin_val >= 30:
+                    color = 'background-color: #fff3cd'  # Yellow - cutting it close
+                elif margin_val >= 0:
+                    color = 'background-color: #f8d7da'  # Red - very tight
+                else:
+                    color = 'background-color: #f5c6cb'  # Dark red - will miss deadline
+                
+                return ['', '', '', '', '', '', '', '', '', color, '', '']
+            except:
+                return [''] * len(row)
+        
+        styled_df = df[cols].style.apply(highlight_margin, axis=1)
+        st.dataframe(styled_df, hide_index=True, use_container_width=True)
+        
+        # Add legend
+        st.caption("**Margin Legend:** 🟢 60+ min early | 🟡 30-60 min | 🔴 0-30 min | ⛔ Negative = Missed deadline")
         
     elif rejected_flights:
         st.warning("⚠️ No valid flights found! However, we found flights that were REJECTED based on your buffer rules:")

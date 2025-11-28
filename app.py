@@ -35,7 +35,7 @@ def check_password():
 if not check_password():
     st.stop()
 
-# Load Keys
+# Load Keys safely
 try:
     SERPAPI_KEY = st.secrets["SERPAPI_KEY"]
 except:
@@ -47,7 +47,7 @@ except:
 # ==============================================================================
 class LogisticsTools:
     def __init__(self):
-        self.geolocator = Nominatim(user_agent="cargo_app_prod_v23")
+        self.geolocator = Nominatim(user_agent="cargo_app_prod_v24")
         self.AIRPORT_DB = {
             "SEA": (47.4489, -122.3094), "PDX": (45.5887, -122.5975),
             "SFO": (37.6189, -122.3748), "LAX": (33.9425, -118.4080),
@@ -167,7 +167,6 @@ with st.sidebar:
     days_to_search = []
     
     if mode == "One-Time (Ad-Hoc)":
-        # Using Streamlit Date Input (Already standardizes format)
         p_date = st.date_input("Pickup Date", datetime.date.today() + datetime.timedelta(days=1))
         p_time = st.time_input("Pickup Ready Time", datetime.time(9, 0))
         days_to_search = [{"day": "One-Time", "date": p_date.strftime("%Y-%m-%d")}]
@@ -212,7 +211,7 @@ if run_btn:
         
         if not p_apts or not d_apts:
             st.error("Could not find addresses. Please check spelling.")
-            st.stop() 
+            st.stop()
             
         p_code = p_apts[0]['code']
         d_code = d_apts[0]['code']
@@ -222,14 +221,8 @@ if run_btn:
         d1 = tools.get_road_metrics(p_addr, p_code)
         d2 = tools.get_road_metrics(d_code, d_addr)
         
-        if not p_apts:
-            st.error(f"❌ Error: Could not locate the PICKUP address: '{p_addr}'")
-            st.warning("Try removing the street number or using just City, State.")
-            st.stop()
-            
-        if not d_apts:
-            st.error(f"❌ Error: Could not locate the DELIVERY address: '{d_addr}'")
-            st.warning("Try removing the street number or using just City, State.")
+        if not d1 or not d2:
+            st.error("Road routing failed.")
             st.stop()
             
         # 3. BUFFER MATH
@@ -244,11 +237,13 @@ if run_btn:
         # Latest Arr
         latest_arr_dt = None
         total_post = 0
+        latest_arr_str = "N/A"
+        
         if del_time:
             del_drive_used = max(d2['time_min'], custom_d_buff)
             total_post = del_drive_used + 60
             
-            # Deadline Math (Next Day assumption for generic recurring)
+            # Deadline Math (Next Day assumption)
             dummy_deadline = datetime.datetime.combine(datetime.date.today() + datetime.timedelta(days=1), del_time)
             latest_arr_dt = dummy_deadline - datetime.timedelta(minutes=total_post)
             latest_arr_str = latest_arr_dt.strftime("%H:%M")
@@ -260,10 +255,8 @@ if run_btn:
         for day_obj in days_to_search:
             raw_flights = tools.search_flights(p_code, d_code, day_obj['date'])
             for f in raw_flights:
+                # FILTER: Departure
                 if f['Dep Time'] < earliest_dep_str: continue
-                
-                # Simple check for demo (can be enhanced for multi-day crossing)
-                # if latest_arr_dt and f['Arr Time'] > latest_arr_str: continue
                 
                 f['Days of Op'] = day_obj['day']
                 valid_flights.append(f)
@@ -281,7 +274,7 @@ if run_btn:
         st.markdown(f"""
         * **Ready Time:** {p_time.strftime('%H:%M')}
         * **Drive Mileage:** {d1['miles']} miles
-        * **Drive Time to {p_code}:** {d1['time_str']}
+        * **Drive Time:** {d1['time_str']} (to {p_code})
         * **Drive Buffer:** MAX({d1['time_min']}, {custom_p_buff}) = {pickup_drive_used} min
         * **Total Prep:** {pickup_drive_used} + 60 (Lockout) = **{total_prep} min**
         * **Latest Departure:** {earliest_dep_str}
@@ -290,15 +283,14 @@ if run_btn:
     with col2:
         st.success(f"**DELIVERY DETAILS**")
         dl_str = del_time.strftime('%H:%M') if del_time else "None"
-        must_arr_str = latest_arr_str if del_time else "N/A"
         
         st.markdown(f"""
         * **Deadline:** {dl_str}
         * **Drive Mileage:** {d2['miles']} miles
-        * **Drive Time from {d_code}:** {d2['time_str']}
+        * **Drive Time:** {d2['time_str']} (from {d_code})
         * **Drive Buffer:** MAX({d2['time_min']}, {custom_d_buff}) = {del_drive_used if del_time else 'N/A'} min
         * **Total Post:** {total_post} min
-        * **Must Arrive By:** {must_arr_str}
+        * **Must Arrive By:** {latest_arr_str}
         """)
 
     st.subheader("Verified Flight Schedule")
@@ -325,5 +317,4 @@ if run_btn:
         cols = ["Airline", "Flight", "Days of Op", "Origin", "Dep Time", "Dest", "Arr Time", "Duration", "Conn Apt", "Conn Time"]
         st.dataframe(df[cols], hide_index=True, use_container_width=True)
     else:
-
         st.warning("No flights found meeting your criteria.")

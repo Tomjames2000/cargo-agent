@@ -46,7 +46,8 @@ except:
 class LogisticsTools:
     def __init__(self):
         # Increased timeout and specific user agent for Geocoding
-        self.geolocator = Nominatim(user_agent="cargo_app_prod_v26_fix", timeout=10)
+        self.geolocator = Nominatim(user_agent="cargo_app_prod_v26_fix", timeout=20)
+        self.geocode_cache = {}  # Cache successful geocodes
         self.AIRPORT_DB = {
             "SEA": (47.4489, -122.3094), "PDX": (45.5887, -122.5975),
             "SFO": (37.6189, -122.3748), "LAX": (33.9425, -118.4080),
@@ -63,21 +64,69 @@ class LogisticsTools:
 
     def _get_coords(self, location: str):
         """Get coordinates for a location (airport code or address)"""
-        if location.upper() in self.AIRPORT_DB:
-            return self.AIRPORT_DB[location.upper()]
-        try:
-            # Clean string to remove common confusion points for free geocoder
-            parts = location.split(",")
-            if len(parts) > 1:
-                clean_loc = parts[0].replace("Suite", "").replace("Ste", "").replace("#", "").strip() + ", " + parts[-1].strip()
-            else:
-                clean_loc = location.replace("Suite", "").replace("Ste", "").replace("#", "").strip()
+        # Check cache first
+        if location in self.geocode_cache:
+            return self.geocode_cache[location]
             
-            loc = self.geolocator.geocode(clean_loc)
-            if loc: 
-                return (loc.latitude, loc.longitude)
-        except Exception as e:
-            print(f"Geocoding error: {e}")
+        # Check if it's an airport code
+        if location.upper() in self.AIRPORT_DB:
+            coords = self.AIRPORT_DB[location.upper()]
+            self.geocode_cache[location] = coords
+            return coords
+        
+        # Try multiple geocoding strategies with delays
+        import time
+        
+        attempts = []
+        
+        # Strategy 1: Original address
+        attempts.append(("Full Address", location))
+        
+        # Strategy 2: Remove suite/apt info
+        clean = location
+        for remove in ["Suite", "Ste", "Apt", "Apartment", "#", "Unit"]:
+            clean = clean.replace(remove, "")
+        if clean != location:
+            attempts.append(("Without Suite", clean.strip()))
+        
+        # Strategy 3: Just street + city/state
+        parts = [p.strip() for p in location.split(",")]
+        if len(parts) >= 3:
+            # Has street, city, state
+            street_city_state = f"{parts[0]}, {parts[-2]}, {parts[-1]}"
+            attempts.append(("Street+City+State", street_city_state))
+        
+        # Strategy 4: Just city, state
+        if len(parts) >= 2:
+            city_state = f"{parts[-2]}, {parts[-1]}"
+            attempts.append(("City+State", city_state))
+        
+        # Strategy 5: Try with USA explicitly
+        if "USA" not in location and "United States" not in location:
+            attempts.append(("With USA", f"{location}, USA"))
+        
+        # Try each strategy with a small delay between attempts
+        for i, (strategy, attempt) in enumerate(attempts):
+            try:
+                if i > 0:
+                    time.sleep(1)  # Rate limiting: wait 1 second between attempts
+                
+                print(f"Trying {strategy}: '{attempt}'")
+                loc = self.geolocator.geocode(attempt, timeout=20)
+                
+                if loc:
+                    coords = (loc.latitude, loc.longitude)
+                    self.geocode_cache[location] = coords
+                    print(f"✓ SUCCESS with {strategy}: {coords}")
+                    return coords
+                else:
+                    print(f"✗ {strategy} returned no results")
+                    
+            except Exception as e:
+                print(f"✗ {strategy} error: {e}")
+                continue
+        
+        print(f"✗ All geocoding attempts failed for '{location}'")
         return None
 
     def find_nearest_airports(self, address: str):
@@ -251,15 +300,44 @@ if run_btn:
         
         # 1. GEOGRAPHY
         st.write("📍 Resolving Airports...")
+        st.info(f"🔍 Looking up: **{p_addr}** → Finding nearest airport...")
+        
         p_apts = tools.find_nearest_airports(p_addr)
-        d_apts = tools.find_nearest_airports(d_addr)
         
         if not p_apts:
-            st.error(f"Could not locate Pickup Address: '{p_addr}'")
+            st.error(f"❌ Could not geocode Pickup Address: '{p_addr}'")
+            with st.expander("💡 Troubleshooting Tips"):
+                st.markdown("""
+                **The free geocoding service may have issues. Try:**
+                1. Simplify to: `City, State` (e.g., `Charlotte, NC`)
+                2. Add USA: `Charlotte, NC, USA`
+                3. Use ZIP only: `28273, USA`
+                4. Or just use the airport code directly: `CLT`
+                
+                **Common formats that work:**
+                - `Seattle, WA`
+                - `1234 Main St, Miami, FL`
+                - `Los Angeles, CA, USA`
+                """)
             st.stop()
+        
+        st.success(f"✅ Pickup nearest airport: **{p_apts[0]['code']}** ({p_apts[0]['air_miles']} mi away)")
+        st.info(f"🔍 Looking up: **{d_addr}** → Finding nearest airport...")
+        
+        d_apts = tools.find_nearest_airports(d_addr)
+        
         if not d_apts:
-            st.error(f"Could not locate Delivery Address: '{d_addr}'")
+            st.error(f"❌ Could not geocode Delivery Address: '{d_addr}'")
+            with st.expander("💡 Troubleshooting Tips"):
+                st.markdown("""
+                **The free geocoding service may have issues. Try:**
+                1. Simplify to: `City, State` (e.g., `Miami, FL`)
+                2. Add USA: `Miami, FL, USA`
+                3. Or just use the airport code directly: `MIA`
+                """)
             st.stop()
+            
+        st.success(f"✅ Delivery nearest airport: **{d_apts[0]['code']}** ({d_apts[0]['air_miles']} mi away)")
             
         p_code = p_apts[0]['code']
         d_code = d_apts[0]['code']

@@ -212,7 +212,7 @@ if run_btn:
         
         if not p_apts or not d_apts:
             st.error("Could not find addresses. Please check spelling.")
-            st.stop()
+            st.stop() 
             
         p_code = p_apts[0]['code']
         d_code = d_apts[0]['code']
@@ -222,8 +222,14 @@ if run_btn:
         d1 = tools.get_road_metrics(p_addr, p_code)
         d2 = tools.get_road_metrics(d_code, d_addr)
         
-        if not d1 or not d2:
-            st.error("Road routing failed.")
+        if not p_apts:
+            st.error(f"❌ Error: Could not locate the PICKUP address: '{p_addr}'")
+            st.warning("Try removing the street number or using just City, State.")
+            st.stop()
+            
+        if not d_apts:
+            st.error(f"❌ Error: Could not locate the DELIVERY address: '{d_addr}'")
+            st.warning("Try removing the street number or using just City, State.")
             st.stop()
             
         # 3. BUFFER MATH
@@ -319,4 +325,5 @@ if run_btn:
         cols = ["Airline", "Flight", "Days of Op", "Origin", "Dep Time", "Dest", "Arr Time", "Duration", "Conn Apt", "Conn Time"]
         st.dataframe(df[cols], hide_index=True, use_container_width=True)
     else:
+
         st.warning("No flights found meeting your criteria.")

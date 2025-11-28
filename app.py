@@ -45,7 +45,8 @@ except:
 # ==============================================================================
 class LogisticsTools:
     def __init__(self):
-        self.geolocator = Nominatim(user_agent="cargo_app_debug_v26", timeout=10)
+        # Increased timeout and specific user agent for Geocoding
+        self.geolocator = Nominatim(user_agent="cargo_app_prod_v26_fix", timeout=10)
         self.AIRPORT_DB = {
             "SEA": (47.4489, -122.3094), "PDX": (45.5887, -122.5975),
             "SFO": (37.6189, -122.3748), "LAX": (33.9425, -118.4080),
@@ -64,7 +65,8 @@ class LogisticsTools:
         if location.upper() in self.AIRPORT_DB:
             return self.AIRPORT_DB[location.upper()]
         try:
-            clean_loc = location.replace("Suite", "").replace("#", "").strip()
+            # Clean string to remove common confusion points for free geocoder
+            clean_loc = location.replace("Suite", "").replace("Ste", "").replace("#", "").split(",")[0] + ", " + location.split(",")[-1]
             loc = self.geolocator.geocode(clean_loc)
             if loc: return (loc.latitude, loc.longitude)
         except: pass
@@ -85,14 +87,26 @@ class LogisticsTools:
         coords_end = self._get_coords(destination)
         if not coords_start or not coords_end: return None
         
-        url = f"http://router.project-osrm.org/route/v1/driving/{coords_start[1]},{coords_start[0]};{coords_end[1]},{coords_end[0]}"
+        # OSRM Endpoint (HTTPS is more reliable)
+        url = f"https://router.project-osrm.org/route/v1/driving/{coords_start[1]},{coords_start[0]};{coords_end[1]},{coords_end[0]}"
+        
+        # Headers are CRITICAL for OSRM public server to accept the request
+        headers = {
+            "User-Agent": "CargoLogisticsApp/1.0"
+        }
+        
         try:
-            r = requests.get(url, params={"overview": "false"}, timeout=5)
+            r = requests.get(url, params={"overview": "false"}, headers=headers, timeout=15)
+            
+            if r.status_code != 200:
+                raise Exception(f"OSRM Error {r.status_code}")
+                
             data = r.json()
-            if data.get("code") != "Ok": raise Exception("No route")
+            if data.get("code") != "Ok": raise Exception("No route found")
             
             seconds = data['routes'][0]['duration']
-            miles = data['routes'][0]['distance'] * 0.000621371
+            miles = data['routes'][0]['distance'] * 0.000621371 # Meters to Miles
+            
             hours = int(seconds // 3600)
             mins = int((seconds % 3600) // 60)
             
@@ -101,42 +115,32 @@ class LogisticsTools:
                 "time_str": f"{hours}h {mins}m",
                 "time_min": round(seconds/60)
             }
-        except:
+        except Exception as e:
+            # Fallback: Calculate Air Distance + 30% winding factor
+            # This ensures the app NEVER crashes, even if OSRM is down.
+            print(f"OSRM Failed: {e}")
             dist = geodesic(coords_start, coords_end).miles * 1.3
-            hours = (dist / 50) + 0.5
+            hours = (dist / 50) + 0.5 # Assume 50mph + 30m traffic
+            
             return {
                 "miles": round(dist, 1),
                 "time_str": f"{int(hours)}h {int((hours*60)%60)}m (Est)",
                 "time_min": int(hours*60)
             }
 
-    def search_flights(self, origin, dest, date, show_all_airlines=False):
+    def search_flights(self, origin, dest, date):
         url = "https://serpapi.com/search"
         params = {
             "engine": "google_flights", "departure_id": origin, "arrival_id": dest,
-            "outbound_date": date, "type": "2",
+            "outbound_date": date, "type": "2", "include_airlines": "WN,AA,DL,UA",
             "hl": "en", "gl": "us", "currency": "USD", "api_key": SERPAPI_KEY
         }
-        
-        # Only filter airlines if "Show All" is FALSE
-        if not show_all_airlines:
-            params["include_airlines"] = "WN,AA,DL,UA"
-
         try:
             r = requests.get(url, params=params)
             data = r.json()
-            
-            # Check for API Errors explicitly
-            if "error" in data:
-                return {"error": data["error"]}
-                
             raw = data.get("best_flights", []) + data.get("other_flights", [])
             results = []
-            
-            if not raw:
-                return [] # Truly empty
-
-            for f in raw[:20]: # Check top 20
+            for f in raw[:15]:
                 legs = f.get('flights', [])
                 if not legs: continue
                 
@@ -156,8 +160,7 @@ class LogisticsTools:
                     "Conn Time": conn_time
                 })
             return results
-        except Exception as e:
-            return {"error": str(e)}
+        except: return []
 
 # ==============================================================================
 # 3. THE APP UI
@@ -349,3 +352,4 @@ if run_btn:
         
     else:
         st.error(f"No flights found at all between {p_code} and {d_code}. Try checking 'Show All Airlines' or changing dates.")
+

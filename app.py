@@ -1,9 +1,34 @@
  (cd "$(git rev-parse --show-toplevel)" && git apply --3way <<'EOF' 
 diff --git a/app.py b/app.py
-index 916c6064fc9c79daeb232138956e2f01b215451e..46d379f77886f7ce8fcb65b095378cf72e6a4e74 100644
+index 916c6064fc9c79daeb232138956e2f01b215451e..4186a5a257de206f4bddc80abcc824f5572bc743 100644
 --- a/app.py
 +++ b/app.py
-@@ -11,108 +11,200 @@ from geopy.distance import geodesic
+@@ -1,118 +1,269 @@
+-import streamlit as st
+-import pandas as pd
+-import datetime
+-import requests
+-import math
+-from geopy.geocoders import Nominatim
+-from geopy.distance import geodesic
++"""Cargo Logistics Master Streamlit app.
++
++To run this file as-is, set the following in ``.streamlit/secrets.toml``:
++
++* ``APP_PASSWORD`` – UI password prompt
++* ``SERPAPI_KEY`` – for SerpAPI Google Flights queries
++* ``GOOGLE_MAPS_KEY`` – for Google Geocoding + Distance Matrix calls
++"""
++
++import streamlit as st
++import pandas as pd
++import datetime
++import requests
++from geopy.geocoders import Nominatim
++from geopy.distance import geodesic
+ 
+ # ==============================================================================
+ # 1. SECURITY & CONFIG
  # ==============================================================================
  st.set_page_config(page_title="Cargo Logistics Master", layout="wide", page_icon="✈️")
  
@@ -67,12 +92,40 @@ index 916c6064fc9c79daeb232138956e2f01b215451e..46d379f77886f7ce8fcb65b095378cf7
              "MIA": (25.7959, -80.2870),  "CLT": (35.2140, -80.9431),
              "MEM": (35.0424, -89.9767),  "CVG": (39.0461, -84.6621),
              "DEN": (39.8561, -104.6737), "PHX": (33.4343, -112.0116),
-             "IAH": (29.9902, -95.3368),  "BOS": (42.3656, -71.0096),
-             "EWR": (40.6895, -74.1745),  "MCO": (28.4312, -81.3081),
-             "LGA": (40.7769, -73.8740),  "DTW": (42.2162, -83.3554),
+-            "IAH": (29.9902, -95.3368),  "BOS": (42.3656, -71.0096),
+-            "EWR": (40.6895, -74.1745),  "MCO": (28.4312, -81.3081),
+-            "LGA": (40.7769, -73.8740),  "DTW": (42.2162, -83.3554),
 -            "MSP": (44.8848, -93.2223),  "SLC": (40.7899, -111.9791)
 -        }
++            "IAH": (29.9902, -95.3368),  "BOS": (42.3656, -71.0096),
++            "EWR": (40.6895, -74.1745),  "MCO": (28.4312, -81.3081),
++            "LGA": (40.7769, -73.8740),  "DTW": (42.2162, -83.3554),
 +            "MSP": (44.8848, -93.2223),  "SLC": (40.7899, -111.9791)
++        }
++        # Simplified cargo hours windows (local time). Defaults to 24/7 when absent.
++        self.CARGO_HOURS = {
++            "SEA": ("05:00", "23:00"),
++            "PDX": ("05:00", "22:30"),
++            "SFO": ("04:30", "23:30"),
++            "LAX": ("05:00", "23:59"),
++            "ORD": ("04:30", "23:30"),
++            "DFW": ("05:00", "23:30"),
++            "JFK": ("05:00", "23:30"),
++            "ATL": ("05:00", "23:00"),
++            "MIA": ("05:00", "23:00"),
++            "CLT": ("05:00", "22:30"),
++            "MEM": ("05:00", "23:30"),
++            "CVG": ("05:00", "23:00"),
++            "DEN": ("05:00", "23:00"),
++            "PHX": ("05:00", "23:00"),
++            "IAH": ("05:00", "23:30"),
++            "BOS": ("05:00", "22:30"),
++            "EWR": ("05:00", "23:00"),
++            "MCO": ("05:00", "23:00"),
++            "LGA": ("05:00", "22:00"),
++            "DTW": ("05:00", "22:30"),
++            "MSP": ("05:00", "22:30"),
++            "SLC": ("05:00", "22:30"),
 +        }
 +
 +    def _parse_time(self, raw_time: str):
@@ -97,6 +150,32 @@ index 916c6064fc9c79daeb232138956e2f01b215451e..46d379f77886f7ce8fcb65b095378cf7
 +            except ValueError:
 +                continue
 +        return None
++
++    def _get_cargo_window(self, airport_code: str):
++        hours = self.CARGO_HOURS.get(airport_code.upper())
++        if not hours:
++            return {"open": None, "close": None, "label": "24/7 (assumed)"}
++
++        start = self._parse_time(hours[0])
++        end = self._parse_time(hours[1])
++        label = f"{hours[0]}-{hours[1]}"
++        return {"open": start, "close": end, "label": label}
++
++    def is_within_cargo_hours(self, airport_code: str, time_obj: datetime.time):
++        window = self._get_cargo_window(airport_code)
++        open_t = window["open"]
++        close_t = window["close"]
++
++        # If we have no specific hours, treat as always open.
++        if not open_t or not close_t:
++            return True, window["label"]
++
++        if open_t <= close_t:
++            ok = open_t <= time_obj <= close_t
++        else:
++            # Overnight window (e.g., 22:00-05:00)
++            ok = time_obj >= open_t or time_obj <= close_t
++        return ok, window["label"]
  
 -    def _get_coords(self, location: str):
 -        if location.upper() in self.AIRPORT_DB:
@@ -235,7 +314,7 @@ index 916c6064fc9c79daeb232138956e2f01b215451e..46d379f77886f7ce8fcb65b095378cf7
                  "time_str": f"{int(hours)}h {int((hours*60)%60)}m (Est)",
                  "time_min": int(hours*60)
              }
-@@ -154,52 +246,55 @@ class LogisticsTools:
+@@ -154,52 +305,55 @@ class LogisticsTools:
                  dep_full = legs[0].get('departure_airport', {}).get('time', '') 
                  arr_full = legs[-1].get('arrival_airport', {}).get('time', '') 
  
@@ -293,7 +372,65 @@ index 916c6064fc9c79daeb232138956e2f01b215451e..46d379f77886f7ce8fcb65b095378cf7
      del_offset = 0
      
      if has_deadline:
-@@ -291,82 +386,92 @@ if run_btn:
+@@ -234,52 +388,55 @@ with st.sidebar:
+             days_to_search.append({"day": d, "date": nxt.strftime("%Y-%m-%d")})
+         
+     with st.expander("⏱️ Adjusters & Filters"):
+         custom_p_buff = st.number_input("Pickup Drive Buffer (mins)", value=120)
+         custom_d_buff = st.number_input("Delivery Drive Buffer (mins)", value=120)
+         min_conn_filter = st.number_input("Min Connection Time (mins)", value=60)
+         show_all_airlines = st.checkbox("Show All Airlines", value=False)
+ 
+     run_btn = st.button("Generate Logistics Plan", type="primary")
+ 
+ if run_btn:
+     with st.status("Running Logistics Engine...", expanded=True) as status:
+         
+         # 1. GEOGRAPHY
+         st.write("📍 Resolving Airports...")
+         p_apts = tools.find_nearest_airports(p_addr)
+         d_apts = tools.find_nearest_airports(d_addr)
+         
+         if not p_apts:
+             st.error(f"Could not locate Pickup Address: '{p_addr}'. Try using City, State.")
+             st.stop()
+         if not d_apts:
+             st.error(f"Could not locate Delivery Address: '{d_addr}'. Try using City, State.")
+             st.stop()
+             
+-        p_code = p_apts[0]['code']
+-        d_code = d_apts[0]['code']
++        p_code = p_apts[0]['code']
++        d_code = d_apts[0]['code']
++
++        origin_cargo_window = tools._get_cargo_window(p_code)
++        dest_cargo_window = tools._get_cargo_window(d_code)
+         
+         # 2. ROADS
+         st.write("🚚 Calculating Drive Metrics...")
+         d1 = tools.get_road_metrics(p_addr, p_code)
+         d2 = tools.get_road_metrics(d_code, d_addr)
+         
+         if not d1: d1 = {"miles": 20, "time_str": "30m (Est)", "time_min": 30}
+         if not d2: d2 = {"miles": 20, "time_str": "30m (Est)", "time_min": 30}
+             
+         # 3. BUFFER MATH
+         pickup_drive_used = max(d1['time_min'], custom_p_buff)
+         total_prep = pickup_drive_used + 60
+         
+         if mode == "One-Time (Ad-Hoc)":
+             p_date_base = p_date
+         else:
+             if not days_to_search:
+                 st.error("Please select Days of Week.")
+                 st.stop()
+             p_date_base = datetime.datetime.strptime(days_to_search[0]['date'], "%Y-%m-%d").date()
+ 
+         full_p_dt = datetime.datetime.combine(p_date_base, p_time)
+         earliest_dep_dt = full_p_dt + datetime.timedelta(minutes=total_prep)
+         earliest_dep_str = earliest_dep_dt.strftime("%H:%M")
+         
+@@ -291,121 +448,149 @@ if run_btn:
              del_drive_used = max(d2['time_min'], custom_d_buff)
              total_post = del_drive_used + 60
              
@@ -322,19 +459,30 @@ index 916c6064fc9c79daeb232138956e2f01b215451e..46d379f77886f7ce8fcb65b095378cf7
 -                # Check 1: Departure Time
 -                if f['Dep Time'] < earliest_dep_str: 
 -                    reject_reason = f"Too Early (Dep {f['Dep Time']})"
+-                
+-                # Check 2: Connection Time
+-                if f['Conn Apt'] != "Direct":
+-                    if f['Conn Min'] < min_conn_filter:
+-                        reject_reason = f"Short Conn ({f['Conn Time']})"
 +                dep_time_obj = tools._parse_time(f.get('Dep Time'))
 +                arr_time_obj = tools._parse_time(f.get('Arr Time'))
 +
 +                # Check 1: Departure Time
-+                if dep_time_obj and dep_time_obj < earliest_dep_dt.time(): 
++                if dep_time_obj and dep_time_obj < earliest_dep_dt.time():
 +                    reject_reason = f"Too Early (Dep {f['Dep Time']})"
-                 
-                 # Check 2: Connection Time
-                 if f['Conn Apt'] != "Direct":
-                     if f['Conn Min'] < min_conn_filter:
-                         reject_reason = f"Short Conn ({f['Conn Time']})"
++
++                # Check 1b: Origin cargo window
++                if not reject_reason and dep_time_obj:
++                    dep_ok, dep_label = tools.is_within_cargo_hours(p_code, dep_time_obj)
++                    if not dep_ok:
++                        reject_reason = f"Origin cargo closed ({dep_label})"
++
++                # Check 2: Connection Time
++                if f['Conn Apt'] != "Direct":
++                    if f['Conn Min'] < min_conn_filter:
++                        reject_reason = f"Short Conn ({f['Conn Time']})"
  
-                 # Check 3: Arrival Deadline
+-                # Check 3: Arrival Deadline
 -                if latest_arr_dt and not reject_reason:
 -                    try:
 -                        # Construct a dummy flight arrival date based on the search date
@@ -346,6 +494,7 @@ index 916c6064fc9c79daeb232138956e2f01b215451e..46d379f77886f7ce8fcb65b095378cf7
 -                        # Handle date crossing (e.g. Dep 23:00, Arr 05:00)
 -                        if f_arr_time_str < f_dep_time_str: 
 -                            f_arr_dt += datetime.timedelta(days=1)
++                # Check 3: Arrival Deadline
 +                if latest_arr_dt and not reject_reason:
 +                    try:
 +                        # Construct a dummy flight arrival date based on the search date
@@ -378,6 +527,12 @@ index 916c6064fc9c79daeb232138956e2f01b215451e..46d379f77886f7ce8fcb65b095378cf7
 +                        # If parsing fails for an unexpected reason, defer rejection to
 +                        # other checks and allow the flight to pass rather than crash the loop.
 +                        pass
++
++                # Check 4: Destination cargo window
++                if not reject_reason and arr_time_obj:
++                    arr_ok, arr_label = tools.is_within_cargo_hours(d_code, arr_time_obj)
++                    if not arr_ok:
++                        reject_reason = f"Destination cargo closed ({arr_label})"
  
                  if reject_reason:
                      f['Reason'] = reject_reason
@@ -396,13 +551,74 @@ index 916c6064fc9c79daeb232138956e2f01b215451e..46d379f77886f7ce8fcb65b095378cf7
      col1, col2 = st.columns(2)
      with col1:
          st.info(f"**PICKUP: {p_code}**")
-         st.markdown(f"""
-         * **Ready:** {p_time.strftime('%H:%M')}
-         * **Drive Mileage:** {d1['miles']} miles
-         * **Drive Time:** {d1['time_str']}
-         * **Buffer Logic:** MAX({d1['time_min']}, {custom_p_buff}) + 60 = **{total_prep} min** prep
-         * **Earliest Flight:** {earliest_dep_str}
-         """)
+-        st.markdown(f"""
+-        * **Ready:** {p_time.strftime('%H:%M')}
+-        * **Drive Mileage:** {d1['miles']} miles
+-        * **Drive Time:** {d1['time_str']}
+-        * **Buffer Logic:** MAX({d1['time_min']}, {custom_p_buff}) + 60 = **{total_prep} min** prep
+-        * **Earliest Flight:** {earliest_dep_str}
+-        """)
++        st.markdown(f"""
++        * **Ready:** {p_time.strftime('%H:%M')}
++        * **Drive Mileage:** {d1['miles']} miles
++        * **Drive Time:** {d1['time_str']}
++        * **Buffer Logic:** MAX({d1['time_min']}, {custom_p_buff}) + 60 = **{total_prep} min** prep
++        * **Earliest Flight:** {earliest_dep_str}
++        * **Cargo Hours:** {origin_cargo_window['label']}
++        """)
+ 
+     with col2:
+         st.success(f"**DELIVERY: {d_code}**")
+         if has_deadline:
+             days_str = f"(+{del_offset} Day)" if del_offset > 0 else "(Same Day)"
+-            st.markdown(f"""
+-            * **Deadline:** {del_time.strftime('%H:%M')} {days_str}
+-            * **Drive Mileage:** {d2['miles']} miles
+-            * **Drive Time:** {d2['time_str']}
+-            * **Buffer Logic:** MAX({d2['time_min']}, {custom_d_buff}) + 60 = **{total_post} min** post
+-            * **Must Arrive By:** {latest_arr_str}
+-            """)
+-        else:
+-            st.markdown("*No strict deadline set.*")
++            st.markdown(f"""
++            * **Deadline:** {del_time.strftime('%H:%M')} {days_str}
++            * **Drive Mileage:** {d2['miles']} miles
++            * **Drive Time:** {d2['time_str']}
++            * **Buffer Logic:** MAX({d2['time_min']}, {custom_d_buff}) + 60 = **{total_post} min** post
++            * **Must Arrive By:** {latest_arr_str}
++            * **Cargo Hours:** {dest_cargo_window['label']}
++            """)
++        else:
++            st.markdown(f"""
++            *No strict deadline set.*
++            
++            * **Cargo Hours:** {dest_cargo_window['label']}
++            """)
+ 
+     st.divider()
+     
+     if valid_flights:
+         st.subheader("✅ Verified Flight Schedule")
+         
+         grouped = {}
+         for f in valid_flights:
+             key = (f['Airline'], f['Flight'], f['Dep Time'], f['Arr Time'])
+             if key not in grouped:
+                 grouped[key] = f.copy()
+                 grouped[key]['Days of Op'] = {f['Days of Op']}
+             else:
+                 grouped[key]['Days of Op'].add(f['Days of Op'])
+         
+         final_rows = []
+         for f in grouped.values():
+             days_list = sorted(list(f['Days of Op']), key=lambda x: ["Mon","Tue","Wed","Thu","Fri","Sat","Sun","One-Time"].index(x) if x in ["Mon","Tue","Wed","Thu","Fri","Sat","Sun","One-Time"] else 99)
+             f['Days of Op'] = ", ".join(days_list)
+             final_rows.append(f)
+             
+         df = pd.DataFrame(final_rows)
+         cols = ["Airline", "Flight", "Days of Op", "Origin", "Dep Time", "Dest", "Arr Time", "Duration", "Conn Apt", "Conn Time"]
+         st.dataframe(df[cols], hide_index=True, use_container_width=True)
+         
  
 EOF
 )

@@ -1,19 +1,3 @@
-The errors you are seeing (SyntaxError: invalid syntax and unterminated string literal) happen because the previous copy-paste was either incomplete (it cut off at the end) or contained "diff" artifacts (mixed code from the old and new versions).
-
-We need a clean slate.
-
-The Fix
-Delete everything currently in your app.py file. Make it completely blank.
-
-Copy and paste the code block below exactly as it is. It is the full, standalone, error-free script.
-
-Python
-
-"""
-Cargo Logistics Master Streamlit app.
-NFO/Ground Routing with Google Maps & Cargo Hours Integration.
-"""
-
 import streamlit as st
 import pandas as pd
 import datetime
@@ -572,3 +556,4 @@ if run_btn:
         st.dataframe(df[cols], hide_index=True, use_container_width=True)
     else:
         st.warning("No flights found meeting criteria.")
+

@@ -1,0 +1,1199 @@
+﻿Airport Code,Airport Name,City ,State,Airline,Facility,Weekday,Saturday,Sunday,latitude_deg,longitude_deg
+ABE,Lehigh Valley International,Allentown,Pennsylvania,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,40.651773,-75.442797
+ABE,Lehigh Valley International,Allentown,Pennsylvania,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,40.651773,-75.442797
+ABI,Abilene Regional Airport,Abilene,Texas,American Eagle,Counter,6:00-21:00,8:00-18:00,N/A,32.41130066,-99.68190002
+ABI,Abilene Regional Airport,Abilene,Texas,American Eagle,Counter,6:00-21:00,8:00-18:00,N/A,32.41130066,-99.68190002
+ABQ,Albuquerque International Sunport,Albuquerque,New Mexico,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,35.039976,-106.608925
+ABQ,Albuquerque International Sunport,Albuquerque,New Mexico,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,35.039976,-106.608925
+ACK,Nantucket Memorial,Nantucket,Massachusetts,Cape Air,Counter,7:00-19:00,7:00-15:00,N/A,41.25310135,-70.06020355
+ACK,Nantucket Memorial,Nantucket,Massachusetts,Cape Air,Counter,7:00-19:00,7:00-15:00,N/A,41.25310135,-70.06020355
+ACT,Waco Regional,Waco,Texas,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,31.611299514770508,-97.23049927
+ACT,Waco Regional,Waco,Texas,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,31.611299514770508,-97.23049927
+ACV,California Redwood Coast-Humboldt County,Arcata,California,United Express,Counter,6:00-22:00,7:00-20:00,8:00-18:00,40.978101,-124.109
+ACV,California Redwood Coast-Humboldt County,Arcata,California,United Express,Counter,6:00-22:00,7:00-20:00,8:00-18:00,40.978101,-124.109
+ADQ,Kodiak Airport,Kodiak,Alaska,Alaska Airlines,Counter,6:00-22:00,6:00-20:00,8:00-16:00,57.75,-152.4940033
+ADQ,Kodiak Airport,Kodiak,Alaska,Alaska Airlines,Counter,6:00-22:00,6:00-20:00,8:00-16:00,57.75,-152.4940033
+AEX,Alexandria International,Alexandria,Louisiana,American Eagle,Counter,5:00-22:00,7:00-20:00,8:00-18:00,31.3274,-92.549797
+AEX,Alexandria International,Alexandria,Louisiana,American Eagle,Counter,5:00-22:00,7:00-20:00,8:00-18:00,31.3274,-92.549797
+AGS,Augusta Regional,Augusta,Georgia,Delta Connection,Counter,5:00-22:00,7:00-20:00,8:00-18:00,33.3699,-81.9645
+AGS,Augusta Regional,Augusta,Georgia,Delta Connection,Counter,5:00-22:00,7:00-20:00,8:00-18:00,33.3699,-81.9645
+AKN,King Salmon Airport,King Salmon,Alaska,Alaska Airlines,Counter,6:00-21:00,6:00-18:00,6:00-15:00,58.677845,-156.651965
+AKN,King Salmon Airport,King Salmon,Alaska,Alaska Airlines,Counter,6:00-21:00,6:00-18:00,6:00-15:00,58.677845,-156.651965
+ALB,Albany International,Albany,New York,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,42.74829864501953,-73.80169678
+ALB,Albany International,Albany,New York,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,42.74829864501953,-73.80169678
+ALB,Albany International,Albany,New York,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,42.74829864501953,-73.80169678
+ALB,Albany International,Albany,New York,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,42.74829864501953,-73.80169678
+ALB,Albany International,Albany,New York,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,42.74829864501953,-73.80169678
+ALB,Albany International,Albany,New York,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,42.74829864501953,-73.80169678
+ALB,Albany International Airport,Albany,NY,American,AA Cargo Directory,8:00-17:00,8:00-17:00,,42.74829864501953,-73.80169678
+ALB,Albany International Airport,Albany,NY,Delta,Delta Cargo Directory,8:00-17:00,8:00-17:00,,42.74829864501953,-73.80169678
+ALB,Albany International Airport,Albany,NY,Southwest,Southwest Cargo,No Cargo,No Cargo,,42.74829864501953,-73.80169678
+ALB,Albany International Airport,Albany,NY,United,United Cargo,No Cargo,No Cargo,,42.74829864501953,-73.80169678
+ALO,Waterloo Regional,Waterloo,Iowa,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,42.557098388671875,-92.40029907
+ALO,Waterloo Regional,Waterloo,Iowa,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,42.557098388671875,-92.40029907
+AMA,Rick Husband Amarillo International,Amarillo,Texas,American Eagle,Counter,5:00-22:00,7:00-20:00,8:00-18:00,35.219398,-101.706001
+AMA,Rick Husband Amarillo International,Amarillo,Texas,American Eagle,Counter,5:00-22:00,7:00-20:00,8:00-18:00,35.219398,-101.706001
+ANC,Ted Stevens Anchorage International,Anchorage,Alaska,Alaska Airlines,Central Facility,24/7,24/7,24/7,61.179004,-149.992561
+ANC,Ted Stevens Anchorage International,Anchorage,Alaska,Alaska Airlines,Central Facility,24/7,24/7,24/7,61.179004,-149.992561
+ANC,Ted Stevens Anchorage International,Anchorage,Alaska,American,AA Cargo Directory,No Cargo,No Cargo,,61.179004,-149.992561
+ANC,Ted Stevens Anchorage International,Anchorage,Alaska,Delta,Delta Cargo Directory,No Cargo,No Cargo,,61.179004,-149.992561
+ANC,Ted Stevens Anchorage International,Anchorage,Alaska,Southwest,Southwest Cargo,No Cargo,No Cargo,,61.179004,-149.992561
+ANC,Ted Stevens Anchorage International,Anchorage,Alaska,United,United Cargo,No Cargo,No Cargo,,61.179004,-149.992561
+APN,Alpena County Regional,Alpena,Michigan,United Express,Counter,6:00-20:00,7:00-18:00,8:00-16:00,45.0780983,-83.56030273
+APN,Alpena County Regional,Alpena,Michigan,United Express,Counter,6:00-20:00,7:00-18:00,8:00-16:00,45.0780983,-83.56030273
+ART,Watertown International,Watertown,New York,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,43.991901,-76.021698
+ART,Watertown International,Watertown,New York,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,43.991901,-76.021698
+ASE,Aspen/Pitkin County,Aspen,Colorado,American Eagle,Counter,6:00-22:00,7:00-20:00,8:00-18:00,39.223202,-106.869003
+ASE,Aspen/Pitkin County,Aspen,Colorado,American Eagle,Counter,6:00-22:00,7:00-20:00,8:00-18:00,39.223202,-106.869003
+ATL,Hartsfield Jackson Atlanta International Airport,Atlanta,GA,American,AA Cargo Directory,4:00-21:00,Sat: 4:00-19:00, Sun: 4:00-18:00,33.6367,-84.428101
+ATL,Hartsfield Jackson Atlanta International Airport,Atlanta,GA,Delta,Delta Cargo Directory,7:00-19:00,7:00-19:00,,33.6367,-84.428101
+ATL,Hartsfield Jackson Atlanta International Airport,Atlanta,GA,Southwest,Southwest Cargo,6:00-22:00,6:00-22:00,,33.6367,-84.428101
+ATL,Hartsfield Jackson Atlanta International Airport,Atlanta,GA,United,United Cargo,5:00-19:00,5:00-19:00,,33.6367,-84.428101
+ATL,Hartsfield/Jackson Atlanta International,Atlanta,Georgia,American,Central Facility,24/7,24/7,24/7,33.6367,-84.428101
+ATL,Hartsfield/Jackson Atlanta International,Atlanta,Georgia,American,Central Facility,24/7,24/7,24/7,33.6367,-84.428101
+ATL,Hartsfield/Jackson Atlanta International,Atlanta,Georgia,Delta,Dedicated Facility,24/7,24/7,24/7,33.6367,-84.428101
+ATL,Hartsfield/Jackson Atlanta International,Atlanta,Georgia,Delta,Dedicated Facility,24/7,24/7,24/7,33.6367,-84.428101
+ATL,Hartsfield/Jackson Atlanta International,Atlanta,Georgia,Southwest,Central Facility,24/7,24/7,24/7,33.6367,-84.428101
+ATL,Hartsfield/Jackson Atlanta International,Atlanta,Georgia,Southwest,Central Facility,24/7,24/7,24/7,33.6367,-84.428101
+ATL,Hartsfield/Jackson Atlanta International,Atlanta,Georgia,United,Central Facility,24/7,24/7,24/7,33.6367,-84.428101
+ATL,Hartsfield/Jackson Atlanta International,Atlanta,Georgia,United,Central Facility,24/7,24/7,24/7,33.6367,-84.428101
+ATW,Appleton International,Appleton,Wisconsin,Delta Connection,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,44.258099,-88.519096
+ATW,Appleton International,Appleton,Wisconsin,Delta Connection,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,44.258099,-88.519096
+AVL,Asheville Regional,Asheville,North Carolina,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,35.436199,-82.541801
+AVL,Asheville Regional,Asheville,North Carolina,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,35.436199,-82.541801
+AVL,Asheville Regional,Asheville,North Carolina,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,35.436199,-82.541801
+AVL,Asheville Regional,Asheville,North Carolina,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,35.436199,-82.541801
+AVP,Wilkes-Barre/Scranton International,Avoca,Pennsylvania,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,41.338500976599995,-75.7233963
+AVP,Wilkes-Barre/Scranton International,Avoca,Pennsylvania,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,41.338500976599995,-75.7233963
+AZO,Kalamazoo/Battle Creek International,Kalamazoo,Michigan,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,42.234901428222656,-85.55210114
+AZO,Kalamazoo/Battle Creek International,Kalamazoo,Michigan,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,42.234901428222656,-85.55210114
+BDL,Bradley International,Windsor Locks,Connecticut,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,41.93851,-72.688066
+BDL,Bradley International,Windsor Locks,Connecticut,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,41.93851,-72.688066
+BDL,Bradley International Airport,Windsor Locks,CT,American,AA Cargo Directory,8:00-17:00,8:00-17:00,,41.93851,-72.688066
+BDL,Bradley International Airport,Windsor Locks,CT,Delta,Delta Cargo Directory,8:00-17:00,8:00-17:00,,41.93851,-72.688066
+BDL,Bradley International Airport,Windsor Locks,CT,Southwest,Southwest Cargo,6:00-22:00,6:00-22:00,,41.93851,-72.688066
+BDL,Bradley International Airport,Windsor Locks,CT,United,United Cargo,No Cargo,No Cargo,,41.93851,-72.688066
+BET,Bethel Airport,Bethel,Alaska,Alaska Airlines,Counter,6:00-22:00,6:00-20:00,8:00-16:00,60.77980042,-161.8379974
+BET,Bethel Airport,Bethel,Alaska,Alaska Airlines,Counter,6:00-22:00,6:00-20:00,8:00-16:00,60.77980042,-161.8379974
+BFI,Boeing Field/King County International,Seattle,Washington,Amazon Air,Dedicated Facility,24/7,24/7,24/7,47.529999,-122.302002
+BFL,Meadows Field,Bakersfield,California,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,35.433601,-119.056999
+BFL,Meadows Field,Bakersfield,California,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,35.433601,-119.056999
+BGM,Greater Binghamton Airport,Binghamton,New York,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,42.20869827,-75.97979736
+BGM,Greater Binghamton Airport,Binghamton,New York,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,42.20869827,-75.97979736
+BGR,Bangor International,Bangor,Maine,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,44.8074,-68.828102
+BGR,Bangor International,Bangor,Maine,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,44.8074,-68.828102
+BHB,Hancock County-Bar Harbor,Bar Harbor,Maine,Cape Air,Counter,7:00-19:00,7:00-15:00,N/A,44.45000076,-68.3615036
+BHB,Hancock County-Bar Harbor,Bar Harbor,Maine,Cape Air,Counter,7:00-19:00,7:00-15:00,N/A,44.45000076,-68.3615036
+BHM,Birmingham-Shuttlesworth International,Birmingham,Alabama,American,AA Cargo Directory,8:00-17:00,8:00-17:00,,33.562901,-86.753502
+BHM,Birmingham-Shuttlesworth International,Birmingham,Alabama,American,Dedicated Facility,4:00-20:00,6:00-16:00,N/A,33.562901,-86.753502
+BHM,Birmingham-Shuttlesworth International,Birmingham,Alabama,American,Dedicated Facility,4:00-20:00,6:00-16:00,N/A,33.562901,-86.753502
+BHM,Birmingham-Shuttlesworth International,Birmingham,Alabama,Delta,Delta Cargo Directory,8:00-17:00,8:00-17:00,,33.562901,-86.753502
+BHM,Birmingham-Shuttlesworth International,Birmingham,Alabama,Delta,Dedicated Facility,4:00-20:00,6:00-16:00,N/A,33.562901,-86.753502
+BHM,Birmingham-Shuttlesworth International,Birmingham,Alabama,Delta,Dedicated Facility,4:00-20:00,6:00-16:00,N/A,33.562901,-86.753502
+BHM,Birmingham-Shuttlesworth International,Birmingham,Alabama,Southwest,Southwest Cargo,6:00-22:00,6:00-22:00,,33.562901,-86.753502
+BHM,Birmingham-Shuttlesworth International,Birmingham,Alabama,Southwest,Dedicated Facility,4:00-20:00,6:00-16:00,N/A,33.562901,-86.753502
+BHM,Birmingham-Shuttlesworth International,Birmingham,Alabama,Southwest,Dedicated Facility,4:00-20:00,6:00-16:00,N/A,33.562901,-86.753502
+BHM,Birmingham-Shuttlesworth International,Birmingham,Alabama,United,United Cargo,No Cargo,No Cargo,,33.562901,-86.753502
+BIL,Billings Logan International,Billings,Montana,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,45.807701,-108.542999
+BIL,Billings Logan International,Billings,Montana,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,45.807701,-108.542999
+BIL,Billings Logan International,Billings,Montana,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,45.807701,-108.542999
+BIL,Billings Logan International,Billings,Montana,Delta,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,45.807701,-108.542999
+BIL,Billings Logan International,Billings,Montana,Delta,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,45.807701,-108.542999
+BIL,Billings Logan International,Billings,Montana,Delta,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,45.807701,-108.542999
+BIL,Billings Logan International Airport,Billings,MT,American,AA Cargo Directory,No Cargo,No Cargo,,45.807701,-108.542999
+BIL,Billings Logan International Airport,Billings,MT,Delta,Delta Cargo Directory,No Cargo,No Cargo,,45.807701,-108.542999
+BIL,Billings Logan International Airport,Billings,MT,Southwest,Southwest Cargo,No Cargo,No Cargo,,45.807701,-108.542999
+BIL,Billings Logan International Airport,Billings,MT,United,United Cargo,No Cargo,No Cargo,,45.807701,-108.542999
+BIS,Bismarck Municipal,Bismarck,North Dakota,Delta Connection,Counter,5:30-21:00,6:00-18:00,N/A,46.772701263427734,-100.7460022
+BIS,Bismarck Municipal,Bismarck,North Dakota,Delta Connection,Counter,5:30-21:00,6:00-18:00,N/A,46.772701263427734,-100.7460022
+BJI,Bemidji Regional,Bemidji,Minnesota,Delta Connection,Counter,5:30-21:00,6:00-18:00,N/A,,
+BJI,Bemidji Regional,Bemidji,Minnesota,Delta Connection,Counter,5:30-21:00,6:00-18:00,N/A,,
+BKW,Raleigh County Memorial,Beckley,West Virginia,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,37.7873,-81.124199
+BKW,Raleigh County Memorial,Beckley,West Virginia,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,37.7873,-81.124199
+BLI,Bellingham International,Bellingham,Washington,Alaska Airlines,Counter,5:30-21:00,6:00-18:00,N/A,48.79280090332031,-122.538002
+BLI,Bellingham International,Bellingham,Washington,Alaska Airlines,Counter,5:30-21:00,6:00-18:00,N/A,48.79280090332031,-122.538002
+BNA,Nashville International,Nashville,Tennessee,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,36.1245,-86.6782
+BNA,Nashville International,Nashville,Tennessee,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,36.1245,-86.6782
+BNA,Nashville International,Nashville,Tennessee,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,36.1245,-86.6782
+BNA,Nashville International,Nashville,Tennessee,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,36.1245,-86.6782
+BNA,Nashville International Airport,Nashville,TN,American,AA Cargo Directory,8:00-17:00,8:00-17:00,,36.1245,-86.6782
+BNA,Nashville International Airport,Nashville,TN,Delta,Delta Cargo Directory,8:00-17:00,8:00-17:00,,36.1245,-86.6782
+BNA,Nashville International Airport,Nashville,TN,Southwest,Southwest Cargo,6:00-22:00,6:00-22:00,,36.1245,-86.6782
+BNA,Nashville International Airport,Nashville,TN,United,United Cargo,8:00-17:00,8:00-17:00,,36.1245,-86.6782
+BOI,Boise Air Terminal/Gowen Field,Boise,ID,American,AA Cargo Directory,8:00-17:00,8:00-17:00,,43.5644,-116.223
+BOI,Boise Air Terminal/Gowen Field,Boise,ID,Delta,Delta Cargo Directory,8:00-17:00,8:00-17:00,,43.5644,-116.223
+BOI,Boise Air Terminal/Gowen Field,Boise,ID,Southwest,Southwest Cargo,6:00-22:00,6:00-22:00,,43.5644,-116.223
+BOI,Boise Air Terminal/Gowen Field,Boise,ID,United,United Cargo,No Cargo,No Cargo,,43.5644,-116.223
+BOI,Boise Air Trml/Gowen Field,Boise,Idaho,Alaska Airlines,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,43.5644,-116.223
+BOI,Boise Air Terminal,Boise,Idaho,Alaska Airlines,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,43.5644,-116.223
+BOI,Boise Air Terminal,Boise,Idaho,Alaska Airlines,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,43.5644,-116.223
+BOI,Boise Air Trml/Gowen Field,Boise,Idaho,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,43.5644,-116.223
+BOI,Boise Air Terminal,Boise,Idaho,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,43.5644,-116.223
+BOI,Boise Air Terminal,Boise,Idaho,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,43.5644,-116.223
+BOS,General Edward Lawrence Logan International,Boston,Massachusetts,Delta,Dedicated Facility,5:00-23:00,7:00-21:00,8:00-20:00,42.36197,-71.0079
+BOS,General Edward Lawrence Logan International,Boston,Massachusetts,Delta,Dedicated Facility,5:00-23:00,7:00-21:00,8:00-20:00,42.36197,-71.0079
+BOS,General Edward Lawrence Logan International,Boston,Massachusetts,JetBlue,Dedicated Facility,5:00-23:00,7:00-21:00,8:00-20:00,42.36197,-71.0079
+BOS,General Edward Lawrence Logan International,Boston,Massachusetts,JetBlue,Dedicated Facility,5:00-23:00,7:00-21:00,8:00-20:00,42.36197,-71.0079
+BPT,Jack Brooks Regional,Beaumont,Texas,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,29.9508,-94.020699
+BPT,Jack Brooks Regional,Beaumont,Texas,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,29.9508,-94.020699
+BQK,Brunswick Golden Isles,Brunswick,Georgia,Delta Connection,Counter,6:00-20:00,7:00-18:00,N/A,31.258801,-81.466499
+BQK,Brunswick Golden Isles,Brunswick,Georgia,Delta Connection,Counter,6:00-20:00,7:00-18:00,N/A,31.258801,-81.466499
+BQN,Rafael Hernandez,Aguadilla,Puerto Rico,United Express,Counter,5:30-21:00,6:00-18:00,N/A,,
+BQN,Rafael Hernandez,Aguadilla,Puerto Rico,United Express,Counter,5:30-21:00,6:00-18:00,N/A,,
+BRD,Brainerd Lakes Regional,Brainerd,Minnesota,Delta Connection,Counter,5:30-21:00,6:00-18:00,N/A,46.402861,-94.129727
+BRD,Brainerd Lakes Regional,Brainerd,Minnesota,Delta Connection,Counter,5:30-21:00,6:00-18:00,N/A,46.402861,-94.129727
+BRO,Brownsville/South Padre Island International,Brownsville,Texas,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,25.90679931640625,-97.42590332
+BRO,Brownsville/South Padre Island International,Brownsville,Texas,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,25.90679931640625,-97.42590332
+BRW,Wiley Post-Will Rogers Memorial,Barrow,Alaska,Alaska Airlines,Counter,6:00-22:00,6:00-20:00,8:00-16:00,71.285402,-156.766008
+BRW,Wiley Post-Will Rogers Memorial,Barrow,Alaska,Alaska Airlines,Counter,6:00-22:00,6:00-20:00,8:00-16:00,71.285402,-156.766008
+BTM,Bert Mooney,Butte,Montana,Delta Connection,Counter,6:00-20:00,7:00-18:00,N/A,45.95479965209961,-112.4970016
+BTM,Bert Mooney,Butte,Montana,Delta Connection,Counter,6:00-20:00,7:00-18:00,N/A,45.95479965209961,-112.4970016
+BTR,Baton Rouge Metropolitan,Baton Rouge,Louisiana,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,30.533199,-91.149597
+BTR,Baton Rouge Metropolitan,Baton Rouge,Louisiana,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,30.533199,-91.149597
+BTV,Patrick Leahy Burlington International,Burlington,Vermont,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,44.471901,-73.153297
+BTV,Patrick Leahy Burlington International,Burlington,Vermont,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,44.471901,-73.153297
+BUF,Buffalo Niagara International,Buffalo,New York,JetBlue,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,42.940498,-78.732201
+BUF,Buffalo Niagara International,Buffalo,New York,JetBlue,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,42.940498,-78.732201
+BUF,Buffalo Niagara International,Buffalo,New York,JetBlue,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,42.940498,-78.732201
+BUF,Buffalo Niagara International,Buffalo,New York,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,42.940498,-78.732201
+BUF,Buffalo Niagara International,Buffalo,New York,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,42.940498,-78.732201
+BUF,Buffalo Niagara International,Buffalo,New York,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,42.940498,-78.732201
+BUF,Buffalo Niagara International Airport,Buffalo,NY,American,AA Cargo Directory,8:00-17:00,8:00-17:00,,42.940498,-78.732201
+BUF,Buffalo Niagara International Airport,Buffalo,NY,Delta,Delta Cargo Directory,8:00-17:00,8:00-17:00,,42.940498,-78.732201
+BUF,Buffalo Niagara International Airport,Buffalo,NY,Southwest,Southwest Cargo,6:00-22:00,6:00-22:00,,42.940498,-78.732201
+BUF,Buffalo Niagara International Airport,Buffalo,NY,United,United Cargo,No Cargo,No Cargo,,42.940498,-78.732201
+BUR,Hollywood Burbank,Burbank,California,Southwest,Counter,5:00-22:00,7:00-20:00,8:00-18:00,34.197703,-118.356378
+BUR,Hollywood Burbank,Burbank,California,Southwest,Counter,5:00-22:00,7:00-20:00,8:00-18:00,34.197703,-118.356378
+BWI,Baltimore/Washington International Thurgood Marshall,Glen Burnie,Maryland,Amazon Air,Dedicated Facility,4:00-23:00,6:00-20:00,8:00-18:00,39.1754,-76.668297
+BWI,Baltimore/Washington International Thurgood Marshall,Glen Burnie,Maryland,Amazon Air,Dedicated Facility,4:00-23:00,6:00-20:00,8:00-18:00,39.1754,-76.668297
+BWI,Baltimore/Washington International Thurgood Marshall,Glen Burnie,Maryland,Southwest,Dedicated Facility,4:00-23:00,6:00-20:00,8:00-18:00,39.1754,-76.668297
+BWI,Baltimore/Washington International Thurgood Marshall,Glen Burnie,Maryland,Southwest,Dedicated Facility,4:00-23:00,6:00-20:00,8:00-18:00,39.1754,-76.668297
+BWI,Baltimore/Washington International Thurgood Marshall Airport,Glen Burnie,MD,American,AA Cargo Directory,7:00-19:00,8:00-16:30,,39.1754,-76.668297
+BWI,Baltimore/Washington International Thurgood Marshall Airport,Glen Burnie,MD,Delta,Delta Cargo Directory,8:00-17:00,8:00-17:00,,39.1754,-76.668297
+BWI,Baltimore/Washington International Thurgood Marshall Airport,Glen Burnie,MD,Southwest,Southwest Cargo,4:30-1:00,5:00-21:30,,39.1754,-76.668297
+BWI,Baltimore/Washington International Thurgood Marshall Airport,Glen Burnie,MD,United,United Cargo,7:00-19:00,7:00-19:00,,39.1754,-76.668297
+BZN,Bozeman Yellowstone,Bozeman,Montana,Delta,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,45.7775,-111.153
+BZN,Bozeman Yellowstone,Bozeman,Montana,Delta,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,45.7775,-111.153
+CAE,Columbia Metropolitan Airport,Columbia,SC,American,AA Cargo Directory,8:00-17:00,8:00-17:00,,33.938801,-81.119499
+CAE,Columbia Metropolitan Airport,Columbia,SC,Delta,Delta Cargo Directory,8:00-17:00,8:00-17:00,,33.938801,-81.119499
+CAE,Columbia Metropolitan Airport,Columbia,SC,Southwest,Southwest Cargo,No Cargo,No Cargo,,33.938801,-81.119499
+CAE,Columbia Metropolitan Airport,Columbia,SC,United,United Cargo,No Cargo,No Cargo,,33.938801,-81.119499
+CAE,Columbia Metropolitan,Columbia,South Carolina,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,33.938801,-81.119499
+CAE,Columbia Metropolitan,Columbia,South Carolina,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,33.938801,-81.119499
+CAK,Akron-Canton,Akron,Ohio,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,40.916099548339844,-81.44219971
+CAK,Akron-Canton,Akron,Ohio,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,40.916099548339844,-81.44219971
+CDC,Cedar City Regional,Cedar City,Utah,Delta Connection,Counter,6:00-20:00,7:00-18:00,N/A,37.70100021362305,-113.098999
+CDC,Cedar City Regional,Cedar City,Utah,Delta Connection,Counter,6:00-20:00,7:00-18:00,N/A,37.70100021362305,-113.098999
+CDV,Merle K (Mudhole) Smith,Cordova,Alaska,Alaska Airlines,Counter,6:00-22:00,6:00-20:00,8:00-16:00,60.491798,-145.477997
+CDV,Merle K (Mudhole) Smith,Cordova,Alaska,Alaska Airlines,Counter,6:00-22:00,6:00-20:00,8:00-16:00,60.491798,-145.477997
+CEC,Jack McNamara Field,Crescent City,California,United Express,Counter,6:00-20:00,7:00-18:00,N/A,41.778929,-124.236403
+CEC,Jack McNamara Field,Crescent City,California,United Express,Counter,6:00-20:00,7:00-18:00,N/A,41.778929,-124.236403
+CHA,Lovell Field,Chattanooga,Tennessee,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,35.035301,-85.203796
+CHA,Lovell Field,Chattanooga,Tennessee,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,35.035301,-85.203796
+CHA,Lovell Field,Chattanooga,Tennessee,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,35.035301,-85.203796
+CHA,Lovell Field,Chattanooga,Tennessee,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,35.035301,-85.203796
+CHA,Lovell Field,Chattanooga,Tennessee,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,35.035301,-85.203796
+CHA,Lovell Field,Chattanooga,Tennessee,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,35.035301,-85.203796
+CHO,Charlottesville-Albemarle,Charlottesville,Virginia,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,38.13859939575195,-78.45290375
+CHO,Charlottesville-Albemarle,Charlottesville,Virginia,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,38.13859939575195,-78.45290375
+CHS,Charleston AFB/International,Charleston,South Carolina,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,32.898602,-80.040497
+CHS,Charleston AFB/International,Charleston,South Carolina,Breeze Airways,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,32.898602,-80.040497
+CID,The Eastern Iowa Airport,Cedar Rapids,IA,American,AA Cargo Directory,8:00-17:00,8:00-17:00,,41.884701,-91.7108
+CID,The Eastern Iowa Airport,Cedar Rapids,IA,Delta,Delta Cargo Directory,8:00-17:00,8:00-17:00,,41.884701,-91.7108
+CID,The Eastern Iowa Airport,Cedar Rapids,IA,Southwest,Southwest Cargo,No Cargo,No Cargo,,41.884701,-91.7108
+CID,The Eastern Iowa Airport,Cedar Rapids,IA,United,United Cargo,No Cargo,No Cargo,,41.884701,-91.7108
+CID,The Eastern Iowa,Cedar Rapids,Iowa,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,41.884701,-91.7108
+CID,The Eastern Iowa,Cedar Rapids,Iowa,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,41.884701,-91.7108
+CID,The Eastern Iowa,Cedar Rapids,Iowa,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,41.884701,-91.7108
+CID,The Eastern Iowa,Cedar Rapids,Iowa,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,41.884701,-91.7108
+CID,The Eastern Iowa,Cedar Rapids,Iowa,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,41.884701,-91.7108
+CID,The Eastern Iowa,Cedar Rapids,Iowa,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,41.884701,-91.7108
+CKB,North Central West Virginia,Clarksburg,West Virginia,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,39.2966,-80.228104
+CKB,North Central West Virginia,Clarksburg,West Virginia,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,39.2966,-80.228104
+CLE,Cleveland Hopkins International Airport,Cleveland,OH,American,AA Cargo Directory,8:00-17:00,8:00-17:00,,41.411701,-81.8498
+CLE,Cleveland Hopkins International Airport,Cleveland,OH,Delta,Delta Cargo Directory,8:00-17:00,8:00-17:00,,41.411701,-81.8498
+CLE,Cleveland Hopkins International Airport,Cleveland,OH,Southwest,Southwest Cargo,6:00-22:00,6:00-22:00,,41.411701,-81.8498
+CLE,Cleveland Hopkins International Airport,Cleveland,OH,United,United Cargo,8:00-17:00,8:00-17:00,,41.411701,-81.8498
+CLE,Cleveland-Hopkins International,Cleveland,Ohio,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,41.411701,-81.8498
+CLE,Cleveland-Hopkins International,Cleveland,Ohio,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,41.411701,-81.8498
+CLE,Cleveland-Hopkins International,Cleveland,Ohio,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,41.411701,-81.8498
+CLE,Cleveland-Hopkins International,Cleveland,Ohio,United,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,41.411701,-81.8498
+CLE,Cleveland-Hopkins International,Cleveland,Ohio,United,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,41.411701,-81.8498
+CLE,Cleveland-Hopkins International,Cleveland,Ohio,United,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,41.411701,-81.8498
+CLL,Easterwood,College Station,Texas,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,30.5886,-96.3638
+CLL,Easterwood,College Station,Texas,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,30.5886,-96.3638
+CMH,John Glenn Columbus International,Columbus,Ohio,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,39.998001,-82.891899
+CMH,John Glenn Columbus International,Columbus,Ohio,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,39.998001,-82.891899
+CMI,University of Illinois Willard,Savoy,Illinois,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,40.039819,-88.276249
+CMI,University of Illinois Willard,Savoy,Illinois,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,40.039819,-88.276249
+CNM,Cavern City Air Terminal,Carlsbad,New Mexico,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,32.337501525878906,-104.2630005
+CNM,Cavern City Air Terminal,Carlsbad,New Mexico,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,32.337501525878906,-104.2630005
+COD,Yellowstone Regional,Cody,Wyoming,Delta Connection,Counter,6:00-20:00,7:00-18:00,N/A,44.520199,-109.024002
+COD,Yellowstone Regional,Cody,Wyoming,Delta Connection,Counter,6:00-20:00,7:00-18:00,N/A,44.520199,-109.024002
+COS,City of Colorado Springs Municipal,Colorado Springs,Colorado,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,38.805801,-104.700996
+COS,City of Colorado Springs Municipal,Colorado Springs,Colorado,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,38.805801,-104.700996
+COS,City of Colorado Springs Municipal,Colorado Springs,Colorado,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,38.805801,-104.700996
+COS,City of Colorado Springs Municipal,Colorado Springs,Colorado,United,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,38.805801,-104.700996
+COS,City of Colorado Springs Municipal,Colorado Springs,Colorado,United,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,38.805801,-104.700996
+COS,City of Colorado Springs Municipal,Colorado Springs,Colorado,United,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,38.805801,-104.700996
+COU,Columbia Regional,Columbia,Missouri,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,38.8181,-92.219597
+COU,Columbia Regional,Columbia,Missouri,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,38.8181,-92.219597
+CPR,Natrona County International,Casper,Wyoming,Delta Connection,Counter,6:00-20:00,7:00-18:00,N/A,42.908001,-106.463997
+CPR,Natrona County International,Casper,Wyoming,Delta Connection,Counter,6:00-20:00,7:00-18:00,N/A,42.908001,-106.463997
+CRP,Corpus Christi International,Corpus Christi,Texas,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,27.770399,-97.501198
+CRP,Corpus Christi International,Corpus Christi,Texas,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,27.770399,-97.501198
+CRW,Yeager,Charleston,West Virginia,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,38.3731,-81.593201
+CRW,Yeager,Charleston,West Virginia,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,38.3731,-81.593201
+CSG,Columbus Metropolitan,Columbus,Georgia,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,32.516300201416016,-84.93890381
+CSG,Columbus Metropolitan,Columbus,Georgia,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,32.516300201416016,-84.93890381
+CVG,Cincinnati/Northern Kentucky International,Hebron,Kentucky,American,Central Facility,24/7,24/7,24/7,39.048801,-84.667801
+CVG,Cincinnati/Northern Kentucky International,Hebron,Kentucky,Delta,Central Facility,24/7,24/7,24/7,39.048801,-84.667801
+CVG,Cincinnati/Northern Kentucky International,Hebron,Kentucky,Delta,Central Facility,24/7,24/7,24/7,39.048801,-84.667801
+CVG,Cincinnati/Northern Kentucky International,Hebron,Kentucky,Delta,Central Facility,24/7,24/7,24/7,39.048801,-84.667801
+CVG,Cincinnati/Northern Kentucky International,Hebron,Kentucky,Delta,Central Facility,24/7,24/7,24/7,39.048801,-84.667801
+CVG,Cincinnati/Northern Kentucky International,Hebron,Kentucky,Delta,Central Facility,24/7,24/7,24/7,39.048801,-84.667801
+CVG,Cincinnati/Northern Kentucky International,Hebron,Kentucky,DHL,Dedicated Facility (Americas Hub),24/7,24/7,24/7,39.048801,-84.667801
+CVG,Cincinnati/Northern Kentucky International,Hebron,Kentucky,DHL,Dedicated Facility,24/7,24/7,24/7,39.048801,-84.667801
+CVG,Cincinnati/Northern Kentucky International,Hebron,Kentucky,DHL,Dedicated Facility,24/7,24/7,24/7,39.048801,-84.667801
+CVG,Cincinnati/Northern Kentucky International,Hebron,Kentucky,DHL,Dedicated Facility (Americas Hub),24/7,24/7,24/7,39.048801,-84.667801
+CVG,Cincinnati Northern Kentucky International Airport,Hebron,KY,American,AA Cargo Directory,8:00-17:00,8:00-17:00,,39.048801,-84.667801
+CVG,Cincinnati Northern Kentucky International Airport,Hebron,KY,Delta,Delta Cargo Directory,8:00-17:00,8:00-17:00,,39.048801,-84.667801
+CVG,Cincinnati Northern Kentucky International Airport,Hebron,KY,Southwest,Southwest Cargo,No Cargo,No Cargo,,39.048801,-84.667801
+CVG,Cincinnati Northern Kentucky International Airport,Hebron,KY,United,United Cargo,8:00-17:00,8:00-17:00,,39.048801,-84.667801
+CWA,Central Wisconsin,Mosinee,Wisconsin,Delta Connection,Counter,5:30-21:00,6:00-18:00,N/A,44.777448,-89.670238
+CWA,Central Wisconsin,Mosinee,Wisconsin,Delta Connection,Counter,5:30-21:00,6:00-18:00,N/A,44.777448,-89.670238
+DAB,Daytona Beach International,Daytona Beach,Florida,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,29.179899,-81.058098
+DAL,Dallas Love Field,Dallas,Texas,Southwest,Dedicated Facility,4:00-23:00,6:00-20:00,8:00-18:00,32.847099,-96.851799
+DAL,Dallas Love Field,Dallas,Texas,Southwest,Dedicated Facility,4:00-23:00,6:00-20:00,8:00-18:00,32.847099,-96.851799
+DAY,James M Cox Dayton International,Dayton,Ohio,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,39.902401,-84.219398
+DAY,James M Cox Dayton International,Dayton,Ohio,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,39.902401,-84.219398
+DBQ,Dubuque Regional,Dubuque,Iowa,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,42.402,-90.709503
+DBQ,Dubuque Regional,Dubuque,Iowa,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,42.402,-90.709503
+DCA,Ronald Reagan Washington National,Arlington,Virginia,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,38.8521,-77.037697
+DCA,Ronald Reagan Washington National,Arlington,Virginia,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,38.8521,-77.037697
+DDC,Dodge City Regional,Dodge City,Kansas,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,37.76340103149414,-99.96559906
+DDC,Dodge City Regional,Dodge City,Kansas,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,37.76340103149414,-99.96559906
+DEC,Decatur Airport,Decatur,Illinois,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,39.834598541259766,-88.86569977
+DEC,Decatur Airport,Decatur,Illinois,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,39.834598541259766,-88.86569977
+DEN,Denver International Airport,Denver,CO,American,AA Cargo Directory,7:00-19:00,7:00-19:00,,39.86169815,-104.6729965
+DEN,Denver International Airport,Denver,CO,Delta,Delta Cargo Directory,7:00-19:00,7:00-19:00,,39.86169815,-104.6729965
+DEN,Denver International Airport,Denver,CO,Southwest,Southwest Cargo,6:00-22:00,6:00-22:00,,39.86169815,-104.6729965
+DEN,Denver International Airport,Denver,CO,United,United Cargo,7:00-19:00,7:00-19:00,,39.86169815,-104.6729965
+DEN,Denver International,Denver,Colorado,Frontier,Central Facility,24/7,24/7,24/7,39.86169815,-104.6729965
+DEN,Denver International,Denver,Colorado,Frontier,Central Facility,24/7,24/7,24/7,39.86169815,-104.6729965
+DEN,Denver International,Denver,Colorado,Frontier,Central Facility,24/7,24/7,24/7,39.86169815,-104.6729965
+DEN,Denver International,Denver,Colorado,Frontier,Central Facility,24/7,24/7,24/7,39.86169815,-104.6729965
+DEN,Denver International,Denver,Colorado,United,Dedicated Facility,24/7,24/7,24/7,39.86169815,-104.6729965
+DEN,Denver International,Denver,Colorado,United,Dedicated Facility,24/7,24/7,24/7,39.86169815,-104.6729965
+DEN,Denver International,Denver,Colorado,United,Dedicated Facility,24/7,24/7,24/7,39.86169815,-104.6729965
+DEN,Denver International,Denver,Colorado,United,Dedicated Facility,24/7,24/7,24/7,39.86169815,-104.6729965
+DFW,Dallas-Fort Worth International,Fort Worth,Texas,American,Dedicated Facility,4:00-23:00,6:00-20:00,8:00-18:00,32.896801,-97.038002
+DFW,Dallas-Fort Worth International,Fort Worth,Texas,American,Dedicated Facility,4:00-23:00,6:00-20:00,8:00-18:00,32.896801,-97.038002
+DFW,Dallas-Fort Worth International,Fort Worth,Texas,American,Dedicated Facility,4:00-23:00,6:00-20:00,8:00-18:00,32.896801,-97.038002
+DFW,Dallas-Fort Worth International,Fort Worth,Texas,American,Dedicated Facility,4:00-23:00,6:00-20:00,8:00-18:00,32.896801,-97.038002
+DFW,Dallas-Fort Worth International,Fort Worth,Texas,DHL,Dedicated Facility,24/7,24/7,24/7,32.896801,-97.038002
+DFW,Dallas-Fort Worth International,Fort Worth,Texas,DHL,Dedicated Facility,24/7,24/7,24/7,32.896801,-97.038002
+DFW,Dallas-Fort Worth International,Fort Worth,Texas,DHL,Dedicated Facility,24/7,24/7,24/7,32.896801,-97.038002
+DFW,Dallas-Fort Worth International,Fort Worth,Texas,DHL,Dedicated Facility,24/7,24/7,24/7,32.896801,-97.038002
+DFW,Dallas-Fort Worth International,Fort Worth,Texas,Spirit,Counter,4:00-23:00,6:00-20:00,8:00-18:00,32.896801,-97.038002
+DFW,Dallas-Fort Worth International,Fort Worth,Texas,Spirit,Counter,4:00-23:00,6:00-20:00,8:00-18:00,32.896801,-97.038002
+DFW,Dallas-Fort Worth International,Fort Worth,Texas,Spirit,Counter,4:00-23:00,6:00-20:00,8:00-18:00,32.896801,-97.038002
+DFW,Dallas-Fort Worth International,Fort Worth,Texas,Spirit,Counter,4:00-23:00,6:00-20:00,8:00-18:00,32.896801,-97.038002
+DFW,Dallas Fort Worth International Airport,Ft. Worth,TX,American,AA Cargo Directory,6:00-1:30,Sat: 6:00-1:30, Sun: 9:00-1:30,32.896801,-97.038002
+DFW,Dallas Fort Worth International Airport,Ft. Worth,TX,Delta,Delta Cargo Directory,7:00-19:00,7:00-19:00,,32.896801,-97.038002
+DFW,Dallas Fort Worth International Airport,Ft. Worth,TX,Southwest,Southwest Cargo,6:00-22:00,6:00-22:00,,32.896801,-97.038002
+DFW,Dallas Fort Worth International Airport,Ft. Worth,TX,United,United Cargo,6:00-23:00,6:00-23:00,,32.896801,-97.038002
+DIK,Theodore Roosevelt Regional,Dickinson,North Dakota,Delta Connection,Counter,6:00-20:00,7:00-18:00,N/A,46.797533,-102.801905
+DIK,Theodore Roosevelt Regional,Dickinson,North Dakota,Delta Connection,Counter,6:00-20:00,7:00-18:00,N/A,46.797533,-102.801905
+DLH,Duluth International,Duluth,Minnesota,Delta Connection,Counter,5:30-21:00,6:00-18:00,N/A,46.842098,-92.193604
+DLH,Duluth International,Duluth,Minnesota,Delta Connection,Counter,5:30-21:00,6:00-18:00,N/A,46.842098,-92.193604
+DRO,Durango-La Plata County,Durango,Colorado,American Eagle,Counter,6:00-22:00,7:00-20:00,8:00-18:00,37.151501,-107.753998
+DRO,Durango-La Plata County,Durango,Colorado,American Eagle,Counter,6:00-22:00,7:00-20:00,8:00-18:00,37.151501,-107.753998
+DSM,Des Moines International Airport,Des Moines,IA,American,AA Cargo Directory,8:00-17:00,8:00-17:00,,41.534,-93.663101
+DSM,Des Moines International Airport,Des Moines,IA,Delta,Delta Cargo Directory,8:00-17:00,8:00-17:00,,41.534,-93.663101
+DSM,Des Moines International Airport,Des Moines,IA,Southwest,Southwest Cargo,6:00-22:00,6:00-22:00,,41.534,-93.663101
+DSM,Des Moines International Airport,Des Moines,IA,United,United Cargo,No Cargo,No Cargo,,41.534,-93.663101
+DSM,Des Moines International,Des Moines,Iowa,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,41.534,-93.663101
+DSM,Des Moines International,Des Moines,Iowa,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,41.534,-93.663101
+DSM,Des Moines International,Des Moines,Iowa,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,41.534,-93.663101
+DSM,Des Moines International,Des Moines,Iowa,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,41.534,-93.663101
+DSM,Des Moines International,Des Moines,Iowa,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,41.534,-93.663101
+DTW,Detroit Metro Wayne County,Detroit,Michigan,Delta,Dedicated Facility,4:00-23:00,6:00-20:00,8:00-18:00,42.21377,-83.353786
+DTW,Detroit Metro Wayne County,Detroit,Michigan,Delta,Dedicated Facility,4:00-23:00,6:00-20:00,8:00-18:00,42.21377,-83.353786
+DUT,Tom Madsen (Unalaska),Unalaska,Alaska,Alaska Airlines,Counter,6:00-22:00,6:00-20:00,8:00-16:00,53.89881,-166.544996
+DUT,Tom Madsen (Unalaska),Unalaska,Alaska,Alaska Airlines,Counter,6:00-22:00,6:00-20:00,8:00-16:00,53.89881,-166.544996
+EAT,Pangborn Memorial,East Wenatchee,Washington,Alaska Airlines,Counter,5:30-21:00,6:00-18:00,N/A,47.398899,-120.207001
+EAT,Pangborn Memorial,East Wenatchee,Washington,Alaska Airlines,Counter,5:30-21:00,6:00-18:00,N/A,47.398899,-120.207001
+EAU,Chippewa Valley Regional,Eau Claire,Wisconsin,Delta Connection,Counter,5:30-21:00,6:00-18:00,N/A,44.86579895019531,-91.48429871
+EAU,Chippewa Valley Regional,Eau Claire,Wisconsin,Delta Connection,Counter,5:30-21:00,6:00-18:00,N/A,44.86579895019531,-91.48429871
+ECP,Northwest Florida Beaches International,Panama City,Florida,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,30.357106,-85.795414
+ECP,Northwest Florida Beaches International,Panama City,Florida,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,30.357106,-85.795414
+EGE,Eagle County Regional,Eagle,Colorado,American Eagle,Counter,6:00-22:00,7:00-20:00,8:00-18:00,39.64260101,-106.9179993
+EGE,Eagle County Regional,Eagle,Colorado,American Eagle,Counter,6:00-22:00,7:00-20:00,8:00-18:00,39.64260101,-106.9179993
+EKO,Elko Regional,Elko,Nevada,Delta Connection,Counter,6:00-20:00,7:00-18:00,N/A,40.82490158081055,-115.7919998
+EKO,Elko Regional,Elko,Nevada,Delta Connection,Counter,6:00-20:00,7:00-18:00,N/A,40.82490158081055,-115.7919998
+ELD,South Arkansas Regional at Goodwin Field,El Dorado,Arkansas,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,33.221001,-92.813301
+ELD,South Arkansas Regional at Goodwin Field,El Dorado,Arkansas,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,33.221001,-92.813301
+ELM,Elmira/Corning Regional,Elmira,New York,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,42.15990067,-76.89160156
+ELM,Elmira/Corning Regional,Elmira,New York,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,42.15990067,-76.89160156
+ELP,El Paso International,El Paso,Texas,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,31.807199,-106.377998
+ELP,El Paso International,El Paso,Texas,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,31.807199,-106.377998
+ERI,Erie International,Erie,Pennsylvania,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,42.083127,-80.173867
+ERI,Erie International,Erie,Pennsylvania,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,42.083127,-80.173867
+ESC,Delta County,Escanaba,Michigan,Delta Connection,Counter,6:00-20:00,7:00-18:00,N/A,45.723199,-87.088623
+ESC,Delta County,Escanaba,Michigan,Delta Connection,Counter,6:00-20:00,7:00-18:00,N/A,45.723199,-87.088623
+EUG,Mahlon Sweet Field,Eugene,Oregon,Alaska Airlines,Counter,5:30-21:00,6:00-18:00,N/A,44.12459945678711,-123.211998
+EUG,Mahlon Sweet Field,Eugene,Oregon,Alaska Airlines,Counter,5:30-21:00,6:00-18:00,N/A,44.12459945678711,-123.211998
+EVV,Evansville Regional,Evansville,Indiana,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,38.03699875,-87.53240204
+EVV,Evansville Regional,Evansville,Indiana,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,38.03699875,-87.53240204
+EWN,Coastal Carolina Regional,New Bern,North Carolina,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,35.07300186,-77.04290009
+EWN,Coastal Carolina Regional,New Bern,North Carolina,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,35.07300186,-77.04290009
+EWR,Newark Liberty International,Newark,New Jersey,United,Dedicated Facility,24/7,24/7,24/7,40.692501,-74.168701
+EWR,Newark Liberty International,Newark,New Jersey,United,Dedicated Facility,24/7,24/7,24/7,40.692501,-74.168701
+EWR,Newark Liberty International Airport,Newark,NJ,American,AA Cargo Directory,7:00-19:00,7:00-19:00,,40.692501,-74.168701
+EWR,Newark Liberty International Airport,Newark,NJ,Delta,Delta Cargo Directory,7:00-19:00,7:00-19:00,,40.692501,-74.168701
+EWR,Newark Liberty International Airport,Newark,NJ,Southwest,Southwest Cargo,No Cargo,No Cargo,,40.692501,-74.168701
+EWR,Newark Liberty International Airport,Newark,NJ,United,United Cargo,7:00-19:00,7:00-19:00,,40.692501,-74.168701
+EYW,Key West International,Key West,Florida,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,24.556101,-81.759598
+EYW,Key West International,Key West,Florida,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,24.556101,-81.759598
+FAI,Fairbanks International,Fairbanks,Alaska,Alaska Airlines,Dedicated Facility,24/7,24/7,24/7,64.815102,-147.856003
+FAI,Fairbanks International,Fairbanks,Alaska,Alaska Airlines,Dedicated Facility,24/7,24/7,24/7,64.815102,-147.856003
+FAI,Fairbanks International,Fairbanks,Alaska,Alaska Airlines,Dedicated Facility,24/7,24/7,24/7,64.815102,-147.856003
+FAR,Hector International Airport,Fargo,ND,American,AA Cargo Directory,No Cargo,No Cargo,,46.92070007324219,-96.81580353
+FAR,Hector International Airport,Fargo,ND,Delta,Delta Cargo Directory,No Cargo,No Cargo,,46.92070007324219,-96.81580353
+FAR,Hector International Airport,Fargo,ND,Southwest,Southwest Cargo,No Cargo,No Cargo,,46.92070007324219,-96.81580353
+FAR,Hector International Airport,Fargo,ND,United,United Cargo,No Cargo,No Cargo,,46.92070007324219,-96.81580353
+FAR,Hector International,Fargo,North Dakota,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,46.92070007324219,-96.81580353
+FAR,Hector International,Fargo,North Dakota,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,46.92070007324219,-96.81580353
+FAR,Hector International,Fargo,North Dakota,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,46.92070007324219,-96.81580353
+FAR,Hector International,Fargo,North Dakota,Delta,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,46.92070007324219,-96.81580353
+FAR,Hector International,Fargo,North Dakota,Delta,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,46.92070007324219,-96.81580353
+FAR,Hector International,Fargo,North Dakota,Delta,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,46.92070007324219,-96.81580353
+FAT,Fresno Yosemite International,Fresno,California,United,Dedicated Facility,24/7,24/7,24/7,36.776199,-119.718002
+FAT,Fresno Yosemite International,Fresno,California,United,Dedicated Facility,24/7,24/7,24/7,36.776199,-119.718002
+FAT,Fresno Yosemite International,Fresno,California,United,Dedicated Facility,24/7,24/7,24/7,36.776199,-119.718002
+FLL,Fort Lauderdale Hollywood International Airport,Fort Lauderdale,FL,American,AA Cargo Directory,8:00-17:00,8:00-17:00,,26.072599,-80.152702
+FLL,Fort Lauderdale Hollywood International Airport,Fort Lauderdale,FL,Delta,Delta Cargo Directory,8:00-17:00,8:00-17:00,,26.072599,-80.152702
+FLL,Fort Lauderdale Hollywood International Airport,Fort Lauderdale,FL,Southwest,Southwest Cargo,6:00-22:00,6:00-22:00,,26.072599,-80.152702
+FLL,Fort Lauderdale Hollywood International Airport,Fort Lauderdale,FL,United,United Cargo,8:00-17:00,8:00-17:00,,26.072599,-80.152702
+FLL,Fort Lauderdale-Hollywood International,Fort Lauderdale,Florida,JetBlue,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,26.072599,-80.152702
+FLL,Fort Lauderdale-Hollywood International,Fort Lauderdale,Florida,JetBlue,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,26.072599,-80.152702
+FLL,Fort Lauderdale-Hollywood International,Fort Lauderdale,Florida,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,26.072599,-80.152702
+FLL,Fort Lauderdale-Hollywood International,Fort Lauderdale,Florida,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,26.072599,-80.152702
+FLL,Fort Lauderdale-Hollywood International,Fort Lauderdale,Florida,Spirit,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,26.072599,-80.152702
+FLL,Fort Lauderdale-Hollywood International,Fort Lauderdale,Florida,Spirit,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,26.072599,-80.152702
+FNT,Bishop International,Flint,Michigan,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,42.96540069580078,-83.74359894
+FNT,Bishop International,Flint,Michigan,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,42.96540069580078,-83.74359894
+FNT,Bishop International,Flint,Michigan,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,42.96540069580078,-83.74359894
+FNT,Bishop International,Flint,Michigan,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,42.96540069580078,-83.74359894
+FNT,Bishop International,Flint,Michigan,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,42.96540069580078,-83.74359894
+FNT,Bishop International,Flint,Michigan,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,42.96540069580078,-83.74359894
+FSD,Sioux Falls Regional Airport / Joe Foss Field,Sioux Falls,SD,American,AA Cargo Directory,No Cargo,No Cargo,,43.585463,-96.741152
+FSD,Sioux Falls Regional Airport / Joe Foss Field,Sioux Falls,SD,Delta,Delta Cargo Directory,No Cargo,No Cargo,,43.585463,-96.741152
+FSD,Sioux Falls Regional Airport / Joe Foss Field,Sioux Falls,SD,Southwest,Southwest Cargo,No Cargo,No Cargo,,43.585463,-96.741152
+FSD,Sioux Falls Regional Airport / Joe Foss Field,Sioux Falls,SD,United,United Cargo,No Cargo,No Cargo,,43.585463,-96.741152
+FSD,Joe Foss Field,Sioux Falls,South Dakota,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,43.585463,-96.741152
+FSD,Joe Foss Field,Sioux Falls,South Dakota,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,43.585463,-96.741152
+FSD,Joe Foss Field,Sioux Falls,South Dakota,Delta,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,43.585463,-96.741152
+FSD,Joe Foss Field,Sioux Falls,South Dakota,Delta,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,43.585463,-96.741152
+FWA,Fort Wayne International,Fort Wayne,Indiana,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,40.9785,-85.195099
+FWA,Fort Wayne International,Fort Wayne,Indiana,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,40.9785,-85.195099
+FWA,Fort Wayne International,Fort Wayne,Indiana,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,40.9785,-85.195099
+FWA,Fort Wayne International,Fort Wayne,Indiana,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,40.9785,-85.195099
+FWA,Fort Wayne International,Fort Wayne,Indiana,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,40.9785,-85.195099
+FWA,Fort Wayne International,Fort Wayne,Indiana,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,40.9785,-85.195099
+GCK,Garden City Regional,Garden City,Kansas,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,37.92750168,-100.723999
+GCK,Garden City Regional,Garden City,Kansas,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,37.92750168,-100.723999
+GEG,Spokane International,Spokane,Washington,Alaska Airlines,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,47.6199,-117.533997
+GEG,Spokane International,Spokane,Washington,Alaska Airlines,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,47.6199,-117.533997
+GEG,Spokane International,Spokane,Washington,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,47.6199,-117.533997
+GEG,Spokane International,Spokane,Washington,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,47.6199,-117.533997
+GFK,Grand Forks International,Grand Forks,North Dakota,Delta Connection,Counter,5:30-21:00,6:00-18:00,N/A,47.949299,-97.176102
+GFK,Grand Forks International,Grand Forks,North Dakota,Delta Connection,Counter,5:30-21:00,6:00-18:00,N/A,47.949299,-97.176102
+GGG,East Texas Regional,Longview,Texas,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,32.38399887084961,-94.71150208
+GGG,East Texas Regional,Longview,Texas,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,32.38399887084961,-94.71150208
+GJT,Grand Junction Regional,Grand Junction,Colorado,American Eagle,Counter,6:00-22:00,7:00-20:00,8:00-18:00,39.126663,-108.529387
+GJT,Grand Junction Regional,Grand Junction,Colorado,American Eagle,Counter,6:00-22:00,7:00-20:00,8:00-18:00,39.126663,-108.529387
+GNV,Gainesville Regional,Gainesville,Florida,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,29.69009972,-82.27179718
+GNV,Gainesville Regional,Gainesville,Florida,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,29.69009972,-82.27179718
+GPT,Gulfport-Biloxi International,Gulfport,Mississippi,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,30.407301,-89.070099
+GPT,Gulfport-Biloxi International,Gulfport,Mississippi,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,30.407301,-89.070099
+GRB,Austin Straubel International,Green Bay,Wisconsin,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,44.483459,-88.130805
+GRB,Austin Straubel International,Green Bay,Wisconsin,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,44.483459,-88.130805
+GRI,Central Nebraska Regional,Grand Island,Nebraska,Allegiant,Counter,6:00-20:00,7:00-18:00,N/A,40.967498779296875,-98.30960083
+GRI,Central Nebraska Regional,Grand Island,Nebraska,Allegiant,Counter,6:00-20:00,7:00-18:00,N/A,40.967498779296875,-98.30960083
+GRR,Gerald R. Ford International Airport,Grand Rapids,MI,American,AA Cargo Directory,8:00-17:00,8:00-17:00,,42.88079834,-85.52279663
+GRR,Gerald R. Ford International Airport,Grand Rapids,MI,Delta,Delta Cargo Directory,8:00-17:00,8:00-17:00,,42.88079834,-85.52279663
+GRR,Gerald R. Ford International Airport,Grand Rapids,MI,Southwest,Southwest Cargo,6:00-22:00,6:00-22:00,,42.88079834,-85.52279663
+GRR,Gerald R. Ford International Airport,Grand Rapids,MI,United,United Cargo,No Cargo,No Cargo,,42.88079834,-85.52279663
+GRR,Gerald R Ford International,Grand Rapids,Michigan,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,42.88079834,-85.52279663
+GRR,Gerald R Ford International,Grand Rapids,Michigan,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,42.88079834,-85.52279663
+GRR,Gerald R Ford International,Grand Rapids,Michigan,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,42.88079834,-85.52279663
+GRR,Gerald R Ford International,Grand Rapids,Michigan,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,42.88079834,-85.52279663
+GSO,Piedmont Triad International,Greensboro,North Carolina,American,Dedicated Facility,24/7,24/7,24/7,36.097801,-79.937302
+GSO,Piedmont Triad International,Greensboro,North Carolina,American,Dedicated Facility,24/7,24/7,24/7,36.097801,-79.937302
+GSO,Piedmont Triad International,Greensboro,North Carolina,American,Dedicated Facility,24/7,24/7,24/7,36.097801,-79.937302
+GSP,Greenville Spartanburg International Airport,Greenville,SC,American,AA Cargo Directory,8:00-17:00,8:00-17:00,,34.895699,-82.218903
+GSP,Greenville Spartanburg International Airport,Greenville,SC,Delta,Delta Cargo Directory,8:00-17:00,8:00-17:00,,34.895699,-82.218903
+GSP,Greenville Spartanburg International Airport,Greenville,SC,Southwest,Southwest Cargo,No Cargo,No Cargo,,34.895699,-82.218903
+GSP,Greenville Spartanburg International Airport,Greenville,SC,United,United Cargo,No Cargo,No Cargo,,34.895699,-82.218903
+GSP,Greenville Spartanburg International,Greer,South Carolina,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,34.895699,-82.218903
+GSP,Greenville Spartanburg International,Greer,South Carolina,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,34.895699,-82.218903
+GSP,Greenville Spartanburg International,Greer,South Carolina,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,34.895699,-82.218903
+GSP,Greenville Spartanburg International,Greer,South Carolina,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,34.895699,-82.218903
+GSP,Greenville Spartanburg International,Greer,South Carolina,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,34.895699,-82.218903
+GSP,Greenville Spartanburg International,Greer,South Carolina,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,34.895699,-82.218903
+GST,Gustavus Airport,Gustavus,Alaska,Alaska Airlines,Counter,6:00-22:00,6:00-20:00,8:00-16:00,58.4253006,-135.7070007
+GST,Gustavus Airport,Gustavus,Alaska,Alaska Airlines,Counter,6:00-22:00,6:00-20:00,8:00-16:00,58.4253006,-135.7070007
+GTF,Great Falls International,Great Falls,Montana,Delta Connection,Counter,5:30-21:00,6:00-18:00,N/A,47.48199844,-111.3710022
+GTF,Great Falls International,Great Falls,Montana,Delta Connection,Counter,5:30-21:00,6:00-18:00,N/A,47.48199844,-111.3710022
+GTF,Great Falls International Airport,Great Falls,MT,American,AA Cargo Directory,No Cargo,No Cargo,,47.48199844,-111.3710022
+GTF,Great Falls International Airport,Great Falls,MT,Delta,Delta Cargo Directory,No Cargo,No Cargo,,47.48199844,-111.3710022
+GTF,Great Falls International Airport,Great Falls,MT,Southwest,Southwest Cargo,No Cargo,No Cargo,,47.48199844,-111.3710022
+GTF,Great Falls International Airport,Great Falls,MT,United,United Cargo,No Cargo,No Cargo,,47.48199844,-111.3710022
+GTR,Golden Triangle,Columbus,Mississippi,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,33.450298,-88.5914
+GTR,Golden Triangle,Columbus,Mississippi,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,33.450298,-88.5914
+GUC,Gunnison-Crested Butte Regional,Gunnison,Colorado,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,38.534672,-106.934566
+GUC,Gunnison-Crested Butte Regional,Gunnison,Colorado,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,38.534672,-106.934566
+HGR,Hagerstown Regional,Hagerstown,Maryland,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,39.708771,-77.728014
+HGR,Hagerstown Regional,Hagerstown,Maryland,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,39.708771,-77.728014
+HIB,Range Regional,Hibbing,Minnesota,Delta Connection,Counter,5:30-21:00,6:00-18:00,N/A,47.384831,-92.836905
+HIB,Range Regional,Hibbing,Minnesota,Delta Connection,Counter,5:30-21:00,6:00-18:00,N/A,47.384831,-92.836905
+HKY,Hickory Regional,Hickory,North Carolina,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,,
+HKY,Hickory Regional,Hickory,North Carolina,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,,
+HLN,Helena Regional,Helena,Montana,Delta Connection,Counter,6:00-20:00,7:00-18:00,N/A,46.6068,-111.983002
+HLN,Helena Regional,Helena,Montana,Delta Connection,Counter,6:00-20:00,7:00-18:00,N/A,46.6068,-111.983002
+HNL,Daniel K Inouye International,Honolulu,Hawaii,Hawaiian Airlines,Dedicated Facility,24/7,24/7,24/7,21.32062,-157.924228
+HNL,Daniel K Inouye International,Honolulu,Hawaii,Hawaiian Airlines,Dedicated Facility,24/7,24/7,24/7,21.32062,-157.924228
+HNL,Daniel K Inouye International Airport,Honolulu,HI,American,AA Cargo Directory,8:00-17:00,8:00-17:00,,21.32062,-157.924228
+HNL,Daniel K Inouye International Airport,Honolulu,HI,Delta,Delta Cargo Directory,8:00-17:00,8:00-17:00,,21.32062,-157.924228
+HNL,Daniel K Inouye International Airport,Honolulu,HI,Southwest,Southwest Cargo,6:00-22:00,6:00-22:00,,21.32062,-157.924228
+HNL,Daniel K Inouye International Airport,Honolulu,HI,United,United Cargo,8:00-17:00,8:00-17:00,,21.32062,-157.924228
+HOU,William P Hobby,Houston,Texas,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,29.645399,-95.2789
+HOU,William P Hobby,Houston,Texas,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,29.645399,-95.2789
+HOU,William P Hobby,Houston,Texas,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,29.645399,-95.2789
+HOU,William P Hobby,Houston,Texas,United,Counter,5:00-22:00,7:00-20:00,8:00-18:00,29.645399,-95.2789
+HOU,William P Hobby,Houston,Texas,United,Counter,5:00-22:00,7:00-20:00,8:00-18:00,29.645399,-95.2789
+HOU,William P Hobby,Houston,Texas,United,Counter,5:00-22:00,7:00-20:00,8:00-18:00,29.645399,-95.2789
+HPN,Westchester County,White Plains,New York,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,41.06700134277344,-73.70760345
+HPN,Westchester County,White Plains,New York,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,41.06700134277344,-73.70760345
+HRL,Valley International,Harlingen,Texas,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,26.228500366210938,-97.65440369
+HRL,Valley International,Harlingen,Texas,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,26.228500366210938,-97.65440369
+HSV,Huntsville International-Carl T Jones Field,Huntsville,Alabama,American,Dedicated Facility,5:30-21:00,6:00-16:00,N/A,34.637199,-86.775101
+HSV,Huntsville International-Carl T Jones Field,Huntsville,Alabama,American,Dedicated Facility,5:30-21:00,6:00-16:00,N/A,34.637199,-86.775101
+HSV,Huntsville International-Carl T Jones Field,Huntsville,Alabama,American,Dedicated Facility,5:30-21:00,6:00-16:00,N/A,34.637199,-86.775101
+HSV,Huntsville International-Carl T Jones Field,Huntsville,Alabama,American,Dedicated Facility,5:30-21:00,6:00-16:00,N/A,34.637199,-86.775101
+HSV,Huntsville International-Carl T Jones Field,Huntsville,Alabama,Delta,Delta Cargo Directory,8:00-17:00,8:00-17:00,,34.637199,-86.775101
+HSV,Huntsville International-Carl T Jones Field,Huntsville,Alabama,Delta,Dedicated Facility,5:30-21:00,6:00-16:00,N/A,34.637199,-86.775101
+HSV,Huntsville International-Carl T Jones Field,Huntsville,Alabama,Delta,Dedicated Facility,5:30-21:00,6:00-16:00,N/A,34.637199,-86.775101
+HSV,Huntsville International-Carl T Jones Field,Huntsville,Alabama,Delta,Dedicated Facility,5:30-21:00,6:00-16:00,N/A,34.637199,-86.775101
+HSV,Huntsville International-Carl T Jones Field,Huntsville,Alabama,Delta,Dedicated Facility,5:30-21:00,6:00-16:00,N/A,34.637199,-86.775101
+HSV,Huntsville International-Carl T Jones Field,Huntsville,Alabama,Southwest,Southwest Cargo,No Cargo,No Cargo,,34.637199,-86.775101
+HSV,Huntsville International-Carl T Jones Field,Huntsville,Alabama,United,United Cargo,No Cargo,No Cargo,,34.637199,-86.775101
+HSV,Huntsville International-Carl T Jones Field,Huntsville,Alabama,United,Dedicated Facility,5:30-21:00,6:00-16:00,N/A,34.637199,-86.775101
+HSV,Huntsville International-Carl T Jones Field,Huntsville,Alabama,United,Dedicated Facility,5:30-21:00,6:00-16:00,N/A,34.637199,-86.775101
+HSV,Huntsville International-Carl T Jones Field,Huntsville,Alabama,United,Dedicated Facility,5:30-21:00,6:00-16:00,N/A,34.637199,-86.775101
+HSV,Huntsville International-Carl T Jones Field,Huntsville,Alabama,United,Dedicated Facility,5:30-21:00,6:00-16:00,N/A,34.637199,-86.775101
+HSV,Huntsville International-Carl T Jones Field,Huntsville,Alabama,American,AA Cargo Directory,8:00-17:00,8:00-17:00,,34.637199,-86.775101
+HYA,Barnstable Municipal,Hyannis,Massachusetts,Cape Air,Counter,7:00-19:00,7:00-15:00,N/A,41.6693,-70.280403
+HYA,Barnstable Municipal,Hyannis,Massachusetts,Cape Air,Counter,7:00-19:00,7:00-15:00,N/A,41.6693,-70.280403
+HYS,Hays Regional,Hays,Kansas,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,38.844521,-99.273148
+HYS,Hays Regional,Hays,Kansas,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,38.844521,-99.273148
+IAD,Washington Dulles International Airport,Dulles,VA,American,AA Cargo Directory,8:00-17:00,8:00-17:00,,38.9445,-77.455803
+IAD,Washington Dulles International Airport,Dulles,VA,Delta,Delta Cargo Directory,8:00-17:00,8:00-17:00,,38.9445,-77.455803
+IAD,Washington Dulles International Airport,Dulles,VA,Southwest,Southwest Cargo,No Cargo,No Cargo,,38.9445,-77.455803
+IAD,Washington Dulles International Airport,Dulles,VA,United,United Cargo,8:00-17:00,8:00-17:00,,38.9445,-77.455803
+IAD,Washington Dulles International,Dulles,Virginia,DHL,Dedicated Facility,24/7,24/7,24/7,38.9445,-77.455803
+IAD,Washington Dulles International,Dulles,Virginia,DHL,Dedicated Facility,24/7,24/7,24/7,38.9445,-77.455803
+IAD,Washington Dulles International,Dulles,Virginia,United,Dedicated Facility,24/7,24/7,24/7,38.9445,-77.455803
+IAD,Washington Dulles International,Dulles,Virginia,United,Dedicated Facility,24/7,24/7,24/7,38.9445,-77.455803
+IAG,Niagara Falls International,Niagara Falls,New York,Allegiant Air,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,43.1073,-78.946198
+IAH,George Bush Intercontinental,Houston,Texas,United,Dedicated Facility,24/7,24/7,24/7,29.984399795532227,-95.34140015
+IAH,George Bush Intercontinental,Houston,Texas,United,Dedicated Facility,24/7,24/7,24/7,29.984399795532227,-95.34140015
+IAH,George Bush Intercontinental Houston Airport,Houston,TX,American,AA Cargo Directory,7:00-19:00,7:00-19:00,,29.984399795532227,-95.34140015
+IAH,George Bush Intercontinental Houston Airport,Houston,TX,Delta,Delta Cargo Directory,7:00-19:00,7:00-19:00,,29.984399795532227,-95.34140015
+IAH,George Bush Intercontinental Houston Airport,Houston,TX,Southwest,Southwest Cargo,6:00-22:00,6:00-22:00,,29.984399795532227,-95.34140015
+IAH,George Bush Intercontinental Houston Airport,Houston,TX,United,United Cargo,7:00-19:00,7:00-19:00,,29.984399795532227,-95.34140015
+IAN,Bob Baker Memorial Airport,Kiana,Alaska,Bering Air,Counter,6:00-21:00,6:00-18:00,6:00-15:00,66.976128,-160.439014
+IAN,Bob Baker Memorial Airport,Kiana,Alaska,Bering Air,Counter,6:00-21:00,6:00-18:00,6:00-15:00,66.976128,-160.439014
+IAN,Bob Baker Memorial Airport,Kiana,Alaska,Ryan Air,Counter,6:00-21:00,6:00-18:00,6:00-15:00,66.976128,-160.439014
+IAN,Bob Baker Memorial Airport,Kiana,Alaska,Ryan Air,Counter,6:00-21:00,6:00-18:00,6:00-15:00,66.976128,-160.439014
+ICT,Wichita Dwight D Eisenhower Ntl,Wichita,Kansas,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,37.649899,-97.433098
+ICT,Wichita Dwight D Eisenhower National,Wichita,Kansas,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,37.649899,-97.433098
+ICT,Wichita Dwight D Eisenhower National,Wichita,Kansas,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,37.649899,-97.433098
+ICT,Wichita Dwight D Eisenhower Ntl,Wichita,Kansas,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,37.649899,-97.433098
+ICT,Wichita Dwight D Eisenhower National,Wichita,Kansas,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,37.649899,-97.433098
+ICT,Wichita Dwight D Eisenhower National,Wichita,Kansas,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,37.649899,-97.433098
+ICT,Wichita Eisenhower National Airport,Wichita,KS,American,AA Cargo Directory,8:00-17:00,8:00-17:00,,37.649899,-97.433098
+ICT,Wichita Eisenhower National Airport,Wichita,KS,Delta,Delta Cargo Directory,8:00-17:00,8:00-17:00,,37.649899,-97.433098
+ICT,Wichita Eisenhower National Airport,Wichita,KS,Southwest,Southwest Cargo,6:00-22:00,6:00-22:00,,37.649899,-97.433098
+ICT,Wichita Eisenhower National Airport,Wichita,KS,United,United Cargo,No Cargo,No Cargo,,37.649899,-97.433098
+IDA,Idaho Falls Regional,Idaho Falls,Idaho,Delta Connection,Counter,6:00-20:00,7:00-18:00,N/A,43.514599,-112.070999
+IDA,Idaho Falls Regional,Idaho Falls,Idaho,Delta Connection,Counter,6:00-20:00,7:00-18:00,N/A,43.514599,-112.070999
+ILG,Wilmington Airport,Wilmington,Delaware,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,39.678699,-75.606499
+ILG,Wilmington Airport,Wilmington,Delaware,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,39.678699,-75.606499
+ILM,Wilmington International,Wilmington,North Carolina,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,34.270599365234375,-77.90260315
+ILM,Wilmington International,Wilmington,North Carolina,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,34.270599365234375,-77.90260315
+IND,Indianapolis International Airport,Indianapolis,IN,American,AA Cargo Directory,8:00-17:00,8:00-17:00,,39.7173,-86.294403
+IND,Indianapolis International Airport,Indianapolis,IN,Delta,Delta Cargo Directory,8:00-17:00,8:00-17:00,,39.7173,-86.294403
+IND,Indianapolis International Airport,Indianapolis,IN,Southwest,Southwest Cargo,6:00-22:00,6:00-22:00,,39.7173,-86.294403
+IND,Indianapolis International Airport,Indianapolis,IN,United,United Cargo,8:00-17:00,8:00-17:00,,39.7173,-86.294403
+IND,Indianapolis International,Indianapolis,Indiana,American,Central Facility,5:00-22:00,7:00-20:00,8:00-18:00,39.7173,-86.294403
+IND,Indianapolis International,Indianapolis,Indiana,Southwest,Central Facility,5:00-22:00,7:00-20:00,8:00-18:00,39.7173,-86.294403
+IND,Indianapolis International,Indianapolis,Indiana,Southwest,Central Facility,5:00-22:00,7:00-20:00,8:00-18:00,39.7173,-86.294403
+IND,Indianapolis International,Indianapolis,Indiana,Southwest,Central Facility,5:00-22:00,7:00-20:00,8:00-18:00,39.7173,-86.294403
+IND,Indianapolis International,Indianapolis,Indiana,Southwest,Central Facility,5:00-22:00,7:00-20:00,8:00-18:00,39.7173,-86.294403
+IND,Indianapolis International,Indianapolis,Indiana,Southwest,Central Facility,5:00-22:00,7:00-20:00,8:00-18:00,39.7173,-86.294403
+INL,Falls International,International Falls,Minnesota,Delta Connection,Counter,5:30-21:00,6:00-18:00,N/A,48.566200256347656,-93.40309906
+INL,Falls International,International Falls,Minnesota,Delta Connection,Counter,5:30-21:00,6:00-18:00,N/A,48.566200256347656,-93.40309906
+ITO,Hilo International,Hilo,Hawaii,Hawaiian Airlines,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,19.721399,-155.048004
+ITO,Hilo International Airport,Hilo,HI,American,AA Cargo Directory,No Cargo,No Cargo,,19.721399,-155.048004
+ITO,Hilo International Airport,Hilo,HI,Delta,Delta Cargo Directory,No Cargo,No Cargo,,19.721399,-155.048004
+ITO,Hilo International Airport,Hilo,HI,Southwest,Southwest Cargo,No Cargo,No Cargo,,19.721399,-155.048004
+ITO,Hilo International Airport,Hilo,HI,United,United Cargo,No Cargo,No Cargo,,19.721399,-155.048004
+JAC,Jackson,Wyoming,Delta,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,,43.6072998,-110.737999
+JAC,Jackson Hole Airport,Jackson,Wyoming,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,43.6072998,-110.737999
+JAC,Jackson Hole,Jackson,Wyoming,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,43.6072998,-110.737999
+JAC,Jackson Hole,Jackson,Wyoming,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,43.6072998,-110.737999
+JAC,Jackson Hole,Jackson,Wyoming,Delta,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,43.6072998,-110.737999
+JAC,Jackson Hole,Jackson,Wyoming,Delta,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,43.6072998,-110.737999
+JAN,Jackson-Medgar Wiley Evers International,Jackson,Mississippi,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,32.311199,-90.075897
+JAN,Jackson-Medgar Wiley Evers International,Jackson,Mississippi,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,32.311199,-90.075897
+JAX,Jacksonville International Airport,Jacksonville,FL,American,AA Cargo Directory,8:00-17:00,8:00-17:00,,30.492469,-81.687813
+JAX,Jacksonville International Airport,Jacksonville,FL,Delta,Delta Cargo Directory,8:00-17:00,8:00-17:00,,30.492469,-81.687813
+JAX,Jacksonville International Airport,Jacksonville,FL,Southwest,Southwest Cargo,6:00-22:00,6:00-22:00,,30.492469,-81.687813
+JAX,Jacksonville International Airport,Jacksonville,FL,United,United Cargo,8:00-17:00,8:00-17:00,,30.492469,-81.687813
+JAX,Jacksonville International,Jacksonville,Florida,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,30.492469,-81.687813
+JAX,Jacksonville International,Jacksonville,Florida,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,30.492469,-81.687813
+JAX,Jacksonville International,Jacksonville,Florida,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,30.492469,-81.687813
+JAX,Jacksonville International,Jacksonville,Florida,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,30.492469,-81.687813
+JAX,Jacksonville International,Jacksonville,Florida,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,30.492469,-81.687813
+JAX,Jacksonville International,Jacksonville,Florida,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,30.492469,-81.687813
+JFK,John F Kennedy International,New York,New York,American,Dedicated Facility,24/7,24/7,24/7,40.639447,-73.779317
+JFK,John F Kennedy International,New York,New York,American,Dedicated Facility,24/7,24/7,24/7,40.639447,-73.779317
+JFK,John F Kennedy International,New York,New York,American,Dedicated Facility,24/7,24/7,24/7,40.639447,-73.779317
+JFK,John F Kennedy International,New York,New York,American,Dedicated Facility,24/7,24/7,24/7,40.639447,-73.779317
+JFK,John F Kennedy International,New York,New York,Delta,Dedicated Facility,24/7,24/7,24/7,40.639447,-73.779317
+JFK,John F Kennedy International,New York,New York,Delta,Dedicated Facility,24/7,24/7,24/7,40.639447,-73.779317
+JFK,John F Kennedy International,New York,New York,Delta,Dedicated Facility,24/7,24/7,24/7,40.639447,-73.779317
+JFK,John F Kennedy International,New York,New York,Delta,Dedicated Facility,24/7,24/7,24/7,40.639447,-73.779317
+JFK,John F Kennedy International,New York,New York,JetBlue,Dedicated Facility,24/7,24/7,24/7,40.639447,-73.779317
+JFK,John F Kennedy International,New York,New York,JetBlue,Dedicated Facility,24/7,24/7,24/7,40.639447,-73.779317
+JFK,John F Kennedy International,New York,New York,JetBlue,Dedicated Facility,24/7,24/7,24/7,40.639447,-73.779317
+JFK,John F Kennedy International,New York,New York,JetBlue,Dedicated Facility,24/7,24/7,24/7,40.639447,-73.779317
+JFK,John F Kennedy International,New York,New York,Kalitta Air,Dedicated Facility,24/7,24/7,24/7,40.639447,-73.779317
+JFK,John F Kennedy International,New York,New York,Kalitta Air,Dedicated Facility,24/7,24/7,24/7,40.639447,-73.779317
+JFK,John F Kennedy International,New York,New York,Kalitta Air,Dedicated Facility,24/7,24/7,24/7,40.639447,-73.779317
+JFK,John F Kennedy International,New York,New York,Kalitta Air,Dedicated Facility,24/7,24/7,24/7,40.639447,-73.779317
+JFK,John F Kennedy International Airport,New York,NY,American,AA Cargo Directory,6:00-23:00,6:00-23:00,,40.639447,-73.779317
+JFK,John F Kennedy International Airport,New York,NY,Delta,Delta Cargo Directory,7:00-19:00,7:00-19:00,,40.639447,-73.779317
+JFK,John F Kennedy International Airport,New York,NY,Southwest,Southwest Cargo,No Cargo,No Cargo,,40.639447,-73.779317
+JFK,John F Kennedy International Airport,New York,NY,United,United Cargo,6:00-23:00,6:00-23:00,,40.639447,-73.779317
+JLN,Joplin Regional,Joplin,Missouri,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,37.151798,-94.498299
+JLN,Joplin Regional,Joplin,Missouri,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,37.151798,-94.498299
+JMS,Jamestown Regional,Jamestown,North Dakota,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,46.92969894,-98.67819977
+JMS,Jamestown Regional,Jamestown,North Dakota,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,46.92969894,-98.67819977
+JNU,Juneau International,Juneau,Alaska,Alaska Airlines,Counter,6:00-22:00,6:00-20:00,8:00-16:00,58.355,-134.576004
+JNU,Juneau International,Juneau,Alaska,Alaska Airlines,Counter,6:00-22:00,6:00-20:00,8:00-16:00,58.355,-134.576004
+KKI,Akiachak Airport,Akiachak,Alaska,Grant Aviation,Counter,7:30-18:00,8:00-14:00,N/A,,
+KKI,Akiachak Airport,Akiachak,Alaska,Grant Aviation,Counter,7:30-18:00,8:00-14:00,N/A,,
+KKI,Akiachak Airport,Akiachak,Alaska,Hageland Aviation,Counter,7:30-18:00,8:00-14:00,N/A,,
+KKI,Akiachak Airport,Akiachak,Alaska,Hageland Aviation,Counter,7:30-18:00,8:00-14:00,N/A,,
+KOA,Ellison Onizuka Kona International at Keahole,Kailua Kona,Hawaii,Hawaiian Airlines,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,19.738783,-156.045603
+KOA,Ellison Onizuka Kona International at Keahole,Kailua Kona,Hawaii,Hawaiian Airlines,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,19.738783,-156.045603
+KOA,Ellison Onizuka Kona International Airport at Keahole,Kailua Kona,HI,American,AA Cargo Directory,8:00-17:00,8:00-17:00,,19.738783,-156.045603
+KOA,Ellison Onizuka Kona International Airport at Keahole,Kailua Kona,HI,Delta,Delta Cargo Directory,8:00-17:00,8:00-17:00,,19.738783,-156.045603
+KOA,Ellison Onizuka Kona International Airport at Keahole,Kailua Kona,HI,Southwest,Southwest Cargo,6:00-22:00,6:00-22:00,,19.738783,-156.045603
+KOA,Ellison Onizuka Kona International Airport at Keahole,Kailua Kona,HI,United,United Cargo,No Cargo,No Cargo,,19.738783,-156.045603
+KTN,Ketchikan International,Ketchikan,Alaska,Alaska Airlines,Counter,6:00-22:00,6:00-20:00,8:00-16:00,55.35559845,-131.7140045
+KTN,Ketchikan International,Ketchikan,Alaska,Alaska Airlines,Counter,6:00-22:00,6:00-20:00,8:00-16:00,55.35559845,-131.7140045
+LAN,Capital City Airport,Clinton (Township of),MI,American,AA Cargo Directory,No Cargo,No Cargo,,42.77870178222656,-84.58740234
+LAN,Capital City Airport,Clinton (Township of),MI,Delta,Delta Cargo Directory,No Cargo,No Cargo,,42.77870178222656,-84.58740234
+LAN,Capital City Airport,Clinton (Township of),MI,Southwest,Southwest Cargo,No Cargo,No Cargo,,42.77870178222656,-84.58740234
+LAN,Capital City Airport,Clinton (Township of),MI,United,United Cargo,No Cargo,No Cargo,,42.77870178222656,-84.58740234
+LAN,Capital Region International,Clinton Township,Michigan,Delta Connection,Counter,5:30-21:00,6:00-18:00,N/A,42.77870178222656,-84.58740234
+LAN,Capital Region International,Clinton Township,Michigan,Delta Connection,Counter,5:30-21:00,6:00-18:00,N/A,42.77870178222656,-84.58740234
+LAR,Laramie Regional,Laramie,Wyoming,United Express,Counter,6:00-20:00,7:00-18:00,N/A,41.31209945678711,-105.6750031
+LAR,Laramie Regional,Laramie,Wyoming,United Express,Counter,6:00-20:00,7:00-18:00,N/A,41.31209945678711,-105.6750031
+LAS,Harry Reid International,Las Vegas,Nevada,Allegiant,Dedicated Facility,4:00-00:00,4:00-00:00,4:00-00:00,36.083361,-115.151817
+LAS,Harry Reid International,Las Vegas,Nevada,Allegiant,Dedicated Facility,4:00-00:00,4:00-00:00,4:00-00:00,36.083361,-115.151817
+LAS,Harry Reid International,Las Vegas,Nevada,Allegiant,Dedicated Facility,4:00-00:00,4:00-00:00,4:00-00:00,36.083361,-115.151817
+LAS,Harry Reid International,Las Vegas,Nevada,Allegiant,Dedicated Facility,4:00-00:00,4:00-00:00,4:00-00:00,36.083361,-115.151817
+LAS,Harry Reid International,Las Vegas,Nevada,Southwest,Dedicated Facility,4:00-00:00,4:00-00:00,4:00-00:00,36.083361,-115.151817
+LAS,Harry Reid International,Las Vegas,Nevada,Southwest,Dedicated Facility,4:00-00:00,4:00-00:00,4:00-00:00,36.083361,-115.151817
+LAS,Harry Reid International,Las Vegas,Nevada,Southwest,Dedicated Facility,4:00-00:00,4:00-00:00,4:00-00:00,36.083361,-115.151817
+LAS,Harry Reid International,Las Vegas,Nevada,Southwest,Dedicated Facility,4:00-00:00,4:00-00:00,4:00-00:00,36.083361,-115.151817
+LAS,Harry Reid International,Las Vegas,Nevada,Spirit,Dedicated Facility,4:00-00:00,4:00-00:00,4:00-00:00,36.083361,-115.151817
+LAS,Harry Reid International,Las Vegas,Nevada,Spirit,Dedicated Facility,4:00-00:00,4:00-00:00,4:00-00:00,36.083361,-115.151817
+LAS,Harry Reid International,Las Vegas,Nevada,Spirit,Dedicated Facility,4:00-00:00,4:00-00:00,4:00-00:00,36.083361,-115.151817
+LAS,Harry Reid International,Las Vegas,Nevada,Spirit,Dedicated Facility,4:00-00:00,4:00-00:00,4:00-00:00,36.083361,-115.151817
+LAS,Harry Reid International Airport,Las Vegas,NV,American,AA Cargo Directory,8:00-17:00,8:00-17:00,,36.083361,-115.151817
+LAS,Harry Reid International Airport,Las Vegas,NV,Delta,Delta Cargo Directory,8:00-17:00,8:00-17:00,,36.083361,-115.151817
+LAS,Harry Reid International Airport,Las Vegas,NV,Southwest,Southwest Cargo,6:00-22:00,6:00-22:00,,36.083361,-115.151817
+LAS,Harry Reid International Airport,Las Vegas,NV,United,United Cargo,8:00-17:00,8:00-17:00,,36.083361,-115.151817
+LAX,Los Angeles International Airport,Los Angeles,CA,American,AA Cargo Directory,6:00-23:00,6:00-23:00,,33.942501,-118.407997
+LAX,Los Angeles International Airport,Los Angeles,CA,Delta,Delta Cargo Directory,6:00-23:00,6:00-23:00,,33.942501,-118.407997
+LAX,Los Angeles International Airport,Los Angeles,CA,Southwest,Southwest Cargo,6:00-22:00,6:00-22:00,,33.942501,-118.407997
+LAX,Los Angeles International Airport,Los Angeles,CA,United,United Cargo,6:00-23:00,6:00-23:00,,33.942501,-118.407997
+LAX,Los Angeles International,Los Angeles,California,American,Dedicated Facility,24/7,24/7,24/7,33.942501,-118.407997
+LAX,Los Angeles International,Los Angeles,California,American,Dedicated Facility,24/7,24/7,24/7,33.942501,-118.407997
+LAX,Los Angeles International,Los Angeles,California,American,Dedicated Facility,24/7,24/7,24/7,33.942501,-118.407997
+LAX,Los Angeles International,Los Angeles,California,American,Dedicated Facility,24/7,24/7,24/7,33.942501,-118.407997
+LAX,Los Angeles International,Los Angeles,California,Delta,Dedicated Facility,24/7,24/7,24/7,33.942501,-118.407997
+LAX,Los Angeles International,Los Angeles,California,Delta,Dedicated Facility,24/7,24/7,24/7,33.942501,-118.407997
+LAX,Los Angeles International,Los Angeles,California,Delta,Dedicated Facility,24/7,24/7,24/7,33.942501,-118.407997
+LAX,Los Angeles International,Los Angeles,California,Delta,Dedicated Facility,24/7,24/7,24/7,33.942501,-118.407997
+LAX,Los Angeles International,Los Angeles,California,United,Dedicated Facility,24/7,24/7,24/7,33.942501,-118.407997
+LAX,Los Angeles International,Los Angeles,California,United,Dedicated Facility,24/7,24/7,24/7,33.942501,-118.407997
+LAX,Los Angeles International,Los Angeles,California,United,Dedicated Facility,24/7,24/7,24/7,33.942501,-118.407997
+LAX,Los Angeles International,Los Angeles,California,United,Dedicated Facility,24/7,24/7,24/7,33.942501,-118.407997
+LBB,Lubbock Preston Smith International,Lubbock,Texas,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,33.663601,-101.822998
+LBB,Lubbock Preston Smith International,Lubbock,Texas,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,33.663601,-101.822998
+LBB,Lubbock Preston Smith International,Lubbock,Texas,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,33.663601,-101.822998
+LBB,Lubbock Preston Smith International,Lubbock,Texas,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,33.663601,-101.822998
+LBB,Lubbock Preston Smith International,Lubbock,Texas,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,33.663601,-101.822998
+LBB,Lubbock Preston Smith International,Lubbock,Texas,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,33.663601,-101.822998
+LBB,Lubbock Preston Smith International Airport,Lubbock,TX,American,AA Cargo Directory,8:00-17:00,8:00-17:00,,33.663601,-101.822998
+LBB,Lubbock Preston Smith International Airport,Lubbock,TX,Delta,Delta Cargo Directory,No Cargo,No Cargo,,33.663601,-101.822998
+LBB,Lubbock Preston Smith International Airport,Lubbock,TX,Southwest,Southwest Cargo,6:00-22:00,6:00-22:00,,33.663601,-101.822998
+LBB,Lubbock Preston Smith International Airport,Lubbock,TX,United,United Cargo,No Cargo,No Cargo,,33.663601,-101.822998
+LBE,Arnold Palmer Regional,Latrobe,Pennsylvania,Spirit,Counter,6:00-22:00,7:00-20:00,8:00-18:00,40.275902,-79.4048
+LBE,Arnold Palmer Regional,Latrobe,Pennsylvania,Spirit,Counter,6:00-22:00,7:00-20:00,8:00-18:00,40.275902,-79.4048
+LBF,North Platte Regional,North Platte,Nebraska,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,41.12620163,-100.6839981
+LBF,North Platte Regional,North Platte,Nebraska,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,41.12620163,-100.6839981
+LCH,Lake Charles Regional,Lake Charles,Louisiana,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,30.126100540161133,-93.22329712
+LCH,Lake Charles Regional,Lake Charles,Louisiana,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,30.126100540161133,-93.22329712
+LEX,Blue Grass,Lexington,Kentucky,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,38.036499,-84.605904
+LEX,Blue Grass,Lexington,Kentucky,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,38.036499,-84.605904
+LFT,Lafayette Regional,Lafayette,Louisiana,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,30.205299,-91.987602
+LFT,Lafayette Regional,Lafayette,Louisiana,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,30.205299,-91.987602
+LGA,LaGuardia,New York,New York,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,40.777199,-73.872597
+LGA,LaGuardia,New York,New York,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,40.777199,-73.872597
+LGB,Long Beach (Daugherty Field),Long Beach,California,Southwest,Counter,5:00-22:00,7:00-20:00,8:00-18:00,33.816523,-118.149891
+LGB,Long Beach (Daugherty Field),Long Beach,California,Southwest,Counter,5:00-22:00,7:00-20:00,8:00-18:00,33.816523,-118.149891
+LIH,Lihue Airport,Lihue,Hawaii,Hawaiian Airlines,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,21.976,-159.339005
+LIH,Lihue Airport,Lihue,Hawaii,Hawaiian Airlines,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,21.976,-159.339005
+LIH,Lihue Airport,Lihue,HI,American,AA Cargo Directory,8:00-17:00,8:00-17:00,,21.976,-159.339005
+LIH,Lihue Airport,Lihue,HI,Delta,Delta Cargo Directory,8:00-17:00,8:00-17:00,,21.976,-159.339005
+LIH,Lihue Airport,Lihue,HI,Southwest,Southwest Cargo,6:00-22:00,6:00-22:00,,21.976,-159.339005
+LIH,Lihue Airport,Lihue,HI,United,United Cargo,No Cargo,No Cargo,,21.976,-159.339005
+LIT,Bill and Hillary Clinton Ntl/Adams Field,Little Rock,Arkansas,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,34.729582,-92.223728
+LIT,Bill and Hillary Clinton National,Little Rock,Arkansas,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,34.729582,-92.223728
+LIT,Bill and Hillary Clinton National,Little Rock,Arkansas,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,34.729582,-92.223728
+LIT,Bill and Hillary Clinton Ntl/Adams Field,Little Rock,Arkansas,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,34.729582,-92.223728
+LIT,Bill and Hillary Clinton National,Little Rock,Arkansas,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,34.729582,-92.223728
+LIT,Bill and Hillary Clinton National,Little Rock,Arkansas,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,34.729582,-92.223728
+LNK,Lincoln Airport,Lincoln,Nebraska,Delta Connection,Counter,5:30-21:00,6:00-18:00,N/A,40.85100173950195,-96.75920105
+LNK,Lincoln Airport,Lincoln,Nebraska,Delta Connection,Counter,5:30-21:00,6:00-18:00,N/A,40.85100173950195,-96.75920105
+LRD,Laredo International,Laredo,Texas,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,27.543800354003906,-99.46160126
+LRD,Laredo International,Laredo,Texas,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,27.543800354003906,-99.46160126
+LSE,La Crosse Regional,La Crosse,Wisconsin,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,43.879002,-91.256699
+LSE,La Crosse Regional,La Crosse,Wisconsin,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,43.879002,-91.256699
+LWS,Lewiston-Nez Perce County,Lewiston,Idaho,Delta Connection,Counter,6:00-20:00,7:00-18:00,N/A,46.37450027,-117.0149994
+LWS,Lewiston-Nez Perce County,Lewiston,Idaho,Delta Connection,Counter,6:00-20:00,7:00-18:00,N/A,46.37450027,-117.0149994
+MAF,Midland International Air and Space Port,Midland,Texas,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,31.942499,-102.202003
+MAF,Midland International Air and Space Port,Midland,Texas,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,31.942499,-102.202003
+MBS,MBS International,Saginaw,Michigan,Delta Connection,Counter,5:30-21:00,6:00-18:00,N/A,43.531913,-84.082275
+MBS,MBS International,Saginaw,Michigan,Delta Connection,Counter,5:30-21:00,6:00-18:00,N/A,43.531913,-84.082275
+MCE,Merced Regional,Merced,California,United Express,Counter,6:00-20:00,7:00-18:00,N/A,37.284698,-120.514
+MCE,Merced Regional,Merced,California,United Express,Counter,6:00-20:00,7:00-18:00,N/A,37.284698,-120.514
+MCG,McGrath Airport,McGrath,Alaska,Alaska Airlines,Counter,6:00-22:00,6:00-20:00,8:00-16:00,62.95289993,-155.6060028
+MCG,McGrath Airport,McGrath,Alaska,Alaska Airlines,Counter,6:00-22:00,6:00-20:00,8:00-16:00,62.95289993,-155.6060028
+MCI,Kansas City International,Kansas City,Missouri,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,39.2976,-94.713898
+MCI,Kansas City International,Kansas City,Missouri,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,39.2976,-94.713898
+MCI,Kansas City International,Kansas City,Missouri,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,39.2976,-94.713898
+MCI,Kansas City International,Kansas City,Missouri,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,39.2976,-94.713898
+MCI,Kansas City International,Kansas City,Missouri,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,39.2976,-94.713898
+MCI,Kansas City International,Kansas City,Missouri,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,39.2976,-94.713898
+MCN,Middle Georgia Regional,Macon,Georgia,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,32.69279861450195,-83.64920044
+MCN,Middle Georgia Regional,Macon,Georgia,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,32.69279861450195,-83.64920044
+MCO,Orlando International Airport,Orlando,FL,American,AA Cargo Directory,8:00-17:00,8:00-17:00,,28.429399490356445,-81.30899811
+MCO,Orlando International Airport,Orlando,FL,Delta,Delta Cargo Directory,8:00-17:00,8:00-17:00,,28.429399490356445,-81.30899811
+MCO,Orlando International Airport,Orlando,FL,Southwest,Southwest Cargo,6:00-22:00,6:00-22:00,,28.429399490356445,-81.30899811
+MCO,Orlando International Airport,Orlando,FL,United,United Cargo,8:00-17:00,8:00-17:00,,28.429399490356445,-81.30899811
+MCO,Orlando International,Orlando,Florida,Southwest,Dedicated Facility,5:00-23:00,7:00-21:00,8:00-20:00,28.429399490356445,-81.30899811
+MCO,Orlando International,Orlando,Florida,Southwest,Dedicated Facility,5:00-23:00,7:00-21:00,8:00-20:00,28.429399490356445,-81.30899811
+MCO,Orlando International,Orlando,Florida,Southwest,Dedicated Facility,5:00-23:00,7:00-21:00,8:00-20:00,28.429399490356445,-81.30899811
+MCO,Orlando International,Orlando,Florida,Southwest,Dedicated Facility,5:00-23:00,7:00-21:00,8:00-20:00,28.429399490356445,-81.30899811
+MCO,Orlando International,Orlando,Florida,Spirit,Dedicated Facility,5:00-23:00,7:00-21:00,8:00-20:00,28.429399490356445,-81.30899811
+MCO,Orlando International,Orlando,Florida,Spirit,Dedicated Facility,5:00-23:00,7:00-21:00,8:00-20:00,28.429399490356445,-81.30899811
+MCO,Orlando International,Orlando,Florida,Spirit,Dedicated Facility,5:00-23:00,7:00-21:00,8:00-20:00,28.429399490356445,-81.30899811
+MCO,Orlando International,Orlando,Florida,Spirit,Dedicated Facility,5:00-23:00,7:00-21:00,8:00-20:00,28.429399490356445,-81.30899811
+MDT,Harrisburg International Airport,Harrisburg,PA,American,AA Cargo Directory,8:00-17:00,8:00-17:00,,40.193501,-76.763397
+MDT,Harrisburg International Airport,Harrisburg,PA,Delta,Delta Cargo Directory,8:00-17:00,8:00-17:00,,40.193501,-76.763397
+MDT,Harrisburg International Airport,Harrisburg,PA,Southwest,Southwest Cargo,No Cargo,No Cargo,,40.193501,-76.763397
+MDT,Harrisburg International Airport,Harrisburg,PA,United,United Cargo,No Cargo,No Cargo,,40.193501,-76.763397
+MDT,Harrisburg International,Harrisburg,Pennsylvania,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,40.193501,-76.763397
+MDT,Harrisburg International,Harrisburg,Pennsylvania,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,40.193501,-76.763397
+MDW,Chicago Midway,Chicago,Illinois,Southwest,Dedicated Facility,4:00-23:00,6:00-20:00,8:00-18:00,41.785999,-87.752403
+MDW,Chicago Midway,Chicago,Illinois,Southwest,Dedicated Facility,4:00-23:00,6:00-20:00,8:00-18:00,41.785999,-87.752403
+MEI,Key Field,Meridian,Mississippi,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,32.3326,-88.7519
+MEI,Key Field,Meridian,Mississippi,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,32.3326,-88.7519
+MEM,Memphis International,Memphis,Tennessee,Delta,Counter,5:00-22:00,7:00-20:00,8:00-18:00,35.0424,-89.9767
+MEM,Memphis International,Memphis,Tennessee,Delta,Counter,5:00-22:00,7:00-20:00,8:00-18:00,35.0424,-89.9767
+MEM,Memphis International Airport,Memphis,TN,American,AA Cargo Directory,8:00-17:00,Closed,,35.0424,-89.9767
+MEM,Memphis International Airport,Memphis,TN,Delta,Delta Cargo Directory,7:00-18:00,7:00-18:00,,35.0424,-89.9767
+MEM,Memphis International Airport,Memphis,TN,Southwest,Southwest Cargo,No Cargo,No Cargo,,35.0424,-89.9767
+MEM,Memphis International Airport,Memphis,TN,United,United Cargo,No Cargo,No Cargo,,35.0424,-89.9767
+MFE,McAllen Miller International Airport,McAllen,Texas,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,26.176141,-98.237965
+MFE,McAllen Miller International,McAllen,Texas,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,26.176141,-98.237965
+MFE,McAllen Miller International,McAllen,Texas,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,26.176141,-98.237965
+MFE,McAllen,Texas,United,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,,26.176141,-98.237965
+MFR,Rogue Valley International,Medford,Oregon,Alaska Airlines,Counter,5:30-21:00,6:00-18:00,N/A,42.37419891357422,-122.8730011
+MFR,Rogue Valley International,Medford,Oregon,Alaska Airlines,Counter,5:30-21:00,6:00-18:00,N/A,42.37419891357422,-122.8730011
+MGM,Montgomery Regional (Dannelly Field),Montgomery,Alabama,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,32.300598,-86.393997
+MGM,Montgomery Regional (Dannelly Field),Montgomery,Alabama,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,32.300598,-86.393997
+MHK,Manhattan Regional,Manhattan,Kansas,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,39.14099884033203,-96.67079926
+MHK,Manhattan Regional,Manhattan,Kansas,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,39.14099884033203,-96.67079926
+MHT,Manchester-Boston Regional,Manchester,New Hampshire,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,42.932598,-71.435699
+MHT,Manchester-Boston Regional,Manchester,New Hampshire,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,42.932598,-71.435699
+MIA,Miami International Airport,Miami,FL,American,AA Cargo Directory,24 hours,24 hours,,25.7932,-80.290604
+MIA,Miami International Airport,Miami,FL,Delta,Delta Cargo Directory,7:00-19:00,7:00-19:00,,25.7932,-80.290604
+MIA,Miami International Airport,Miami,FL,Southwest,Southwest Cargo,No Cargo,No Cargo,,25.7932,-80.290604
+MIA,Miami International Airport,Miami,FL,United,United Cargo,6:00-22:00,6:00-22:00,,25.7932,-80.290604
+MIA,Miami International,Miami,Florida,American,Dedicated Facility,24/7,24/7,24/7,25.7932,-80.290604
+MIA,Miami International,Miami,Florida,American,Dedicated Facility,24/7,24/7,24/7,25.7932,-80.290604
+MIA,Miami International,Miami,Florida,LATAM Cargo,Dedicated Facility,24/7,24/7,24/7,25.7932,-80.290604
+MIA,Miami International,Miami,Florida,LATAM Cargo,Dedicated Facility,24/7,24/7,24/7,25.7932,-80.290604
+MKE,General Mitchell International Airport,Milwaukee,WI,American,AA Cargo Directory,8:00-17:00,8:00-17:00,,42.947201,-87.896599
+MKE,General Mitchell International Airport,Milwaukee,WI,Delta,Delta Cargo Directory,8:00-17:00,8:00-17:00,,42.947201,-87.896599
+MKE,General Mitchell International Airport,Milwaukee,WI,Southwest,Southwest Cargo,6:00-22:00,6:00-22:00,,42.947201,-87.896599
+MKE,General Mitchell International Airport,Milwaukee,WI,United,United Cargo,8:00-17:00,8:00-17:00,,42.947201,-87.896599
+MKE,General Mitchell International,Milwaukee,Wisconsin,Frontier,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,42.947201,-87.896599
+MKE,General Mitchell International,Milwaukee,Wisconsin,Frontier,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,42.947201,-87.896599
+MKE,General Mitchell International,Milwaukee,Wisconsin,Frontier,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,42.947201,-87.896599
+MKE,General Mitchell International,Milwaukee,Wisconsin,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,42.947201,-87.896599
+MKE,General Mitchell International,Milwaukee,Wisconsin,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,42.947201,-87.896599
+MKE,General Mitchell International,Milwaukee,Wisconsin,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,42.947201,-87.896599
+MLB,Melbourne Orlando International,Melbourne,Florida,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,28.1028,-80.645302
+MLB,Melbourne Orlando International,Melbourne,Florida,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,28.1028,-80.645302
+MLI,Quad City International,Moline,Illinois,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,41.448502,-90.5075
+MLI,Quad City International,Moline,Illinois,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,41.448502,-90.5075
+MOB,Mobile Regional,Mobile,Alabama,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,30.6912,-88.242798
+MOB,Mobile Regional,Mobile,Alabama,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,30.6912,-88.242798
+MOT,Minot International,Minot,North Dakota,Delta Connection,Counter,5:30-21:00,6:00-18:00,N/A,48.25939941,-101.2799988
+MOT,Minot International,Minot,North Dakota,Delta Connection,Counter,5:30-21:00,6:00-18:00,N/A,48.25939941,-101.2799988
+MOU,Mountain Village Airport,Mountain Village,Alaska,Frontier Flying Service,Counter,8:00-17:00,8:00-12:00,N/A,,
+MOU,Mountain Village Airport,Mountain Village,Alaska,Frontier Flying Service,Counter,8:00-17:00,8:00-12:00,N/A,,
+MOU,Mountain Village Airport,Mountain Village,Alaska,Ravn Alaska,Counter,8:00-17:00,8:00-12:00,N/A,,
+MOU,Mountain Village Airport,Mountain Village,Alaska,Ravn Alaska,Counter,8:00-17:00,8:00-12:00,N/A,,
+MPV,Edward F Knapp State,Barre/Montpelier,Vermont,Cape Air,Counter,7:00-19:00,7:00-15:00,N/A,,
+MPV,Edward F Knapp State,Barre/Montpelier,Vermont,Cape Air,Counter,7:00-19:00,7:00-15:00,N/A,,
+MQT,Sawyer International,Marquette,Michigan,Delta Connection,Counter,5:30-21:00,6:00-18:00,N/A,46.3536,-87.395401
+MQT,Sawyer International,Marquette,Michigan,Delta Connection,Counter,5:30-21:00,6:00-18:00,N/A,46.3536,-87.395401
+MRY,Monterey Regional,Monterey,California,United Express,Counter,6:00-20:00,7:00-18:00,N/A,36.58700180053711,-121.8430023
+MRY,Monterey Regional,Monterey,California,United Express,Counter,6:00-20:00,7:00-18:00,N/A,36.58700180053711,-121.8430023
+MSL,Northwest Alabama Regional,Muscle Shoals,Alabama,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,34.745123,-87.612981
+MSL,Northwest Alabama Regional,Muscle Shoals,Alabama,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,34.745123,-87.612981
+MSN,Dane County Regional/Truax Field,Madison,Wisconsin,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,43.1399,-89.337502
+MSN,Dane County Regional,Madison,Wisconsin,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,43.1399,-89.337502
+MSN,Dane County Regional,Madison,Wisconsin,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,43.1399,-89.337502
+MSN,Dane County Regional/Truax Field,Madison,Wisconsin,Delta,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,43.1399,-89.337502
+MSN,Dane County Regional,Madison,Wisconsin,Delta,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,43.1399,-89.337502
+MSN,Dane County Regional,Madison,Wisconsin,Delta,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,43.1399,-89.337502
+MSO,Missoula Montana,Missoula,Montana,Delta,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,46.91630173,-114.0910034
+MSO,Missoula Montana,Missoula,Montana,Delta,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,46.91630173,-114.0910034
+MSP,Minneapolis-St Paul International,Minneapolis,Minnesota,Delta,Dedicated Facility,4:00-23:00,6:00-20:00,8:00-18:00,44.880081,-93.221741
+MSP,Minneapolis-St Paul International,Minneapolis,Minnesota,Delta,Dedicated Facility,4:00-23:00,6:00-20:00,8:00-18:00,44.880081,-93.221741
+MSP,Minneapolis-St Paul International,Minneapolis,Minnesota,Sun Country,Dedicated Facility,4:00-23:00,6:00-20:00,8:00-18:00,44.880081,-93.221741
+MSP,Minneapolis-St Paul International,Minneapolis,Minnesota,Sun Country,Dedicated Facility,4:00-23:00,6:00-20:00,8:00-18:00,44.880081,-93.221741
+MSY,Louis Armstrong New Orleans International Airport,New Orleans,LA,American,AA Cargo Directory,8:00-17:00,8:00-17:00,,29.993401,-90.258003
+MSY,Louis Armstrong New Orleans International Airport,New Orleans,LA,Delta,Delta Cargo Directory,8:00-17:00,8:00-17:00,,29.993401,-90.258003
+MSY,Louis Armstrong New Orleans International Airport,New Orleans,LA,Southwest,Southwest Cargo,6:00-22:00,6:00-22:00,,29.993401,-90.258003
+MSY,Louis Armstrong New Orleans International Airport,New Orleans,LA,United,United Cargo,8:00-17:00,8:00-17:00,,29.993401,-90.258003
+MSY,Louis Armstrong New Orleans International,Kenner,Louisiana,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,29.993401,-90.258003
+MSY,Louis Armstrong New Orleans International,Kenner,Louisiana,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,29.993401,-90.258003
+MSY,Louis Armstrong New Orleans International,Kenner,Louisiana,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,29.993401,-90.258003
+MSY,Louis Armstrong New Orleans International,Kenner,Louisiana,Spirit,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,29.993401,-90.258003
+MTJ,Montrose Regional,Montrose,Colorado,American Eagle,Counter,6:00-22:00,7:00-20:00,8:00-18:00,38.5098,-107.893997
+MTJ,Montrose Regional,Montrose,Colorado,American Eagle,Counter,6:00-22:00,7:00-20:00,8:00-18:00,38.5098,-107.893997
+MVY,Martha's Vineyard,Vineyard Haven,Massachusetts,Cape Air,Counter,7:00-19:00,7:00-15:00,N/A,,
+MVY,Martha's Vineyard,Vineyard Haven,Massachusetts,Cape Air,Counter,7:00-19:00,7:00-15:00,N/A,,
+MYR,Myrtle Beach International,Myrtle Beach,South Carolina,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,33.679699,-78.928299
+MYR,Myrtle Beach International,Myrtle Beach,South Carolina,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,33.679699,-78.928299
+OAJ,Albert J Ellis,Jacksonville,North Carolina,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,34.829201,-77.612099
+OAJ,Albert J Ellis,Jacksonville,North Carolina,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,34.829201,-77.612099
+OAK,San Francisco Bay Oakland International Airport,Oakland,CA,American,AA Cargo Directory,8:00-17:00,8:00-17:00,,37.720085,-122.221184
+OAK,San Francisco Bay Oakland International Airport,Oakland,CA,Delta,Delta Cargo Directory,8:00-17:00,8:00-17:00,,37.720085,-122.221184
+OAK,San Francisco Bay Oakland International Airport,Oakland,CA,Southwest,Southwest Cargo,6:00-22:00,6:00-22:00,,37.720085,-122.221184
+OAK,San Francisco Bay Oakland International Airport,Oakland,CA,United,United Cargo,8:00-17:00,8:00-17:00,,37.720085,-122.221184
+OAK,San Francisco Bay Oakland International,Oakland,California,Southwest,Dedicated Facility,24/7,24/7,24/7,37.720085,-122.221184
+OGG,Kahului,Kahului,Hawaii,Hawaiian Airlines,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,20.896263,-156.431837
+OGG,Kahului Airport,Kahului,Hawaii,Hawaiian Airlines,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,20.896263,-156.431837
+OGG,Kahului Airport,Kahului,Hawaii,Hawaiian Airlines,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,20.896263,-156.431837
+OGG,Kahului,Kahului,Hawaii,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,20.896263,-156.431837
+OGG,Kahului International Airport,Kahului,HI,American,AA Cargo Directory,8:00-17:00,8:00-17:00,,20.896263,-156.431837
+OGG,Kahului International Airport,Kahului,HI,Delta,Delta Cargo Directory,8:00-17:00,8:00-17:00,,20.896263,-156.431837
+OGG,Kahului International Airport,Kahului,HI,Southwest,Southwest Cargo,6:00-22:00,6:00-22:00,,20.896263,-156.431837
+OGG,Kahului International Airport,Kahului,HI,United,United Cargo,No Cargo,No Cargo,,20.896263,-156.431837
+OKC,Will Rogers World Airport,Oklahoma City,OK,American,AA Cargo Directory,8:00-17:00,8:00-17:00,,35.393388,-97.598248
+OKC,Will Rogers World Airport,Oklahoma City,OK,Delta,Delta Cargo Directory,8:00-17:00,8:00-17:00,,35.393388,-97.598248
+OKC,Will Rogers World Airport,Oklahoma City,OK,Southwest,Southwest Cargo,6:00-22:00,6:00-22:00,,35.393388,-97.598248
+OKC,Will Rogers World Airport,Oklahoma City,OK,United,United Cargo,8:00-17:00,8:00-17:00,,35.393388,-97.598248
+OKC,Will Rogers World,Oklahoma City,Oklahoma,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,35.393388,-97.598248
+OKC,Will Rogers World,Oklahoma City,Oklahoma,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,35.393388,-97.598248
+OMA,Eppley Airfield,Omaha,NE,American,AA Cargo Directory,8:00-17:00,8:00-17:00,,41.3032,-95.894096
+OMA,Eppley Airfield,Omaha,NE,Delta,Delta Cargo Directory,8:00-17:00,8:00-17:00,,41.3032,-95.894096
+OMA,Eppley Airfield,Omaha,NE,Southwest,Southwest Cargo,6:00-22:00,6:00-22:00,,41.3032,-95.894096
+OMA,Eppley Airfield,Omaha,NE,United,United Cargo,8:00-17:00,8:00-17:00,,41.3032,-95.894096
+OMA,Eppley Airfield,Omaha,Nebraska,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,41.3032,-95.894096
+OMA,Eppley Airfield,Omaha,Nebraska,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,41.3032,-95.894096
+OMA,Eppley Airfield,Omaha,Nebraska,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,41.3032,-95.894096
+OMA,Eppley Airfield,Omaha,Nebraska,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,41.3032,-95.894096
+OME,Nome Airport,Nome,Alaska,Alaska Airlines,Counter,6:00-22:00,6:00-20:00,8:00-16:00,64.51219940185547,-165.4450073
+OME,Nome Airport,Nome,Alaska,Alaska Airlines,Counter,6:00-22:00,6:00-20:00,8:00-16:00,64.51219940185547,-165.4450073
+ONT,Ontario International Airport,Ontario,CA,American,AA Cargo Directory,7:00-19:00,7:00-19:00,,34.056,-117.600998
+ONT,Ontario International Airport,Ontario,CA,Delta,Delta Cargo Directory,7:00-19:00,7:00-19:00,,34.056,-117.600998
+ONT,Ontario International Airport,Ontario,CA,Southwest,Southwest Cargo,6:00-22:00,6:00-22:00,,34.056,-117.600998
+ONT,Ontario International Airport,Ontario,CA,United,United Cargo,7:00-19:00,7:00-19:00,,34.056,-117.600998
+ORD,Chicago O'Hare International Airport,Chicago,IL,American,AA Cargo Directory,6:00-23:00,6:00-23:00,,41.9786,-87.9048
+ORD,Chicago O'Hare International Airport,Chicago,IL,Delta,Delta Cargo Directory,7:00-19:00,7:00-19:00,,41.9786,-87.9048
+ORD,Chicago O'Hare International Airport,Chicago,IL,Southwest,Southwest Cargo,6:00-22:00,6:00-22:00,,41.9786,-87.9048
+ORD,Chicago O'Hare International Airport,Chicago,IL,United,United Cargo,6:00-23:00,6:00-23:00,,41.9786,-87.9048
+ORD,Chicago O'Hare International,Chicago,Illinois,American,Dedicated Facility,24/7,24/7,24/7,41.9786,-87.9048
+ORD,Chicago O'Hare International,Chicago,Illinois,American,Dedicated Facility,24/7,24/7,24/7,41.9786,-87.9048
+ORD,Chicago O'Hare International,Chicago,Illinois,American,Dedicated Facility,24/7,24/7,24/7,41.9786,-87.9048
+ORD,Chicago O'Hare International,Chicago,Illinois,American,Dedicated Facility,24/7,24/7,24/7,41.9786,-87.9048
+ORD,Chicago O'Hare International,Chicago,Illinois,Atlas Air,Dedicated Facility,24/7,24/7,24/7,41.9786,-87.9048
+ORD,Chicago O'Hare International,Chicago,Illinois,Atlas Air,Dedicated Facility,24/7,24/7,24/7,41.9786,-87.9048
+ORD,Chicago O'Hare International,Chicago,Illinois,Atlas Air,Dedicated Facility,24/7,24/7,24/7,41.9786,-87.9048
+ORD,Chicago O'Hare International,Chicago,Illinois,Atlas Air,Dedicated Facility,24/7,24/7,24/7,41.9786,-87.9048
+ORD,Chicago O'Hare International,Chicago,Illinois,United,Dedicated Facility,24/7,24/7,24/7,41.9786,-87.9048
+ORD,Chicago O'Hare International,Chicago,Illinois,United,Dedicated Facility,24/7,24/7,24/7,41.9786,-87.9048
+ORD,Chicago O'Hare International,Chicago,Illinois,United,Dedicated Facility,24/7,24/7,24/7,41.9786,-87.9048
+ORD,Chicago O'Hare International,Chicago,Illinois,United,Dedicated Facility,24/7,24/7,24/7,41.9786,-87.9048
+ORF,Norfolk International Airport,Norfolk,VA,American,AA Cargo Directory,8:00-17:00,8:00-17:00,,36.895341,-76.201
+ORF,Norfolk International Airport,Norfolk,VA,Delta,Delta Cargo Directory,8:00-17:00,8:00-17:00,,36.895341,-76.201
+ORF,Norfolk International Airport,Norfolk,VA,Southwest,Southwest Cargo,6:00-22:00,6:00-22:00,,36.895341,-76.201
+ORF,Norfolk International Airport,Norfolk,VA,United,United Cargo,No Cargo,No Cargo,,36.895341,-76.201
+ORF,Norfolk International,Norfolk,Virginia,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,36.895341,-76.201
+ORF,Norfolk International,Norfolk,Virginia,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,36.895341,-76.201
+ORF,Norfolk International,Norfolk,Virginia,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,36.895341,-76.201
+ORF,Norfolk International,Norfolk,Virginia,Breeze Airways,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,36.895341,-76.201
+ORH,Worcester Regional,Worcester,Massachusetts,Cape Air,Counter,7:00-19:00,7:00-15:00,N/A,42.2673,-71.875702
+ORH,Worcester Regional,Worcester,Massachusetts,Cape Air,Counter,7:00-19:00,7:00-15:00,N/A,42.2673,-71.875702
+OTH,Southwest Oregon Regional,North Bend,Oregon,United Express,Counter,7:00-19:00,7:00-15:00,N/A,43.41709899902344,-124.2460022
+OTH,Southwest Oregon Regional,North Bend,Oregon,United Express,Counter,7:00-19:00,7:00-15:00,N/A,43.41709899902344,-124.2460022
+OTH,North Bend,Oregon,United Express (SkyWest),Counter,7:00-19:00,7:00-15:00,N/A,,43.41709899902344,-124.2460022
+OTZ,Ralph Wien Memorial,Kotzebue,Alaska,Alaska Airlines,Counter,6:00-22:00,6:00-20:00,8:00-16:00,66.88469696,-162.598999
+OTZ,Ralph Wien Memorial,Kotzebue,Alaska,Alaska Airlines,Counter,6:00-22:00,6:00-20:00,8:00-16:00,66.88469696,-162.598999
+PAE,Seattle Paine Field International,Everett,Washington,Alaska Airlines,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,47.9063,-122.281998
+PAE,Seattle Paine Field International,Everett,Washington,Alaska Airlines,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,47.9063,-122.281998
+PAE,Seattle Paine Field International,Everett,Washington,Alaska Airlines,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,47.9063,-122.281998
+PAE,Seattle Paine Field International,Everett,Washington,United,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,47.9063,-122.281998
+PAE,Seattle Paine Field International,Everett,Washington,United,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,47.9063,-122.281998
+PAE,Seattle Paine Field International,Everett,Washington,United,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,47.9063,-122.281998
+PBG,Plattsburgh International,Plattsburgh,New York,United Express,Counter,6:00-20:00,7:00-18:00,N/A,44.650901794433594,-73.4681015
+PBG,Plattsburgh International,Plattsburgh,New York,United Express,Counter,6:00-20:00,7:00-18:00,N/A,44.650901794433594,-73.4681015
+PBI,Palm Beach International Airport,West Palm Beach,FL,American,AA Cargo Directory,8:00-17:00,8:00-17:00,,26.683201,-80.095596
+PBI,Palm Beach International Airport,West Palm Beach,FL,Delta,Delta Cargo Directory,8:00-17:00,8:00-17:00,,26.683201,-80.095596
+PBI,Palm Beach International Airport,West Palm Beach,FL,Southwest,Southwest Cargo,6:00-22:00,6:00-22:00,,26.683201,-80.095596
+PBI,Palm Beach International Airport,West Palm Beach,FL,United,United Cargo,No Cargo,No Cargo,,26.683201,-80.095596
+PBI,Palm Beach International,West Palm Beach,Florida,JetBlue,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,26.683201,-80.095596
+PBI,Palm Beach International,West Palm Beach,Florida,Spirit,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,26.683201,-80.095596
+PDX,Portland International Airport,Portland,OR,American,AA Cargo Directory,8:00-17:00,8:00-17:00,,45.588699,-122.598
+PDX,Portland International Airport,Portland,OR,Delta,Delta Cargo Directory,8:00-17:00,8:00-17:00,,45.588699,-122.598
+PDX,Portland International Airport,Portland,OR,Southwest,Southwest Cargo,6:00-22:00,6:00-22:00,,45.588699,-122.598
+PDX,Portland International Airport,Portland,OR,United,United Cargo,8:00-17:00,8:00-17:00,,45.588699,-122.598
+PDX,Portland International,Portland,Oregon,Alaska Airlines,Dedicated Facility,24/7,24/7,24/7,45.588699,-122.598
+PDX,Portland International,Portland,Oregon,Alaska Airlines,Dedicated Facility,24/7,24/7,24/7,45.588699,-122.598
+PDX,Portland International,Portland,Oregon,Alaska Airlines,Dedicated Facility,24/7,24/7,24/7,45.588699,-122.598
+PHF,Newport News/Williamsburg International,Newport News,Virginia,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,37.131901,-76.492996
+PHF,Newport News/Williamsburg International,Newport News,Virginia,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,37.131901,-76.492996
+PHL,Philadelphia International Airport,Philadelphia,PA,American,AA Cargo Directory,7:00-19:00,7:00-19:00,,39.871899,-75.241096
+PHL,Philadelphia International Airport,Philadelphia,PA,Delta,Delta Cargo Directory,7:00-19:00,7:00-19:00,,39.871899,-75.241096
+PHL,Philadelphia International Airport,Philadelphia,PA,Southwest,Southwest Cargo,6:00-22:00,6:00-22:00,,39.871899,-75.241096
+PHL,Philadelphia International Airport,Philadelphia,PA,United,United Cargo,7:00-19:00,7:00-19:00,,39.871899,-75.241096
+PHL,Philadelphia International,Philadelphia,Pennsylvania,American,Dedicated Facility,24/7,24/7,24/7,39.871899,-75.241096
+PHL,Philadelphia International,Philadelphia,Pennsylvania,American,Dedicated Facility,24/7,24/7,24/7,39.871899,-75.241096
+PHX,Phoenix Sky Harbor International,Phoenix,Arizona,American,Dedicated Facility,4:00-23:00,6:00-20:00,8:00-18:00,33.435302,-112.005905
+PHX,Phoenix Sky Harbor International,Phoenix,Arizona,American,Dedicated Facility,4:00-23:00,6:00-20:00,8:00-18:00,33.435302,-112.005905
+PHX,Phoenix Sky Harbor International Airport,Phoenix,AZ,American,AA Cargo Directory,7:00-19:00,7:00-19:00,,33.435302,-112.005905
+PHX,Phoenix Sky Harbor International Airport,Phoenix,AZ,Delta,Delta Cargo Directory,7:00-19:00,7:00-19:00,,33.435302,-112.005905
+PHX,Phoenix Sky Harbor International Airport,Phoenix,AZ,Southwest,Southwest Cargo,6:00-22:00,6:00-22:00,,33.435302,-112.005905
+PHX,Phoenix Sky Harbor International Airport,Phoenix,AZ,United,United Cargo,7:00-19:00,7:00-19:00,,33.435302,-112.005905
+PIA,General Downing - Peoria International,Peoria,Illinois,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,40.6642,-89.693298
+PIA,General Downing - Peoria International,Peoria,Illinois,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,40.6642,-89.693298
+PIB,Hattiesburg-Laurel Regional,Moselle,Mississippi,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,31.4671,-89.337097
+PIB,Hattiesburg-Laurel Regional,Moselle,Mississippi,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,31.4671,-89.337097
+PIE,St Pete-Clearwater International,Clearwater,Florida,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,27.9102,-82.687401
+PIE,St Pete-Clearwater International,Clearwater,Florida,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,27.9102,-82.687401
+PIH,Pocatello Regional,Pocatello,Idaho,Delta Connection,Counter,6:00-20:00,7:00-18:00,N/A,42.90980148,-112.5960007
+PIH,Pocatello Regional,Pocatello,Idaho,Delta Connection,Counter,6:00-20:00,7:00-18:00,N/A,42.90980148,-112.5960007
+PIT,Pittsburgh International,Pittsburgh,Pennsylvania,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,40.491501,-80.232903
+PIT,Pittsburgh International,Pittsburgh,Pennsylvania,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,40.491501,-80.232903
+PIT,Pittsburgh International,Pittsburgh,Pennsylvania,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,40.491501,-80.232903
+PIT,Pittsburgh International,Pittsburgh,Pennsylvania,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,40.491501,-80.232903
+PIT,Pittsburgh International,Pittsburgh,Pennsylvania,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,40.491501,-80.232903
+PIT,Pittsburgh International,Pittsburgh,Pennsylvania,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,40.491501,-80.232903
+PLN,Pellston Regional,Pellston,Michigan,Delta Connection,Counter,6:00-20:00,7:00-18:00,N/A,45.57089996,-84.79669952
+PLN,Pellston Regional,Pellston,Michigan,Delta Connection,Counter,6:00-20:00,7:00-18:00,N/A,45.57089996,-84.79669952
+PLN,Pellston Regional/Emmet County,Pellston,Michigan,Delta Connection (SkyWest),Counter,6:00-20:00,6:00-18:00,6:00-16:00,45.57089996,-84.79669952
+PNS,Pensacola International,Pensacola,Florida,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,30.4734,-87.1866
+PNS,Pensacola International,Pensacola,Florida,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,30.4734,-87.1866
+PNS,Pensacola International,Pensacola,Florida,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,30.4734,-87.1866
+PNS,Pensacola International,Pensacola,Florida,Silver Airways,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,30.4734,-87.1866
+PNS,Pensacola International,Pensacola,Florida,Silver Airways,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,30.4734,-87.1866
+PNS,Pensacola International,Pensacola,Florida,Silver Airways,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,30.4734,-87.1866
+PSC,Tri-Cities,Pasco,Washington,Alaska Airlines,Counter,5:30-21:00,6:00-18:00,N/A,46.264702,-119.119003
+PSC,Tri-Cities,Pasco,Washington,Alaska Airlines,Counter,5:30-21:00,6:00-18:00,N/A,46.264702,-119.119003
+PSG,Petersburg James A Johnson,Petersburg,Alaska,Alaska Airlines,Counter,6:00-22:00,6:00-20:00,8:00-16:00,56.80170059,-132.9450073
+PSG,Petersburg James A Johnson,Petersburg,Alaska,Alaska Airlines,Counter,6:00-22:00,6:00-20:00,8:00-16:00,56.80170059,-132.9450073
+PSP,Palm Springs International,Palm Springs,California,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,33.8297,-116.507004
+PSP,Palm Springs International,Palm Springs,California,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,33.8297,-116.507004
+PUB,Pueblo Memorial,Pueblo,Colorado,United Express,Counter,6:00-20:00,7:00-18:00,N/A,38.289101,-104.497002
+PUB,Pueblo Memorial,Pueblo,Colorado,United Express,Counter,6:00-20:00,7:00-18:00,N/A,38.289101,-104.497002
+PUW,Pullman/Moscow Regional,Pullman,Washington,Alaska Airlines,Counter,5:30-21:00,6:00-18:00,N/A,46.741601,-117.11163
+PUW,Pullman/Moscow Regional,Pullman,Washington,Alaska Airlines,Counter,5:30-21:00,6:00-18:00,N/A,46.741601,-117.11163
+PVD,Rhode Island T F Green International,Warwick,Rhode Island,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,41.725038,-71.425668
+PVD,Rhode Island T F Green International,Warwick,Rhode Island,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,41.725038,-71.425668
+PVU,Provo Municipal,Provo,Utah,Allegiant,Counter,6:00-22:00,7:00-20:00,8:00-18:00,40.2192,-111.723
+PVU,Provo Municipal,Provo,Utah,Allegiant,Counter,6:00-22:00,7:00-20:00,8:00-18:00,40.2192,-111.723
+PWM,Portland International Jetport,Portland,Maine,JetBlue,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,43.646198,-70.309303
+PWM,Portland International Jetport,Portland,Maine,JetBlue,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,43.646198,-70.309303
+RAP,Rapid City Regional,Rapid City,South Dakota,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,44.04529953,-103.0569992
+RAP,Rapid City Regional,Rapid City,South Dakota,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,44.04529953,-103.0569992
+RAP,Rapid City Regional,Rapid City,South Dakota,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,44.04529953,-103.0569992
+RAP,Rapid City Regional,Rapid City,South Dakota,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,44.04529953,-103.0569992
+RDD,Redding Municipal,Redding,California,United Express,Counter,6:00-20:00,7:00-18:00,N/A,40.50899887,-122.2929993
+RDD,Redding Municipal,Redding,California,United Express,Counter,6:00-20:00,7:00-18:00,N/A,40.50899887,-122.2929993
+RDM,Roberts Field,Redmond,Oregon,Alaska Airlines,Counter,5:30-21:00,6:00-18:00,N/A,44.254101,-121.150002
+RDM,Roberts Field,Redmond,Oregon,Alaska Airlines,Counter,5:30-21:00,6:00-18:00,N/A,44.254101,-121.150002
+RDU,Raleigh-Durham International,Raleigh,North Carolina,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,35.877602,-78.787498
+RDU,Raleigh-Durham International,Raleigh,North Carolina,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,35.877602,-78.787498
+RDU,Raleigh-Durham International,Raleigh,North Carolina,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,35.877602,-78.787498
+RDU,Raleigh-Durham International,Raleigh,North Carolina,Delta,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,35.877602,-78.787498
+RFD,Chicago Rockford International Airport,Rockford,IL,American,AA Cargo Directory,No Cargo,No Cargo,,42.1954,-89.097198
+RFD,Chicago Rockford International Airport,Rockford,IL,Delta,Delta Cargo Directory,No Cargo,No Cargo,,42.1954,-89.097198
+RFD,Chicago Rockford International Airport,Rockford,IL,Southwest,Southwest Cargo,No Cargo,No Cargo,,42.1954,-89.097198
+RFD,Chicago Rockford International Airport,Rockford,IL,United,United Cargo,No Cargo,No Cargo,,42.1954,-89.097198
+RHI,Rhinelander-Oneida County,Rhinelander,Wisconsin,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,45.63119888305664,-89.46749878
+RHI,Rhinelander-Oneida County,Rhinelander,Wisconsin,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,45.63119888305664,-89.46749878
+RIC,Richmond International,Highland Springs,Virginia,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,37.505199,-77.319702
+RIC,Richmond International,Highland Springs,Virginia,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,37.505199,-77.319702
+RIC,Richmond International,Highland Springs,Virginia,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,37.505199,-77.319702
+RIC,Richmond International,Highland Springs,Virginia,Delta,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,37.505199,-77.319702
+RIC,Richmond International,Highland Springs,Virginia,Delta,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,37.505199,-77.319702
+RIC,Richmond International,Highland Springs,Virginia,Delta,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,37.505199,-77.319702
+RKS,Rock Springs-Sweetwater County,Rock Springs,Wyoming,Delta Connection,Counter,6:00-20:00,7:00-18:00,N/A,41.5942,-109.065001
+RKS,Rock Springs-Sweetwater County,Rock Springs,Wyoming,Delta Connection,Counter,6:00-20:00,7:00-18:00,N/A,41.5942,-109.065001
+RNO,Reno/Tahoe International,Reno,Nevada,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,39.4991,-119.767998
+RNO,Reno/Tahoe International,Reno,Nevada,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,39.4991,-119.767998
+RNO,Reno/Tahoe International,Reno,Nevada,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,39.4991,-119.767998
+RNO,Reno/Tahoe International,Reno,Nevada,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,39.4991,-119.767998
+ROA,Roanoke/Blacksburg Regional (Woodrum Field),Roanoke,Virginia,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,37.3255,-79.975403
+ROA,Roanoke/Blacksburg Regional (Woodrum Field),Roanoke,Virginia,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,37.3255,-79.975403
+ROA,Roanoke-Blacksburg Regional,Roanoke,Virginia,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,37.3255,-79.975403
+ROA,Roanoke-Blacksburg Regional,Roanoke,Virginia,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,37.3255,-79.975403
+ROC,Frederick Douglass/Greater Rochester International,Rochester,New York,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,43.1189,-77.672401
+ROC,Frederick Douglass/Greater Rochester International,Rochester,New York,JetBlue,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,43.1189,-77.672401
+ROC,Greater Rochester International,Rochester,New York,JetBlue,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,43.1189,-77.672401
+ROC,Greater Rochester International,Rochester,New York,JetBlue,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,43.1189,-77.672401
+ROC,Frederick Douglass Greater Rochester International Airport,Rochester,NY,American,AA Cargo Directory,8:00-17:00,8:00-17:00,,43.1189,-77.672401
+ROC,Frederick Douglass Greater Rochester International Airport,Rochester,NY,Delta,Delta Cargo Directory,8:00-17:00,8:00-17:00,,43.1189,-77.672401
+ROC,Frederick Douglass Greater Rochester International Airport,Rochester,NY,Southwest,Southwest Cargo,No Cargo,No Cargo,,43.1189,-77.672401
+ROC,Frederick Douglass Greater Rochester International Airport,Rochester,NY,United,United Cargo,No Cargo,No Cargo,,43.1189,-77.672401
+ROW,Roswell International Air Center,Roswell,New Mexico,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,33.301601,-104.530998
+ROW,Roswell International Air Center,Roswell,New Mexico,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,33.301601,-104.530998
+RST,Rochester International,Rochester,Minnesota,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,43.908298,-92.5
+RST,Rochester International,Rochester,Minnesota,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,43.908298,-92.5
+RST,Rochester International,Rochester,Minnesota,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,43.908298,-92.5
+RST,Rochester International,Rochester,Minnesota,Delta,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,43.908298,-92.5
+RSW,Southwest Florida International Airport,Fort Myers,FL,American,AA Cargo Directory,8:00-17:00,8:00-17:00,,26.53619956970215,-81.75520325
+RSW,Southwest Florida International Airport,Fort Myers,FL,Delta,Delta Cargo Directory,8:00-17:00,8:00-17:00,,26.53619956970215,-81.75520325
+RSW,Southwest Florida International Airport,Fort Myers,FL,Southwest,Southwest Cargo,6:00-22:00,6:00-22:00,,26.53619956970215,-81.75520325
+RSW,Southwest Florida International Airport,Fort Myers,FL,United,United Cargo,No Cargo,No Cargo,,26.53619956970215,-81.75520325
+RSW,Southwest Florida International,Fort Myers,Florida,Delta,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,26.53619956970215,-81.75520325
+RSW,Southwest Florida International,Fort Myers,Florida,Delta,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,26.53619956970215,-81.75520325
+RSW,Southwest Florida International,Fort Myers,Florida,Delta,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,26.53619956970215,-81.75520325
+RSW,Southwest Florida International,Fort Myers,Florida,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,26.53619956970215,-81.75520325
+RUT,Rutland State,Rutland,Vermont,Cape Air,Counter,7:00-19:00,7:00-15:00,N/A,43.5294,-72.9496
+RUT,Rutland State,Rutland,Vermont,Cape Air,Counter,7:00-19:00,7:00-15:00,N/A,43.5294,-72.9496
+SAF,Santa Fe Municipal,Santa Fe,New Mexico,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,35.6171,-106.088997
+SAF,Santa Fe Municipal,Santa Fe,New Mexico,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,35.6171,-106.088997
+SAN,San Diego International Airport,San Diego,CA,American,AA Cargo Directory,8:00-17:00,8:00-17:00,,32.73360062,-117.1900024
+SAN,San Diego International Airport,San Diego,CA,Delta,Delta Cargo Directory,8:00-17:00,8:00-17:00,,32.73360062,-117.1900024
+SAN,San Diego International Airport,San Diego,CA,Southwest,Southwest Cargo,6:00-22:00,6:00-22:00,,32.73360062,-117.1900024
+SAN,San Diego International Airport,San Diego,CA,United,United Cargo,8:00-17:00,8:00-17:00,,32.73360062,-117.1900024
+SAN,San Diego International,San Diego,California,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,32.73360062,-117.1900024
+SAN,San Diego International,San Diego,California,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,32.73360062,-117.1900024
+SAT,San Antonio International,San Antonio,Texas,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,29.533701,-98.469803
+SAT,San Antonio International,San Antonio,Texas,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,29.533701,-98.469803
+SAT,San Antonio International,San Antonio,Texas,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,29.533701,-98.469803
+SAT,San Antonio International,San Antonio,Texas,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,29.533701,-98.469803
+SAV,Savannah/Hilton Head International,Savannah,Georgia,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,32.127602,-81.202103
+SAV,Savannah/Hilton Head International,Savannah,Georgia,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,32.127602,-81.202103
+SBA,Santa Barbara Municipal,Santa Barbara,California,American Eagle,Counter,6:00-22:00,7:00-20:00,8:00-18:00,34.426201,-119.839996
+SBA,Santa Barbara Municipal,Santa Barbara,California,American Eagle,Counter,6:00-22:00,7:00-20:00,8:00-18:00,34.426201,-119.839996
+SBD,San Bernardino International Airport,San Bernardino,CA,American,AA Cargo Directory,No Cargo,No Cargo,,34.095402,-117.235001
+SBD,San Bernardino International Airport,San Bernardino,CA,Delta,Delta Cargo Directory,No Cargo,No Cargo,,34.095402,-117.235001
+SBD,San Bernardino International Airport,San Bernardino,CA,Southwest,Southwest Cargo,No Cargo,No Cargo,,34.095402,-117.235001
+SBD,San Bernardino International Airport,San Bernardino,CA,United,United Cargo,No Cargo,No Cargo,,34.095402,-117.235001
+SBN,South Bend International,South Bend,Indiana,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,41.708698,-86.317299
+SBN,South Bend International,South Bend,Indiana,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,41.708698,-86.317299
+SBN,South Bend International,South Bend,Indiana,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,41.708698,-86.317299
+SBN,South Bend International,South Bend,Indiana,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,41.708698,-86.317299
+SBP,San Luis Obispo County Regional,San Luis Obispo,California,United Express,Counter,6:00-20:00,7:00-18:00,N/A,35.236801147499996,-120.6419983
+SBP,San Luis Obispo County Regional,San Luis Obispo,California,United Express,Counter,6:00-20:00,7:00-18:00,N/A,35.236801147499996,-120.6419983
+SCC,Deadhorse Airport,Deadhorse,Alaska,Alaska Airlines,Counter,6:00-22:00,6:00-20:00,8:00-16:00,70.19470215,-148.4649963
+SCC,Deadhorse Airport,Deadhorse,Alaska,Alaska Airlines,Counter,6:00-22:00,6:00-20:00,8:00-16:00,70.19470215,-148.4649963
+SCK,Stockton Metropolitan Airport,Stockton,CA,American,AA Cargo Directory,No Cargo,No Cargo,,37.893279,-121.238079
+SCK,Stockton Metropolitan Airport,Stockton,CA,Delta,Delta Cargo Directory,No Cargo,No Cargo,,37.893279,-121.238079
+SCK,Stockton Metropolitan Airport,Stockton,CA,Southwest,Southwest Cargo,No Cargo,No Cargo,,37.893279,-121.238079
+SCK,Stockton Metropolitan Airport,Stockton,CA,United,United Cargo,No Cargo,No Cargo,,37.893279,-121.238079
+SCK,Stockton Metro,Stockton,California,Allegiant Air,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,37.893279,-121.238079
+SCK,Stockton Metropolitan,Stockton,California,Allegiant Air,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,37.893279,-121.238079
+SCK,Stockton Metropolitan,Stockton,California,Allegiant Air,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,37.893279,-121.238079
+SDF,Louisville Muhammad Ali International,Louisville,Kentucky,American,Counter,5:00-22:00,7:00-20:00,8:00-18:00,38.1744,-85.736
+SDF,Louisville Muhammad Ali International,Louisville,Kentucky,American,Counter,5:00-22:00,7:00-20:00,8:00-18:00,38.1744,-85.736
+SDF,Louisville Muhammad Ali International Airport,Louisville,KY,American,AA Cargo Directory,7:00-18:00,7:00-18:00,,38.1744,-85.736
+SDF,Louisville Muhammad Ali International Airport,Louisville,KY,Delta,Delta Cargo Directory,7:00-18:00,7:00-18:00,,38.1744,-85.736
+SDF,Louisville Muhammad Ali International Airport,Louisville,KY,Southwest,Southwest Cargo,No Cargo,No Cargo,,38.1744,-85.736
+SDF,Louisville Muhammad Ali International Airport,Louisville,KY,United,United Cargo,No Cargo,No Cargo,,38.1744,-85.736
+SEA,Seattleâ€“Tacoma International Airport,Seattle,WA,American,AA Cargo Directory,7:00-19:00,7:00-19:00,,47.447943,-122.310276
+SEA,Seattleâ€“Tacoma International Airport,Seattle,WA,Delta,Delta Cargo Directory,7:00-19:00,7:00-19:00,,47.447943,-122.310276
+SEA,Seattleâ€“Tacoma International Airport,Seattle,WA,Southwest,Southwest Cargo,6:00-22:00,6:00-22:00,,47.447943,-122.310276
+SEA,Seattleâ€“Tacoma International Airport,Seattle,WA,United,United Cargo,7:00-19:00,7:00-19:00,,47.447943,-122.310276
+SEA,Seattle-Tacoma International,Seattle,Washington,Alaska,Dedicated Facility,24/7,24/7,24/7,47.447943,-122.310276
+SEA,Seattle-Tacoma International,Seattle,Washington,Alaska,Dedicated Facility,24/7,24/7,24/7,47.447943,-122.310276
+SEA,Seattle-Tacoma International,Seattle,Washington,Amazon Air,Dedicated Facility,24/7,24/7,24/7,47.447943,-122.310276
+SEA,Seattle-Tacoma International,Seattle,Washington,Amazon Air,Dedicated Facility,24/7,24/7,24/7,47.447943,-122.310276
+SEA,Seattle-Tacoma International,Seattle,Washington,Delta,Dedicated Facility,24/7,24/7,24/7,47.447943,-122.310276
+SEA,Seattle-Tacoma International,Seattle,Washington,Delta,Dedicated Facility,24/7,24/7,24/7,47.447943,-122.310276
+SFO,San Francisco International Airport,San Francisco,CA,American,AA Cargo Directory,7:00-19:00,7:00-19:00,,37.619806,-122.374821
+SFO,San Francisco International Airport,San Francisco,CA,Delta,Delta Cargo Directory,7:00-19:00,7:00-19:00,,37.619806,-122.374821
+SFO,San Francisco International Airport,San Francisco,CA,Southwest,Southwest Cargo,6:00-22:00,6:00-22:00,,37.619806,-122.374821
+SFO,San Francisco International Airport,San Francisco,CA,United,United Cargo,7:00-19:00,7:00-19:00,,37.619806,-122.374821
+SFO,San Francisco International,San Francisco,California,United,Dedicated Facility,24/7,24/7,24/7,37.619806,-122.374821
+SFO,San Francisco International,San Francisco,California,United,Dedicated Facility,24/7,24/7,24/7,37.619806,-122.374821
+SGF,Springfield-Branson National,Springfield,Missouri,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,37.245701,-93.388603
+SGF,Springfield-Branson National,Springfield,Missouri,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,37.245701,-93.388603
+SGU,St George Regional,St George,Utah,American Eagle,Counter,6:00-22:00,7:00-20:00,8:00-18:00,37.036389,-113.510306
+SGU,St George Regional,St George,Utah,American Eagle,Counter,6:00-22:00,7:00-20:00,8:00-18:00,37.036389,-113.510306
+SHV,Shreveport Regional Airport,Shreveport,LA,American,AA Cargo Directory,8:00-17:00,8:00-17:00,,32.446602,-93.8256
+SHV,Shreveport Regional Airport,Shreveport,LA,Delta,Delta Cargo Directory,8:00-17:00,8:00-17:00,,32.446602,-93.8256
+SHV,Shreveport Regional Airport,Shreveport,LA,Southwest,Southwest Cargo,No Cargo,No Cargo,,32.446602,-93.8256
+SHV,Shreveport Regional Airport,Shreveport,LA,United,United Cargo,No Cargo,No Cargo,,32.446602,-93.8256
+SHV,Shreveport Regional,Shreveport,Louisiana,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,32.446602,-93.8256
+SHV,Shreveport Regional,Shreveport,Louisiana,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,32.446602,-93.8256
+SIT,Sitka Rocky Gutierrez,Sitka,Alaska,Alaska Airlines,Counter,6:00-22:00,6:00-20:00,8:00-16:00,57.04710006713867,-135.3619995
+SIT,Sitka Rocky Gutierrez,Sitka,Alaska,Alaska Airlines,Counter,6:00-22:00,6:00-20:00,8:00-16:00,57.04710006713867,-135.3619995
+SJC,Norman Y. Mineta San Jose International Airport,San Jose,CA,American,AA Cargo Directory,8:00-17:00,8:00-17:00,,37.362452,-121.929188
+SJC,Norman Y. Mineta San Jose International Airport,San Jose,CA,Delta,Delta Cargo Directory,8:00-17:00,8:00-17:00,,37.362452,-121.929188
+SJC,Norman Y. Mineta San Jose International Airport,San Jose,CA,Southwest,Southwest Cargo,6:00-22:00,6:00-22:00,,37.362452,-121.929188
+SJC,Norman Y. Mineta San Jose International Airport,San Jose,CA,United,United Cargo,8:00-17:00,8:00-17:00,,37.362452,-121.929188
+SJC,Norman Y Mineta San Jose International,San Jose,California,Alaska Airlines,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,37.362452,-121.929188
+SJC,Norman Y Mineta San Jose International,San Jose,California,Alaska Airlines,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,37.362452,-121.929188
+SJC,Norman Y Mineta San Jose International,San Jose,California,Alaska Airlines,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,37.362452,-121.929188
+SJC,Norman Y Mineta San Jose International,San Jose,California,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,37.362452,-121.929188
+SJC,Norman Y Mineta San Jose International,San Jose,California,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,37.362452,-121.929188
+SJC,Norman Y Mineta San Jose International,San Jose,California,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,37.362452,-121.929188
+SJT,San Angelo Regional,San Angelo,Texas,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,31.35770034790039,-100.4960022
+SJT,San Angelo Regional,San Angelo,Texas,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,31.35770034790039,-100.4960022
+SLC,Salt Lake City International Airport,Salt Lake City,UT,American,AA Cargo Directory,8:00-17:00,8:00-17:00,,40.78886,-111.979866
+SLC,Salt Lake City International Airport,Salt Lake City,UT,Delta,Delta Cargo Directory,8:00-17:00,8:00-17:00,,40.78886,-111.979866
+SLC,Salt Lake City International Airport,Salt Lake City,UT,Southwest,Southwest Cargo,6:00-22:00,6:00-22:00,,40.78886,-111.979866
+SLC,Salt Lake City International Airport,Salt Lake City,UT,United,United Cargo,8:00-17:00,8:00-17:00,,40.78886,-111.979866
+SLC,Salt Lake City International,Salt Lake City,Utah,Delta,Dedicated Facility,24/7,24/7,24/7,40.78886,-111.979866
+SLC,Salt Lake City International,Salt Lake City,Utah,Delta,Dedicated Facility,24/7,24/7,24/7,40.78886,-111.979866
+SMF,Sacramento International,Sacramento,California,Southwest,Dedicated Facility,24/7,24/7,24/7,38.6954,-121.591003
+SMF,Sacramento International,Sacramento,California,Southwest,Dedicated Facility,24/7,24/7,24/7,38.6954,-121.591003
+SMF,Sacramento International,Sacramento,California,Southwest,Dedicated Facility,24/7,24/7,24/7,38.6954,-121.591003
+SNA,John Wayne/Orange County,Santa Ana,California,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,33.675701,-117.867996
+SNA,John Wayne/Orange County,Santa Ana,California,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,33.675701,-117.867996
+SNA,John Wayne/Orange County,Santa Ana,California,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,33.675701,-117.867996
+SNA,John Wayne/Orange County,Santa Ana,California,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,33.675701,-117.867996
+SPI,Abraham Lincoln Capital,Springfield,Illinois,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,39.844101,-89.677902
+SPI,Abraham Lincoln Capital,Springfield,Illinois,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,39.844101,-89.677902
+SPS,Sheppard AFB/Wichita Falls Municipal,Wichita Falls,Texas,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,33.9888,-98.491898
+SPS,Sheppard AFB/Wichita Falls Municipal,Wichita Falls,Texas,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,33.9888,-98.491898
+SRQ,Sarasota Bradenton International,Sarasota,Florida,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,27.394631,-82.554359
+SRQ,Sarasota Bradenton International,Sarasota,Florida,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,27.394631,-82.554359
+STC,St Cloud Regional,St Cloud,Minnesota,Delta Connection,Counter,5:30-21:00,6:00-18:00,N/A,45.5466,-94.059898
+STC,St Cloud Regional,St Cloud,Minnesota,Delta Connection,Counter,5:30-21:00,6:00-18:00,N/A,45.5466,-94.059898
+STL,St Louis Lambert International,St. Louis,Missouri,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,38.748697,-90.370003
+STL,St Louis Lambert International,St. Louis,Missouri,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,38.748697,-90.370003
+STL,St Louis Lambert International,St Louis,Missouri,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,38.748697,-90.370003
+STL,St Louis Lambert International,St Louis,Missouri,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,38.748697,-90.370003
+STL,St. Louis Lambert International Airport,St. Louis,MO,American,AA Cargo Directory,7:00-19:00,7:00-19:00,,38.748697,-90.370003
+STL,St. Louis Lambert International Airport,St. Louis,MO,Delta,Delta Cargo Directory,7:00-19:00,7:00-19:00,,38.748697,-90.370003
+STL,St. Louis Lambert International Airport,St. Louis,MO,Southwest,Southwest Cargo,4:30-1:00,5:00-21:30,,38.748697,-90.370003
+STL,St. Louis Lambert International Airport,St. Louis,MO,United,United Cargo,7:00-19:00,7:00-19:00,,38.748697,-90.370003
+STS,Charles M. Schulz Sonoma County Airport,Santa Rosa,California,Alaska Airlines,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,38.50899887,-122.8130035
+STS,Charles M. Schulz Sonoma County Airport,Santa Rosa,California,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,38.50899887,-122.8130035
+SUN,Friedman Memorial,Hailey,Idaho,Delta Connection,Counter,6:00-20:00,7:00-18:00,N/A,43.50439835,-114.2959976
+SUN,Friedman Memorial,Hailey,Idaho,Delta Connection,Counter,6:00-20:00,7:00-18:00,N/A,43.50439835,-114.2959976
+SUX,Sioux Gateway,Sioux City,Iowa,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,42.397605,-96.382237
+SUX,Sioux Gateway,Sioux City,Iowa,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,42.397605,-96.382237
+SWF,Stewart International,Newburgh,New York,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,41.504101,-74.104797
+SWF,Stewart International,Newburgh,New York,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,41.504101,-74.104797
+SWF,New York Stewart International Airport,Newburgh,NY,American,AA Cargo Directory,No Cargo,No Cargo,,41.504101,-74.104797
+SWF,New York Stewart International Airport,Newburgh,NY,Delta,Delta Cargo Directory,No Cargo,No Cargo,,41.504101,-74.104797
+SWF,New York Stewart International Airport,Newburgh,NY,Southwest,Southwest Cargo,No Cargo,No Cargo,,41.504101,-74.104797
+SWF,New York Stewart International Airport,Newburgh,NY,United,United Cargo,No Cargo,No Cargo,,41.504101,-74.104797
+SYR,Syracuse Hancock International,Syracuse,New York,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,43.11119842529297,-76.10630035
+SYR,Syracuse Hancock International,Syracuse,New York,JetBlue,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,43.11119842529297,-76.10630035
+SYR,Syracuse Hancock International,Syracuse,New York,JetBlue,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,43.11119842529297,-76.10630035
+SYR,Syracuse Hancock International,Syracuse,New York,JetBlue,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,43.11119842529297,-76.10630035
+SYR,Syracuse Hancock International Airport,Syracuse,NY,American,AA Cargo Directory,8:00-17:00,8:00-17:00,,43.11119842529297,-76.10630035
+SYR,Syracuse Hancock International Airport,Syracuse,NY,Delta,Delta Cargo Directory,8:00-17:00,8:00-17:00,,43.11119842529297,-76.10630035
+SYR,Syracuse Hancock International Airport,Syracuse,NY,Southwest,Southwest Cargo,No Cargo,No Cargo,,43.11119842529297,-76.10630035
+SYR,Syracuse Hancock International Airport,Syracuse,NY,United,United Cargo,No Cargo,No Cargo,,43.11119842529297,-76.10630035
+TBN,Waynesville-St. Robert Regional,Fort Leonard Wood,Missouri,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,37.7416,-92.140701
+TBN,Waynesville-St. Robert Regional,Fort Leonard Wood,Missouri,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,37.7416,-92.140701
+TLH,Tallahassee International,Tallahassee,Florida,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,30.3965,-84.350304
+TLH,Tallahassee International,Tallahassee,Florida,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,30.3965,-84.350304
+TLH,Tallahassee International,Tallahassee,Florida,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,30.3965,-84.350304
+TLH,Tallahassee International,Tallahassee,Florida,Silver Airways,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,30.3965,-84.350304
+TOL,Eugene F Kranz Toledo Express,Toledo,Ohio,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,41.5868,-83.8078
+TOL,Toledo Express,Toledo,Ohio,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,41.5868,-83.8078
+TOL,Toledo Express,Toledo,Ohio,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,41.5868,-83.8078
+TOL,Eugene F Kranz Toledo Express,Toledo,Ohio,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,41.5868,-83.8078
+TPA,Tampa International,Tampa,Florida,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,27.9755,-82.533203
+TPA,Tampa International,Tampa,Florida,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,27.9755,-82.533203
+TRI,Tri-Cities Regional,Blountville,Tennessee,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,36.475201,-82.407401
+TRI,Tri-Cities Regional,Blountville,Tennessee,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,36.475201,-82.407401
+TTN,Trenton Mercer,Trenton,New Jersey,Frontier,Counter,6:00-22:00,7:00-20:00,8:00-18:00,40.276699,-74.813499
+TTN,Trenton Mercer,Trenton,New Jersey,Frontier,Counter,6:00-22:00,7:00-20:00,8:00-18:00,40.276699,-74.813499
+TUL,Tulsa International Airport,Tulsa,OK,American,AA Cargo Directory,8:00-17:00,8:00-17:00,,36.19839859008789,-95.88809967
+TUL,Tulsa International Airport,Tulsa,OK,Delta,Delta Cargo Directory,8:00-17:00,8:00-17:00,,36.19839859008789,-95.88809967
+TUL,Tulsa International Airport,Tulsa,OK,Southwest,Southwest Cargo,6:00-22:00,6:00-22:00,,36.19839859008789,-95.88809967
+TUL,Tulsa International Airport,Tulsa,OK,United,United Cargo,8:00-17:00,8:00-17:00,,36.19839859008789,-95.88809967
+TUL,Tulsa International,Tulsa,Oklahoma,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,36.19839859008789,-95.88809967
+TUL,Tulsa International,Tulsa,Oklahoma,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,36.19839859008789,-95.88809967
+TUL,Tulsa International,Tulsa,Oklahoma,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,36.19839859008789,-95.88809967
+TUL,Tulsa International,Tulsa,Oklahoma,Southwest,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,36.19839859008789,-95.88809967
+TUP,Tupelo Regional,Tupelo,Mississippi,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,34.26810073852539,-88.76989746
+TUP,Tupelo Regional,Tupelo,Mississippi,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,34.26810073852539,-88.76989746
+TUS,Tucson International,Tucson,Arizona,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,32.115004,-110.938053
+TUS,Tucson International,Tucson,Arizona,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,32.115004,-110.938053
+TVC,Cherry Capital,Traverse City,Michigan,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,44.74140167236328,-85.5821991
+TVC,Cherry Capital,Traverse City,Michigan,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,44.74140167236328,-85.5821991
+TYS,McGhee Tyson,Alcoa,Tennessee,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,35.811001,-83.994003
+TYS,McGhee Tyson,Alcoa,Tennessee,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,35.811001,-83.994003
+TYS,McGhee Tyson,Alcoa,Tennessee,Allegiant,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,35.811001,-83.994003
+TYS,McGhee Tyson,Alcoa,Tennessee,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,35.811001,-83.994003
+TYS,McGhee Tyson Airport,Alcoa,TN,American,AA Cargo Directory,8:00-17:00,8:00-17:00,,35.811001,-83.994003
+TYS,McGhee Tyson Airport,Alcoa,TN,Delta,Delta Cargo Directory,8:00-17:00,8:00-17:00,,35.811001,-83.994003
+TYS,McGhee Tyson Airport,Alcoa,TN,Southwest,Southwest Cargo,No Cargo,No Cargo,,35.811001,-83.994003
+TYS,McGhee Tyson Airport,Alcoa,TN,United,United Cargo,No Cargo,No Cargo,,35.811001,-83.994003
+UIN,Quincy Regional,Quincy,Illinois,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,39.942699,-91.194603
+UIN,Quincy Regional,Quincy,Illinois,American Eagle,Counter,5:00-22:00,,6:00-18:00,39.942699,-91.194603
+VCT,Victoria Regional,Victoria,Texas,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,28.85260009765625,-96.91850281
+VCT,Victoria Regional,Victoria,Texas,American Eagle,Counter,5:30-21:00,6:00-18:00,N/A,28.85260009765625,-96.91850281
+VLD,Valdosta Regional,Valdosta,Georgia,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,30.782499313354492,-83.27670288
+VLD,Valdosta Regional,Valdosta,Georgia,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,30.782499313354492,-83.27670288
+VPS,Destin-Fort Walton Beach,Valparaiso,Florida,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,30.4832,-86.525398
+VPS,Destin-Fort Walton Beach,Valparaiso,Florida,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,30.4832,-86.525398
+WRG,Wrangell Airport,Wrangell,Alaska,Alaska Airlines,Counter,6:00-22:00,6:00-20:00,8:00-16:00,56.48429871,-132.3699951
+WRG,Wrangell Airport,Wrangell,Alaska,Alaska Airlines,Counter,6:00-22:00,6:00-20:00,8:00-16:00,56.48429871,-132.3699951
+XNA,Northwest Arkansas National,Highfill,Arkansas,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,36.281898,-94.306801
+XNA,Northwest Arkansas National,Highfill,Arkansas,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,36.281898,-94.306801
+YAK,Yakutat Airport,Yakutat,Alaska,Alaska Airlines,Counter,6:00-22:00,6:00-20:00,8:00-16:00,59.508717,-139.660435
+YAK,Yakutat Airport,Yakutat,Alaska,Alaska Airlines,Counter,6:00-22:00,6:00-20:00,8:00-16:00,59.508717,-139.660435
+YKM,Yakima Air Terminal,Yakima,Washington,Alaska Airlines,Counter,5:30-21:00,6:00-18:00,N/A,46.56819916,-120.5439987
+YKM,Yakima Air Terminal,Yakima,Washington,Alaska Airlines,Counter,5:30-21:00,6:00-18:00,N/A,46.56819916,-120.5439987
+YUM,Yuma International,Yuma,Arizona,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,32.650938,-114.609375
+YUM,Yuma International,Yuma,Arizona,American Eagle,Counter,6:00-20:00,7:00-18:00,N/A,32.650938,-114.609375
+DAB,Daytona Beach International Airport,Daytona Beach,Florida,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,,
+DSM,Des Moines International,Des Moines,Iowa,American,Dedicated Facility,5:00-22:00,7:00-20:00,8:00-18:00,,

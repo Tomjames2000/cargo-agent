@@ -38,7 +38,6 @@ if not check_password():
 # LOAD ALL KEYS
 try:
     SERPAPI_KEY = st.secrets["SERPAPI_KEY"]
-    # We try to get Google Maps key, but don't crash if missing (just degrade to OSRM)
     GOOGLE_MAPS_KEY = st.secrets.get("GOOGLE_MAPS_KEY", None)
 except:
     st.error("❌ System Error: API Keys missing in Secrets.")
@@ -49,17 +48,15 @@ except:
 # ==============================================================================
 class LogisticsTools:
     def __init__(self):
-        self.geolocator = Nominatim(user_agent="cargo_app_prod_v41_clean", timeout=10)
+        self.geolocator = Nominatim(user_agent="cargo_app_prod_v43_defaults", timeout=10)
         
         # 1. LOAD MASTER FILE
         self.master_df = None
         try:
             self.master_df = pd.read_csv("cargo_master.csv")
-            # Normalize: "Airport Code" -> "airport_code"
             self.master_df.columns = [c.strip().lower().replace(" ", "_") for c in self.master_df.columns]
         except Exception as e:
-            # Silent warning in console, UI continues using fallback
-            print(f"Master CSV load failed: {e}")
+            print(f"CSV Error: {e}")
 
         # Fallback DB
         self.AIRPORT_DB = {
@@ -97,13 +94,27 @@ class LogisticsTools:
         # 2. Check DB
         if location.upper() in self.AIRPORT_DB:
             return self.AIRPORT_DB[location.upper()]["coords"]
+
+        # 3. GOOGLE MAPS GEOCODING (Primary)
+        if GOOGLE_MAPS_KEY:
+            try:
+                url = "https://maps.googleapis.com/maps/api/geocode/json"
+                params = {"address": location, "key": GOOGLE_MAPS_KEY}
+                r = requests.get(url, params=params, timeout=5)
+                data = r.json()
+                if data['status'] == 'OK':
+                    loc = data['results'][0]['geometry']['location']
+                    return (loc['lat'], loc['lng'])
+            except Exception as e:
+                print(f"Google Geocode Failed: {e}")
             
-        # 3. Geocode
+        # 4. Fallback: Nominatim
         try:
             clean_loc = location.replace("Suite", "").replace("#", "").split(",")[0] + ", " + location.split(",")[-1]
             loc = self.geolocator.geocode(clean_loc)
             if loc: return (loc.latitude, loc.longitude)
         except: pass
+        
         return None
 
     def get_airport_details(self, code):
@@ -113,7 +124,7 @@ class LogisticsTools:
             if not match.empty:
                 return {
                     "code": code,
-                    "name": match.iloc[0]['airport_name'] if 'airport_name' in match.columns else code,
+                    "name": match.iloc[0]['airport_name'],
                     "coords": (match.iloc[0]['latitude_deg'], match.iloc[0]['longitude_deg'])
                 }
         if code in self.AIRPORT_DB:
@@ -147,7 +158,7 @@ class LogisticsTools:
         try:
             r = requests.get(url, params=params, timeout=5)
             data = r.json()
-            snippet = "No details found."
+            snippet = "No details."
             if "organic_results" in data:
                 snippet = data["organic_results"][0].get("snippet", "")
             return {"status": "Unverified", "hours": f"Web Check: {snippet[:40]}...", "source": "Web Search"}
@@ -172,12 +183,10 @@ class LogisticsTools:
         if not user_coords: return None
         candidates = []
         
-        # Hardcoded DB
         for code, data in self.AIRPORT_DB.items():
             dist = geodesic(user_coords, data["coords"]).miles
             candidates.append({"code": code, "name": data["name"], "air_miles": round(dist, 1)})
         
-        # Master CSV
         if self.master_df is not None:
             try:
                 unique_apts = self.master_df[['airport_code', 'airport_name', 'latitude_deg', 'longitude_deg']].drop_duplicates()
@@ -245,7 +254,6 @@ class LogisticsTools:
             mins = int((seconds % 3600) // 60)
             return {"miles": round(miles, 1), "time_str": f"{hours}h {mins}m", "time_min": round(seconds/60)}
         except:
-            # Last Resort
             dist = geodesic(coords_start, coords_end).miles * 1.3
             hours = (dist / 50) + 0.5
             return {"miles": round(dist, 1), "time_str": f"{int(hours)}h {int((hours*60)%60)}m (Est)", "time_min": int(hours*60)}
@@ -311,16 +319,16 @@ with st.sidebar:
     mode = st.radio("Frequency", ["One-Time (Ad-Hoc)", "Reoccurring"])
     
     st.header("2. Locations")
-    p_addr = st.text_input("Pickup Address", "123 Pine St, Seattle, WA")
+    # --- UPDATED DEFAULTS ---
+    p_addr = st.text_input("Pickup Address", "2008 Altom Ct, St. Louis, MO 63146")
     p_manual = st.text_input("Origin Airport Override (Optional)", placeholder="e.g. SEA")
     st.markdown("⬇️")
-    d_addr = st.text_input("Delivery Address", "MIA")
+    d_addr = st.text_input("Delivery Address", "1250 E Hadley St, Phoenix, AZ 85034")
     d_manual = st.text_input("Destination Airport Override (Optional)", placeholder="e.g. MIA")
     
     st.header("3. Timing & Dates")
     p_time = st.time_input("Pickup Ready Time (HH:MM)", datetime.time(9, 0))
     
-    # SHARED LOGIC
     if mode == "One-Time (Ad-Hoc)":
         p_date = st.date_input("Pickup Date", datetime.date.today() + datetime.timedelta(days=1))
     else:
@@ -424,7 +432,6 @@ if run_btn:
         if has_deadline and del_time:
             del_drive_used = max(d2['time_min'], custom_d_buff)
             total_post = del_drive_used + 60
-            
             dummy_deadline = datetime.datetime.combine(p_date_base + datetime.timedelta(days=del_offset), del_time)
             latest_arr_dt = dummy_deadline - datetime.timedelta(minutes=total_post)
             latest_arr_str = latest_arr_dt.strftime("%H:%M")
@@ -448,6 +455,7 @@ if run_btn:
                 
                 search_date_obj = datetime.datetime.strptime(day_obj['date'], "%Y-%m-%d")
                 
+                # Hours Lookup
                 if (p_code, airline) not in airline_hours_cache:
                      airline_hours_cache[(p_code, airline)] = tools.get_cargo_hours(p_code, airline, search_date_obj)
                 if (d_code, airline) not in airline_hours_cache:

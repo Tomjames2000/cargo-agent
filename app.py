@@ -111,7 +111,7 @@ except:
 # ==============================================================================
 class LogisticsTools:
     def __init__(self):
-        self.geolocator = Nominatim(user_agent="cargo_command_v57_safe", timeout=10)
+        self.geolocator = Nominatim(user_agent="cargo_command_v58_final", timeout=10)
         self.master_df = None
         try:
             self.master_df = pd.read_csv("cargo_master.csv")
@@ -200,7 +200,7 @@ class LogisticsTools:
 
     def check_time_in_range(self, target_time, range_str):
         if any(x in range_str.lower() for x in ["no cargo", "closed", "n/a"]): return False
-        if "24" in range_str or "daily" in range_str: return True
+        if "24" in range_str or "Daily" in range_str: return True
         try:
             times = re.findall(r'\d{1,2}:\d{2}', range_str)
             if len(times) != 2: return True
@@ -209,6 +209,37 @@ class LogisticsTools:
             if start <= end: return start <= check <= end
             else: return start <= check or check <= end
         except: return True
+
+    def get_next_open_time(self, current_dt, hours_str):
+        """Calculates the next time the facility is open for pickup."""
+        # Handles 24/7 or unparseable cases
+        if "24" in hours_str or "Daily" in hours_str or not re.search(r'\d{1,2}:\d{2}', hours_str):
+            return current_dt
+
+        # Find the open time (assuming a simple range like 09:00-17:00)
+        try:
+            times = re.findall(r'\d{1,2}:\d{2}', hours_str)
+            
+            # The start time is the relevant "next open" time
+            start_t = datetime.datetime.strptime(times[0], "%H:%M").time()
+            start_dt = current_dt.replace(hour=start_t.hour, minute=start_t.minute, second=0, microsecond=0)
+            
+            # If the current time (when freight is ready) is BEFORE the start time today, 
+            # the freight is available at start_dt today.
+            if current_dt.time() < start_t:
+                return start_dt
+            # Otherwise, the facility is closed for the day/overnight, so freight is available tomorrow.
+            else:
+                # Handle overnight operations (e.g., 22:00-06:00)
+                end_t = datetime.datetime.strptime(times[1], "%H:%M").time()
+                if start_t > end_t and (current_dt.time() > start_t or current_dt.time() < end_t):
+                    return current_dt # It is actually currently open
+                
+                # Default: Closed for the day, returns tomorrow's open time.
+                return start_dt + datetime.timedelta(days=1)
+        except:
+            # Catch all: Default to next day at 9 AM
+            return current_dt.replace(hour=9, minute=0, second=0, microsecond=0) + datetime.timedelta(days=1)
 
     def find_nearest_airports(self, address: str):
         user_coords = self._get_coords(address)
@@ -304,10 +335,8 @@ class LogisticsTools:
                 conn_apt = layovers[0].get('id', 'Direct') if layovers else "Direct"
                 conn_min = layovers[0].get('duration', 0) if layovers else 0
                 conn_time_str = f"{conn_min//60}h {conn_min%60}m" if layovers else "N/A"
-                
                 dep_full = legs[0].get('departure_airport', {}).get('time', '')
                 arr_full = legs[-1].get('arrival_airport', {}).get('time', '')
-                
                 results.append({
                     "Airline": legs[0].get('airline', 'UNK'),
                     "Flight": " / ".join([l.get('flight_number', '') for l in legs]),
@@ -378,14 +407,14 @@ else:
 with st.sidebar.expander("⚙️ Adjusters & Filters"):
     custom_p_buff = st.sidebar.number_input("Pickup Buffer", 120)
     custom_d_buff = st.sidebar.number_input("Del Buffer", 120)
-    min_conn = st.sidebar.number_input("Min Conn", 60)
-    show_all = st.sidebar.checkbox("Show All Airlines", False)
+    min_conn_filter = st.sidebar.number_input("Min Conn", 60)
+    show_all_airlines = st.sidebar.checkbox("Show All Airlines", value=False)
 
 run_btn = st.sidebar.button("🚀 Run Analysis", type="primary")
 
 # --- MAIN OUTPUT ---
 if run_btn:
-    # INITIALIZE VARIABLES (SAFETY BLOCK)
+    # SAFETY INIT
     p_code = d_code = p_name = d_name = "Unknown"
     d1 = d2 = {"miles": 0, "time_str": "N/A", "time_min": 0}
     earliest_dep_str = "N/A"
@@ -441,7 +470,7 @@ if run_btn:
         st.write("✈️ Analyzing Flights & Risk...")
         
         for day_obj in days_to_search:
-            raw_data = tools.search_flights(p_code, d_code, day_obj['date'], show_all)
+            raw_data = tools.search_flights(p_code, d_code, day_obj['date'], show_all_airlines)
             if isinstance(raw_data, dict) and "error" in raw_data:
                 st.error(f"Flight API Error: {raw_data['error']}")
                 continue
@@ -466,14 +495,15 @@ if run_btn:
                 if not tools.check_time_in_range(tender_dt.strftime("%H:%M"), p_h['hours']): reject_reason = f"Origin Closed ({p_h['hours']})"
                 
                 if f['Dep Time'] < earliest_dep_str: reject_reason = f"Too Early ({f['Dep Time']})"
-                if f['Conn Apt'] != "Direct" and f['Conn Min'] < min_conn: reject_reason = "Short Connection"
+                if f['Conn Apt'] != "Direct" and f['Conn Min'] < min_conn_filter: reject_reason = "Short Connection"
                 
                 if latest_arr_dt:
                     try:
-                        f_dt = datetime.datetime.strptime(f['Arr Full'], "%Y-%m-%d %H:%M") if 'T' in f['Arr Full'] else datetime.datetime.strptime(f"{day['date']} {f['Arr Time']}", "%Y-%m-%d %H:%M")
-                        if f['Arr Time'] < f['Dep Time']: f_dt += datetime.timedelta(days=1)
+                        f_dt = parser.parse(f['Arr Full'])
+                        # Handle overnight flights
+                        if f_dt < parser.parse(f['Dep Full']): f_dt += datetime.timedelta(days=1)
                         
-                        loop_dl = datetime.datetime.strptime(day['date'], "%Y-%m-%d") + datetime.timedelta(days=del_offset)
+                        loop_dl = datetime.datetime.strptime(day_obj['date'], "%Y-%m-%d") + datetime.timedelta(days=del_offset)
                         loop_dl = loop_dl.replace(hour=del_time.hour, minute=del_time.minute)
                         loop_limit = loop_dl - datetime.timedelta(minutes=total_post)
                         
@@ -485,23 +515,78 @@ if run_btn:
                     f['Day'] = day_obj['day']
                     rejected_flights.append(f)
                 else:
-                    # FRA Integration
+                    # --- TARGET 1: Total Transit Time Calculation (Baseline) ---
+                    try:
+                        # 1. Calculate the scheduled Air Transit Time (including layovers)
+                        dep_dt_full = parser.parse(f['Dep Full'])
+                        arr_dt_full = parser.parse(f['Arr Full'])
+
+                        # Robustly determine the arrival date
+                        if arr_dt_full < dep_dt_full: arr_dt_full += datetime.timedelta(days=1)
+                        air_transit_min = int((arr_dt_full - dep_dt_full).total_seconds() / 60)
+
+                        # total_prep and total_post are calculated earlier in the run_btn block
+                        
+                        # Initial Total Transit Time (Minutes)
+                        total_transit_min = total_prep + air_transit_min + total_post
+                        
+                        f['Total Transit Min'] = total_transit_min
+                        f['Total Transit Str'] = f"{total_transit_min//60}h {total_transit_min%60}m"
+                        f['Duration'] = f['Total Transit Str'] # Update Duration column with Total Transit
+                        
+                        
+                        # --- TARGET 2: Recovery Delay Check & Total Transit Update ---
+                        
+                        # Scheduled recovery time (Arr Time + 60 min)
+                        scheduled_recovery_dt = arr_dt_full + datetime.timedelta(minutes=60)
+                        recovery_note = ""
+
+                        # Check if scheduled recovery is outside the destination's operating hours
+                        if not tools.check_time_in_range(scheduled_recovery_dt.strftime("%H:%M"), d_h['hours']):
+                            
+                            # Calculate the actual next open time
+                            next_open_dt = tools.get_next_open_time(scheduled_recovery_dt, d_h['hours'])
+                            
+                            # Actual Recovery Time = Next Open + 30 minutes for final prep (buffer)
+                            actual_recovery_dt = next_open_dt + datetime.timedelta(minutes=30) 
+                            
+                            # Calculate Delay and update Total Transit Time
+                            delay_min = int((actual_recovery_dt - scheduled_recovery_dt).total_seconds() / 60)
+                            
+                            if delay_min > 0:
+                                total_transit_min += delay_min
+                                f['Total Transit Min'] = total_transit_min
+                                f['Total Transit Str'] = f"{total_transit_min//60}h {total_transit_min%60}m (DELAYED)"
+                                f['Duration'] = f['Total Transit Str']
+                                
+                                # Set detailed recovery note
+                                recovery_note = f"⚠️ Recovery Delay: Available {actual_recovery_dt.strftime('%m/%d %H:%M')}"
+
+                    except Exception as e:
+                        f['Total Transit Min'] = 99999
+                        f['Total Transit Str'] = "Error"
+                        f['Duration'] = "Error"
+                        recovery_note = f"Logic Error: {e}"
+                        
+                    # --- FRA Integration and Final Note Assembly ---
                     fra_score, fra_risk = 100, []
                     if HAS_FRA and AVIATION_EDGE_KEY:
-                        res = analyze_reliability(f['Flight'], AVIATION_EDGE_KEY)
+                        # Use only the first flight number for tracking/risk analysis
+                        flight_num_for_fra = f['Flight'].split(' / ')[0]
+                        res = analyze_reliability(flight_num_for_fra, AVIATION_EDGE_KEY)
                         if "score" in res:
                             fra_score, fra_risk = res['score'], res['risk_factors']
-                    
-                    rec_time = (datetime.datetime.strptime(f['Arr Time'], "%H:%M") + datetime.timedelta(minutes=60)).strftime("%H:%M")
+                            
                     note_parts = []
-                    if not tools.check_time_in_range(rec_time, d_h['hours']): note_parts.append(f"⚠️ AM Recovery ({d_h['hours']})")
+                    if recovery_note: note_parts.append(recovery_note)
                     if fra_risk: note_parts.append(f"⛈️ Risk: {fra_risk[0]}")
                     
                     f['Notes'] = " ".join(note_parts) if note_parts else "Standard Ops"
                     f['Reliability'] = fra_score
                     f['Days of Op'] = day_obj['day']
                     f['Dest Hours'] = d_h['hours']
-                    f['Track'] = f"https://flightaware.com/live/flight/{f['Flight']}"
+                    f['Track'] = f"https://flightaware.com/live/flight/{f['Flight'].split(' / ')[0]}"
+                    
                     valid_flights.append(f)
 
         status.update(label="Mission Plan Generated", state="complete", expanded=False)
@@ -510,9 +595,10 @@ if run_btn:
     st.markdown("## 📊 Executive Summary")
     
     if valid_flights:
-        best = sorted(valid_flights, key=lambda x: (x['Arr Time'], -x['Reliability']))[0]
+        # UPDATED SORTING KEY: Use Total Transit Min as the primary sort, then Reliability
+        best = sorted(valid_flights, key=lambda x: (x['Total Transit Min'], -x['Reliability']))[0]
         rec_text = f"The recommended routing is via **{best['Airline']} Flight {best['Flight']}**."
-        if "AM Recovery" in best['Notes']: rec_text += " Note: Flight arrives during facility closure; freight will be recoverable next morning."
+        if "Recovery Delay" in best['Notes']: rec_text += f" Note: Delivery is delayed until **{best['Notes'].split('Available ')[-1]}** due to facility hours."
         elif best['Reliability'] < 70: rec_text += " ⚠️ Caution: High risk of weather delay on this route."
         else: rec_text += " This option offers the optimal balance of transit time and reliability."
         st.info(f"**Recommendation:** {rec_text}")
@@ -609,19 +695,26 @@ if run_btn:
             rows.append(f)
             
         df = pd.DataFrame(rows)
-        cols = ["Airline", "Flight", "Days of Op", "Dep Time", "Arr Time", "Dest Hours", "Note", "Duration", "Conn Apt", "Conn Time", "Track"]
+        # FINAL COLUMN LIST
+        cols = ["Airline", "Flight", "Days of Op", "Dep Time", "Arr Time", "Dest Hours", "Total Transit Str", "Notes", "Reliability", "Track"]
         
         st.dataframe(
             df[cols], 
             hide_index=True, 
             use_container_width=True,
             column_config={
-                "Track": st.column_config.LinkColumn("Tracker", display_text="Track Flight"),
-                "Note": st.column_config.TextColumn("Status")
+                "Total Transit Str": st.column_config.TextColumn("Total Transit (End-to-End)"), # NEW/UPDATED COLUMN
+                "Reliability": st.column_config.ProgressColumn(
+                    "Risk Score",
+                    format="%d%%",
+                    min_value=0,
+                    max_value=100,
+                ),
+                "Track": st.column_config.LinkColumn("Tracker", display_text="Live Status"),
+                "Notes": st.column_config.TextColumn("Operational Notes", width="large")
             }
         )
     else:
         if rejected_flights:
             with st.expander("View Rejected Options"):
                 st.dataframe(pd.DataFrame(rejected_flights)[["Airline", "Flight", "Dep Time", "Reason"]])
-                

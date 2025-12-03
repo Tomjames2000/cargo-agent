@@ -74,14 +74,6 @@ st.markdown("""
         border-radius: 2px;
         opacity: 0.5;
     }
-    .status-badge {
-        background-color: #3b82f6;
-        color: white;
-        padding: 4px 8px;
-        border-radius: 4px;
-        font-size: 0.75rem;
-        font-weight: bold;
-    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -122,7 +114,7 @@ except:
 # ==============================================================================
 class LogisticsTools:
     def __init__(self):
-        self.geolocator = Nominatim(user_agent="cargo_command_v53", timeout=10)
+        self.geolocator = Nominatim(user_agent="cargo_command_v53_fixed", timeout=10)
         self.master_df = None
         try:
             self.master_df = pd.read_csv("cargo_master.csv")
@@ -201,7 +193,7 @@ class LogisticsTools:
 
     def check_time_in_range(self, target_time, range_str):
         if any(x in range_str.lower() for x in ["no cargo", "closed", "n/a"]): return False
-        if "24" in range_str or "daily" in range_str: return True
+        if "24" in range_str or "Daily" in range_str: return True
         try:
             times = re.findall(r'\d{1,2}:\d{2}', range_str)
             if len(times) != 2: return True
@@ -215,16 +207,12 @@ class LogisticsTools:
         user_coords = self._get_coords(address)
         if not user_coords: return None
         candidates = []
-        
-        # API Search
         if AVIATION_EDGE_KEY:
             try:
                 r = requests.get("https://aviation-edge.com/v2/public/nearby", params={"key": AVIATION_EDGE_KEY, "lat": user_coords[0], "lng": user_coords[1], "distance": 150}, timeout=8)
                 for apt in r.json():
                     if len(apt.get("codeIataAirport", "")) == 3: candidates.append({"code": apt.get("codeIataAirport").upper(), "name": apt.get("nameAirport"), "air_miles": round(float(apt.get("distance")) * 0.621371, 1)})
             except: pass
-        
-        # Fallback Search
         if not candidates:
             for code, data in self.AIRPORT_DB.items():
                 dist = geodesic(user_coords, data["coords"]).miles
@@ -237,7 +225,6 @@ class LogisticsTools:
                             dist = geodesic(user_coords, (row['latitude_deg'], row['longitude_deg'])).miles
                             candidates.append({"code": row['airport_code'], "name": row['airport_name'], "air_miles": round(dist, 1)})
                 except: pass
-
         candidates.sort(key=lambda x: x["air_miles"])
         return candidates[:3]
 
@@ -295,7 +282,7 @@ class LogisticsTools:
                     if results: return results
             except: pass
 
-        # 2. SerpApi
+        # 2. SerpApi Backup
         try:
             params = {"engine": "google_flights", "departure_id": origin, "arrival_id": dest, "outbound_date": date, "type": "2", "hl": "en", "gl": "us", "currency": "USD", "api_key": SERPAPI_KEY}
             if not show_all: params["include_airlines"] = "WN,AA,DL,UA"
@@ -307,8 +294,13 @@ class LogisticsTools:
                 legs = f.get('flights', [])
                 if not legs: continue
                 layovers = f.get('layovers', [])
+                conn_apt = layovers[0].get('id', 'Direct') if layovers else "Direct"
+                conn_min = layovers[0].get('duration', 0) if layovers else 0
+                conn_time_str = f"{conn_min//60}h {conn_min%60}m" if layovers else "N/A"
+                
                 dep_full = legs[0].get('departure_airport', {}).get('time', '')
                 arr_full = legs[-1].get('arrival_airport', {}).get('time', '')
+                
                 results.append({
                     "Airline": legs[0].get('airline', 'UNK'),
                     "Flight": " / ".join([l.get('flight_number', '') for l in legs]),
@@ -317,16 +309,17 @@ class LogisticsTools:
                     "Dest": legs[-1].get('arrival_airport', {}).get('id', 'UNK'),
                     "Arr Time": arr_full.split()[-1], "Arr Full": arr_full,
                     "Duration": f"{f.get('total_duration',0)//60}h {f.get('total_duration',0)%60}m",
-                    "Conn Apt": layovers[0].get('id', 'Direct') if layovers else "Direct",
-                    "Conn Time": f"{layovers[0].get('duration',0)//60}h {layovers[0].get('duration',0)%60}m" if layovers else "N/A",
-                    "Conn Min": layovers[0].get('duration', 0) if layovers else 0
+                    "Conn Apt": conn_apt,
+                    "Conn Time": conn_time_str,
+                    "Conn Min": conn_min
                 })
             return results
         except: return []
 
 # ==============================================================================
-# 3. DASHBOARD UI (Left Sidebar)
+# 3. DASHBOARD UI
 # ==============================================================================
+
 st.sidebar.title("🎮 Control Panel")
 
 # --- INPUTS ---
@@ -358,6 +351,8 @@ if has_deadline:
     del_date_obj = st.sidebar.date_input("Delivery Date", default_del)
     del_time = st.sidebar.time_input("Must Arrive By", datetime.time(18, 0))
     del_offset = (del_date_obj - p_date).days
+    if mode == "One-Time (Ad-Hoc)" and del_offset < 0:
+        st.sidebar.error("⚠️ Delivery Date Error")
 
 days_to_search = []
 if mode == "One-Time (Ad-Hoc)":
@@ -373,17 +368,14 @@ else:
         days_to_search.append({"day": d, "date": (today + datetime.timedelta(days=diff)).strftime("%Y-%m-%d")})
 
 with st.sidebar.expander("⚙️ Settings"):
-    custom_p_buff = st.sidebar.number_input("Pickup Buffer", 120)
-    custom_d_buff = st.sidebar.number_input("Del Buffer", 120)
-    min_conn = st.sidebar.number_input("Min Conn", 60)
+    custom_p_buff = st.sidebar.number_input("Pickup Buffer (min)", 120)
+    custom_d_buff = st.sidebar.number_input("Del Buffer (min)", 120)
+    min_conn = st.sidebar.number_input("Min Conn (min)", 60)
     show_all = st.sidebar.checkbox("Show All Airlines", False)
 
 run_btn = st.sidebar.button("🚀 Run Analysis", type="primary")
 
-# ==============================================================================
-# 4. INTELLIGENCE PANEL (Main Area)
-# ==============================================================================
-
+# --- MAIN OUTPUT ---
 if run_btn:
     tools = LogisticsTools()
     
@@ -402,12 +394,12 @@ if run_btn:
         p_code, p_name = p_apt['code'], p_apt['name']
         d_code, d_name = d_apt['code'], d_apt['name']
         
-        # 2. DRIVE METRICS
+        # 2. DRIVE
         st.write(f"🚚 Routing ({p_code}-{d_code})...")
         d1 = tools.get_road_metrics(p_addr, p_code) or {"miles": 20, "time_str": "30m", "time_min": 30}
         d2 = tools.get_road_metrics(d_code, d_addr) or {"miles": 20, "time_str": "30m", "time_min": 30}
         
-        # 3. BUFFER MATH
+        # 3. MATH
         p_drive_used = max(d1['time_min'], custom_p_buff)
         total_prep = p_drive_used + 60
         
@@ -423,14 +415,14 @@ if run_btn:
             dummy_del = datetime.datetime.combine(base_dt + datetime.timedelta(days=del_offset), del_time)
             latest_arr_dt = dummy_del - datetime.timedelta(minutes=total_post)
 
-        # 4. FLIGHTS & FRA
-        st.write("✈️ Analyzing Flights & Risk...")
+        # 4. FLIGHTS
+        st.write("✈️ Scanning Inventory...")
         valid, rejected, airline_hours = [], [], {}
         
         for day in days_to_search:
             raw = tools.search_flights(p_code, d_code, day['date'], show_all)
             for f in raw:
-                # Hours Logic
+                # HOURS
                 s_date = datetime.datetime.strptime(day['date'], "%Y-%m-%d")
                 if (p_code, f['Airline']) not in airline_hours:
                     airline_hours[(p_code, f['Airline'])] = tools.get_cargo_hours(p_code, f['Airline'], s_date)
@@ -440,7 +432,7 @@ if run_btn:
                 p_h = airline_hours[(p_code, f['Airline'])]
                 d_h = airline_hours[(d_code, f['Airline'])]
                 
-                # Reject Logic
+                # REJECTION
                 reason = None
                 if p_h['hours'] == "No Cargo": reason = "No Origin Cargo Facility"
                 
@@ -453,10 +445,8 @@ if run_btn:
                 if latest_arr_dt:
                     try:
                         f_dt = datetime.datetime.strptime(f['Arr Full'], "%Y-%m-%d %H:%M") if 'T' in f['Arr Full'] else datetime.datetime.strptime(f"{day['date']} {f['Arr Time']}", "%Y-%m-%d %H:%M")
-                        # Date adjust
                         if f['Arr Time'] < f['Dep Time']: f_dt += datetime.timedelta(days=1)
                         
-                        # Compare against dummy deadline for loop
                         loop_dl = datetime.datetime.strptime(day['date'], "%Y-%m-%d") + datetime.timedelta(days=del_offset)
                         loop_dl = loop_dl.replace(hour=del_time.hour, minute=del_time.minute)
                         loop_limit = loop_dl - datetime.timedelta(minutes=total_post)
@@ -476,9 +466,8 @@ if run_btn:
                         if "score" in fra_res:
                             fra_score, fra_risk = fra_res['score'], fra_res['risk_factors']
                     
-                    # Build Note
+                    # Notes
                     rec_time = (datetime.datetime.strptime(f['Arr Time'], "%H:%M") + datetime.timedelta(minutes=60)).strftime("%H:%M")
-                    
                     note_parts = []
                     if not tools.check_time_in_range(rec_time, d_h['hours']): note_parts.append(f"⚠️ AM Recovery ({d_h['hours']})")
                     if fra_risk: note_parts.append(f"⛈️ Risk: {fra_risk[0]}")
@@ -494,28 +483,22 @@ if run_btn:
     st.markdown("## 📊 Executive Summary")
     
     if valid:
-        # Recommendation Logic
         best = sorted(valid, key=lambda x: (x['Arr Time'], -x['Reliability']))[0]
         rec_text = f"The recommended routing is via **{best['Airline']} Flight {best['Flight']}**."
-        
-        if "AM Recovery" in best['Notes']:
-            rec_text += " Note: Flight arrives during facility closure; freight will be recoverable next morning."
-        elif best['Reliability'] < 70:
-            rec_text += " ⚠️ Caution: High risk of weather delay on this route."
-        else:
-            rec_text += " This option offers the optimal balance of transit time and reliability."
+        if "AM Recovery" in best['Notes']: rec_text += " Note: Flight arrives during facility closure; freight will be recoverable next morning."
+        elif best['Reliability'] < 70: rec_text += " ⚠️ Caution: High risk of weather delay on this route."
+        else: rec_text += " This option offers the optimal balance of transit time and reliability."
             
         st.info(f"**Recommendation:** {rec_text}")
     else:
         st.error("No valid flights found that meet all constraints.")
 
-    # Metrics
     m1, m2, m3 = st.columns(3)
     m1.metric("Origin Drive", f"{d1['time_str']}", f"{d1['miles']} mi")
     m2.metric("Air Transit", valid[0]['Duration'] if valid else "N/A", f"{len(valid)} Options")
     m3.metric("Dest Drive", f"{d2['time_str']}", f"{d2['miles']} mi")
 
-    # --- B. TIMELINE VISUALIZATION ---
+    # --- B. VISUAL TIMELINE ---
     st.markdown("### ⛓️ Logistics Chain Visualization")
     timeline_html = f"""
     <div class="timeline-container">
@@ -526,4 +509,97 @@ if run_btn:
         </div>
         <div class="timeline-line"></div>
         <div class="timeline-point">
-            <div style="font-size:24px
+            <div style="font-size:24px">🚛</div>
+            <div style="font-size:12px; color:#94a3b8">{d1['time_str']}</div>
+        </div>
+        <div class="timeline-line"></div>
+        <div class="timeline-point">
+            <div style="font-size:24px">🛫</div>
+            <div style="font-weight:bold">Departs</div>
+            <div style="color:#facc15">{valid[0]['Dep Time'] if valid else '--:--'}</div>
+        </div>
+        <div class="timeline-line"></div>
+        <div class="timeline-point">
+            <div style="font-size:24px">🛬</div>
+            <div style="font-weight:bold">Arrives</div>
+            <div style="color:#facc15">{valid[0]['Arr Time'] if valid else '--:--'}</div>
+        </div>
+        <div class="timeline-line"></div>
+        <div class="timeline-point">
+            <div style="font-size:24px">🏁</div>
+            <div style="font-weight:bold">Deadline</div>
+            <div style="color:#f87171">{del_time.strftime('%H:%M') if del_time else 'Open'}</div>
+        </div>
+    </div>
+    """
+    st.markdown(timeline_html, unsafe_allow_html=True)
+
+    # --- C. ORIGIN / DEST CARDS ---
+    c1, c2 = st.columns(2)
+    with c1:
+        st.markdown(f"""
+        <div class="metric-card">
+            <div class="metric-header">ORIGIN: {p_code}</div>
+            <div class="metric-value">{p_name}</div>
+            <div style="margin-top:10px; font-size:0.9rem">
+                📍 <strong>Drive:</strong> {d1['miles']} mi ({d1['time_str']})<br>
+                ⏰ <strong>Earliest Dep:</strong> {earliest_dep_str}<br>
+                🏢 <strong>Facility Hours:</strong><br>
+                {list(airline_hours.values())[0]['hours'] if airline_hours else 'N/A'}
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with c2:
+        st.markdown(f"""
+        <div class="metric-card">
+            <div class="metric-header">DESTINATION: {d_code}</div>
+            <div class="metric-value">{d_name}</div>
+            <div style="margin-top:10px; font-size:0.9rem">
+                📍 <strong>Drive:</strong> {d2['miles']} mi ({d2['time_str']})<br>
+                ⏰ <strong>Latest Arr:</strong> {latest_arr_str if latest_arr_dt else 'N/A'}<br>
+                🏢 <strong>Facility Hours:</strong><br>
+                {list(airline_hours.values())[1]['hours'] if len(airline_hours)>1 else 'N/A'}
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    # --- D. TACTICAL TABLE ---
+    st.markdown("### ✅ Recommended Flights")
+    if valid:
+        grouped = {}
+        for f in valid:
+            key = (f['Airline'], f['Flight'], f['Dep Time'], f['Arr Time'])
+            if key not in grouped:
+                grouped[key] = f.copy()
+                grouped[key]['Days of Op'] = {f['Days of Op']}
+            else:
+                grouped[key]['Days of Op'].add(f['Days of Op'])
+        
+        rows = []
+        for f in grouped.values():
+            days = sorted(list(f['Days of Op']), key=lambda x: ["Mon","Tue","Wed","Thu","Fri","Sat","Sun","One-Time"].index(x) if x in ["Mon","Tue","Wed","Thu","Fri","Sat","Sun","One-Time"] else 99)
+            f['Days of Op'] = ", ".join(days)
+            rows.append(f)
+            
+        df = pd.DataFrame(rows)
+        cols = ["Airline", "Flight", "Days of Op", "Dep Time", "Arr Time", "Duration", "Notes", "Reliability"]
+        
+        st.dataframe(
+            df[cols], 
+            hide_index=True, 
+            use_container_width=True,
+            column_config={
+                "Reliability": st.column_config.ProgressColumn(
+                    "Risk Score",
+                    format="%d%%",
+                    min_value=0,
+                    max_value=100,
+                ),
+                "Notes": st.column_config.TextColumn("Operational Notes", width="large")
+            }
+        )
+    else:
+        if rejected_flights:
+            with st.expander("View Rejected Options"):
+                st.dataframe(pd.DataFrame(rejected_flights)[["Airline", "Flight", "Dep Time", "Reason"]])

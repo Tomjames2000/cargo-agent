@@ -46,7 +46,7 @@ except:
 # ==============================================================================
 class LogisticsTools:
     def __init__(self):
-        self.geolocator = Nominatim(user_agent="cargo_app_prod_v35_names", timeout=10)
+        self.geolocator = Nominatim(user_agent="cargo_app_prod_v36_am_recovery", timeout=10)
         
         # 1. LOAD MASTER FILE
         self.master_df = None
@@ -56,7 +56,7 @@ class LogisticsTools:
         except Exception as e:
             st.warning(f"⚠️ Could not load 'cargo_master.csv'. Using fallback database only. ({e})")
 
-        # Fallback DB with NAMES added
+        # Fallback DB
         self.AIRPORT_DB = {
             "SEA": {"name": "Seattle-Tacoma Intl", "coords": (47.4489, -122.3094)},
             "PDX": {"name": "Portland Intl", "coords": (45.5887, -122.5975)},
@@ -82,31 +82,15 @@ class LogisticsTools:
             "SLC": {"name": "Salt Lake City Intl", "coords": (40.7899, -111.9791)}
         }
 
-    def _get_airport_name(self, code):
-        # Check Master CSV first
-        if self.master_df is not None:
-            match = self.master_df[self.master_df['airport_code'] == code.upper()]
-            if not match.empty:
-                return match.iloc[0]['airport_name']
-        
-        # Check Fallback DB
-        if code.upper() in self.AIRPORT_DB:
-            return self.AIRPORT_DB[code.upper()]["name"]
-            
-        return "Unknown Airport"
-
     def _get_coords(self, location: str):
-        # Priority 1: Check Master CSV
         if self.master_df is not None and len(location) == 3:
             match = self.master_df[self.master_df['airport_code'] == location.upper()]
             if not match.empty:
                 return (match.iloc[0]['latitude_deg'], match.iloc[0]['longitude_deg'])
 
-        # Priority 2: Hardcoded DB
         if location.upper() in self.AIRPORT_DB:
             return self.AIRPORT_DB[location.upper()]["coords"]
             
-        # Priority 3: Geocode
         try:
             clean_loc = location.replace("Suite", "").replace("#", "").split(",")[0] + ", " + location.split(",")[-1]
             loc = self.geolocator.geocode(clean_loc)
@@ -135,12 +119,10 @@ class LogisticsTools:
         try:
             r = requests.get(url, params=params, timeout=5)
             data = r.json()
-            snippet = "No details found."
+            snippet = "No details."
             if "organic_results" in data:
-                snippet = data["organic_results"][0].get("snippet", "No details found.")
-            elif "answer_box" in data:
-                snippet = data["answer_box"].get("snippet", "No details found.")
-            return {"status": "Unverified", "hours": f"Web: {snippet[:50]}...", "source": "Web Search"}
+                snippet = data["organic_results"][0].get("snippet", "")
+            return {"status": "Unverified", "hours": f"Web Check: {snippet[:40]}...", "source": "Web Search"}
         except:
             return {"status": "Unknown", "hours": "Unknown", "source": "No Data"}
 
@@ -149,7 +131,7 @@ class LogisticsTools:
         if "Closed" in range_str or "N/A" in range_str: return False
         try:
             times = re.findall(r'\d{1,2}:\d{2}', range_str)
-            if len(times) != 2: return True
+            if len(times) != 2: return True 
             start = datetime.datetime.strptime(times[0], "%H:%M").time()
             end = datetime.datetime.strptime(times[1], "%H:%M").time()
             check = datetime.datetime.strptime(target_time, "%H:%M").time()
@@ -162,12 +144,10 @@ class LogisticsTools:
         if not user_coords: return None
         candidates = []
         
-        # Check hardcoded DB
         for code, data in self.AIRPORT_DB.items():
             dist = geodesic(user_coords, data["coords"]).miles
             candidates.append({"code": code, "name": data["name"], "air_miles": round(dist, 1)})
         
-        # Check Master CSV
         if self.master_df is not None:
             unique_apts = self.master_df[['airport_code', 'airport_name', 'latitude_deg', 'longitude_deg']].drop_duplicates()
             for _, row in unique_apts.iterrows():
@@ -199,20 +179,11 @@ class LogisticsTools:
             miles = data['routes'][0]['distance'] * 0.000621371
             hours = int(seconds // 3600)
             mins = int((seconds % 3600) // 60)
-            
-            return {
-                "miles": round(miles, 1),
-                "time_str": f"{hours}h {mins}m",
-                "time_min": round(seconds/60)
-            }
+            return {"miles": round(miles, 1), "time_str": f"{hours}h {mins}m", "time_min": round(seconds/60)}
         except:
             dist = geodesic(coords_start, coords_end).miles * 1.3
             hours = (dist / 50) + 0.5
-            return {
-                "miles": round(dist, 1),
-                "time_str": f"{int(hours)}h {int((hours*60)%60)}m (Est)",
-                "time_min": int(hours*60)
-            }
+            return {"miles": round(dist, 1), "time_str": f"{int(hours)}h {int((hours*60)%60)}m (Est)", "time_min": int(hours*60)}
 
     def search_flights(self, origin, dest, date, show_all_airlines=False):
         url = "https://serpapi.com/search"
@@ -326,18 +297,14 @@ if run_btn:
         st.write("📍 Resolving Airports...")
         p_apts = tools.find_nearest_airports(p_addr)
         d_apts = tools.find_nearest_airports(d_addr)
-        
-        if not p_apts:
-            st.error(f"Could not locate Pickup Address: '{p_addr}'")
-            st.stop()
-        if not d_apts:
-            st.error(f"Could not locate Delivery Address: '{d_addr}'")
+        if not p_apts or not d_apts:
+            st.error("Could not locate addresses. Try City/State.")
             st.stop()
             
         p_code = p_apts[0]['code']
-        p_name = p_apts[0]['name'] # From new method
+        p_name = p_apts[0]['name']
         d_code = d_apts[0]['code']
-        d_name = d_apts[0]['name'] # From new method
+        d_name = d_apts[0]['name']
         
         # 2. ROADS
         st.write("🚚 Calculating Drive Metrics...")
@@ -390,15 +357,18 @@ if run_btn:
                 reject_reason = None
                 airline = f['Airline']
                 
-                # FACILITY HOURS CHECK
+                # FACILITY HOURS LOGIC
                 search_date_obj = datetime.datetime.strptime(day_obj['date'], "%Y-%m-%d")
                 
+                # Get Origin Hours
                 if (p_code, airline) not in airline_hours_cache:
                      airline_hours_cache[(p_code, airline)] = tools.get_cargo_hours(p_code, airline, search_date_obj)
                 
+                # Get Dest Hours
                 if (d_code, airline) not in airline_hours_cache:
                      airline_hours_cache[(d_code, airline)] = tools.get_cargo_hours(d_code, airline, search_date_obj)
 
+                # Validate Origin (Strict)
                 p_hours = airline_hours_cache[(p_code, airline)]
                 tender_dt = datetime.datetime.strptime(f['Dep Time'], "%H:%M") - datetime.timedelta(minutes=120)
                 tender_time_str = tender_dt.strftime("%H:%M")
@@ -406,12 +376,14 @@ if run_btn:
                 if not tools.check_time_in_range(tender_time_str, p_hours['hours']):
                     reject_reason = f"Origin Closed ({p_hours['hours']})"
 
-                if not reject_reason:
-                    d_hours = airline_hours_cache[(d_code, airline)]
-                    rec_dt = datetime.datetime.strptime(f['Arr Time'], "%H:%M") + datetime.timedelta(minutes=60)
-                    rec_time_str = rec_dt.strftime("%H:%M")
-                    if not tools.check_time_in_range(rec_time_str, d_hours['hours']):
-                         reject_reason = f"Dest Closed ({d_hours['hours']})"
+                # Validate Dest (Warning Only)
+                f['Note'] = ""
+                d_hours = airline_hours_cache[(d_code, airline)]
+                rec_dt = datetime.datetime.strptime(f['Arr Time'], "%H:%M") + datetime.timedelta(minutes=60)
+                rec_time_str = rec_dt.strftime("%H:%M")
+                
+                if not tools.check_time_in_range(rec_time_str, d_hours['hours']) and not reject_reason:
+                     f['Note'] = f"⚠️ AM Recovery (Closed at {rec_time_str})"
 
                 if f['Dep Time'] < earliest_dep_str and not reject_reason: 
                     reject_reason = f"Too Early (Dep {f['Dep Time']})"
@@ -432,6 +404,8 @@ if run_btn:
                     rejected_flights.append(f)
                 else:
                     f['Days of Op'] = day_obj['day']
+                    # Add Facility Hours to row for display
+                    f['Dest Hours'] = d_hours['hours']
                     valid_flights.append(f)
         
         status.update(label="Analysis Complete!", state="complete", expanded=False)
@@ -442,7 +416,7 @@ if run_btn:
     
     col1, col2 = st.columns(2)
     with col1:
-        st.info(f"**PICKUP: {p_code} - {p_name}**") # <-- Added Name Here
+        st.info(f"**PICKUP: {p_code} - {p_name}**")
         st.markdown(f"""
         * **Ready:** {p_time.strftime('%H:%M')}
         * **Drive Mileage:** {d1['miles']} miles
@@ -450,16 +424,9 @@ if run_btn:
         * **Buffer Logic:** MAX({d1['time_min']}, {custom_p_buff}) + 60 = **{total_prep} min** prep
         * **Earliest Flight:** {earliest_dep_str}
         """)
-        
-        st.markdown("**Cargo Facility Hours (Origin):**")
-        seen = set()
-        for (apt, air), val in airline_hours_cache.items():
-            if apt == p_code and air not in seen:
-                st.caption(f"- {air}: {val['hours']} ({val['source']})")
-                seen.add(air)
 
     with col2:
-        st.success(f"**DELIVERY: {d_code} - {d_name}**") # <-- Added Name Here
+        st.success(f"**DELIVERY: {d_code} - {d_name}**")
         if has_deadline:
             days_str = f"(+{del_offset} Day)" if del_offset > 0 else "(Same Day)"
             st.markdown(f"""
@@ -471,13 +438,6 @@ if run_btn:
             """)
         else:
             st.markdown("*No strict deadline set.*")
-            
-        st.markdown("**Cargo Facility Hours (Destination):**")
-        seen = set()
-        for (apt, air), val in airline_hours_cache.items():
-            if apt == d_code and air not in seen:
-                st.caption(f"- {air}: {val['hours']} ({val['source']})")
-                seen.add(air)
 
     st.divider()
     
@@ -500,13 +460,14 @@ if run_btn:
             final_rows.append(f)
             
         df = pd.DataFrame(final_rows)
-        cols = ["Airline", "Flight", "Days of Op", "Origin", "Dep Time", "Dest", "Arr Time", "Duration", "Conn Apt", "Conn Time"]
+        # Added 'Dest Hours' and 'Note' to table columns
+        cols = ["Airline", "Flight", "Days of Op", "Origin", "Dep Time", "Dest", "Arr Time", "Dest Hours", "Note", "Duration", "Conn Apt", "Conn Time"]
         st.dataframe(df[cols], hide_index=True, use_container_width=True)
         
     elif rejected_flights:
         st.warning("⚠️ No valid flights found! Here is what we rejected:")
         rej_df = pd.DataFrame(rejected_flights)
-        st.dataframe(rej_df[["Airline", "Flight", "Dep Time", "Arr Time", "Reason", "Day"]], hide_index=True)
+        st.dataframe(rej_df[["Airline", "Flight", "Dep Time", "Reason", "Day"]], hide_index=True)
         
     else:
         st.error(f"No flights found at all between {p_code} and {d_code}. Try checking 'Show All Airlines'.")

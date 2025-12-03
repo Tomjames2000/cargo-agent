@@ -48,9 +48,9 @@ except:
 # ==============================================================================
 class LogisticsTools:
     def __init__(self):
-        self.geolocator = Nominatim(user_agent="cargo_app_global_v50", timeout=10)
+        self.geolocator = Nominatim(user_agent="cargo_app_prod_v51_final_fix", timeout=10)
         
-        # 1. LOAD MASTER FILE (For Hours/Rules)
+        # 1. LOAD MASTER FILE
         self.master_df = None
         try:
             self.master_df = pd.read_csv("cargo_master.csv")
@@ -58,7 +58,7 @@ class LogisticsTools:
         except Exception as e:
             print(f"CSV Error: {e}")
 
-        # FALLBACK DB (Only used if API fails)
+        # FALLBACK DB
         self.AIRPORT_DB = {
             "SEA": {"name": "Seattle-Tacoma Intl", "coords": (47.4489, -122.3094)},
             "PDX": {"name": "Portland Intl", "coords": (45.5887, -122.5975)},
@@ -104,7 +104,7 @@ class LogisticsTools:
                     return (loc['lat'], loc['lng'])
             except: pass
 
-        # 3. Nominatim Fallback
+        # 3. Fallback: Nominatim
         try:
             clean_loc = location.replace("Suite", "").replace("#", "").split(",")[0] + ", " + location.split(",")[-1]
             loc = self.geolocator.geocode(clean_loc)
@@ -117,12 +117,11 @@ class LogisticsTools:
             
         return None
 
-    @st.cache_data(ttl=3600) # Cache for 1 hour
+    @st.cache_data(ttl=3600)
     def get_airport_details(_self, code):
-        """Get Name and Coords for ANY airport code in the world (Cached)."""
         code = code.upper()
         
-        # 1. Aviation Edge Global Lookup
+        # 1. Aviation Edge
         if AVIATION_EDGE_KEY:
             url = "https://aviation-edge.com/v2/public/airportDatabase"
             params = {"key": AVIATION_EDGE_KEY, "codeIataAirport": code}
@@ -138,7 +137,7 @@ class LogisticsTools:
                     }
             except: pass
 
-        # 2. Master CSV / Fallback
+        # 2. Master CSV
         if _self.master_df is not None:
             match = _self.master_df[_self.master_df['airport_code'] == code]
             if not match.empty:
@@ -154,22 +153,13 @@ class LogisticsTools:
 
     @st.cache_data(ttl=3600)
     def find_nearest_airports(_self, address: str):
-        """
-        1. Geocodes the address.
-        2. Asks Aviation Edge for airports within 150km (Cached).
-        """
         user_coords = _self._get_coords(address)
         if not user_coords: return None
         
-        # --- AVIATION EDGE NEARBY ---
+        # Aviation Edge Nearby
         if AVIATION_EDGE_KEY:
             url = "https://aviation-edge.com/v2/public/nearby"
-            params = {
-                "key": AVIATION_EDGE_KEY,
-                "lat": user_coords[0],
-                "lng": user_coords[1],
-                "distance": 150
-            }
+            params = {"key": AVIATION_EDGE_KEY, "lat": user_coords[0], "lng": user_coords[1], "distance": 150}
             try:
                 r = requests.get(url, params=params, timeout=8)
                 data = r.json()
@@ -187,7 +177,7 @@ class LogisticsTools:
                         return candidates[:3]
             except: pass
 
-        # --- FALLBACK LOOP ---
+        # Fallback Loop
         candidates = []
         for code, data in _self.AIRPORT_DB.items():
             dist = geodesic(user_coords, data["coords"]).miles
@@ -197,7 +187,6 @@ class LogisticsTools:
 
     @st.cache_data(ttl=3600)
     def get_road_metrics(_self, origin: str, destination: str):
-        """Cached Road Metrics"""
         coords_start = _self._get_coords(origin)
         coords_end = _self._get_coords(destination)
         if not coords_start or not coords_end: return None
@@ -231,7 +220,6 @@ class LogisticsTools:
         hours = (dist / 50) + 0.5
         return {"miles": round(dist, 1), "time_str": f"{int(hours)}h {int((hours*60)%60)}m (Est)", "time_min": int(hours*60)}
 
-    # --- CARGO HOURS (Not Cached - needs live date) ---
     def get_cargo_hours(self, airport_code, airline, date_obj):
         day_name = date_obj.strftime("%A")
         col_map = {"Saturday": "saturday", "Sunday": "sunday"}
@@ -248,7 +236,6 @@ class LogisticsTools:
                     return {"status": "Closed", "hours": "No Cargo", "source": "Master File"}
                 return {"status": "Open", "hours": hours_str, "source": "Master File"}
         
-        # Web Search Fallback
         return {"status": "Unknown", "hours": "Unknown", "source": "No Data"}
 
     def check_time_in_range(self, target_time, range_str):
@@ -265,9 +252,8 @@ class LogisticsTools:
             else: return start <= check or check <= end
         except: return True
 
-    # --- FLIGHT SEARCH ---
     def search_flights(self, origin, dest, date, show_all_airlines=False):
-        # Use Aviation Edge
+        # Aviation Edge
         if AVIATION_EDGE_KEY:
             url = "https://aviation-edge.com/v2/public/flightsFuture"
             params = {"key": AVIATION_EDGE_KEY, "type": "departure", "iataCode": origin, "date": date, "arr_iataCode": dest}
@@ -299,6 +285,7 @@ class LogisticsTools:
                             "Flight": f"{airline_code}{f.get('flight',{}).get('iataNumber','')}",
                             "Origin": dep.get('iataCode', origin),
                             "Dep Time": dep_time_full.split('T')[-1][:5],
+                            "Dep Full": dep_time_full,
                             "Dest": arr.get('iataCode', dest),
                             "Arr Time": arr_time_full.split('T')[-1][:5],
                             "Arr Full": arr_time_full,
@@ -321,8 +308,11 @@ class LogisticsTools:
         try:
             r = requests.get(url, params=params)
             data = r.json()
+            if "error" in data: return {"error": data["error"]}
             raw = data.get("best_flights", []) + data.get("other_flights", [])
             results = []
+            if not raw: return []
+
             for f in raw[:20]:
                 legs = f.get('flights', [])
                 if not legs: continue
@@ -330,6 +320,7 @@ class LogisticsTools:
                 conn_apt = layovers[0].get('id', 'Direct') if layovers else "Direct"
                 conn_min = layovers[0].get('duration', 0) if layovers else 0
                 conn_time_str = f"{conn_min//60}h {conn_min%60}m" if layovers else "N/A"
+
                 dep_full = legs[0].get('departure_airport', {}).get('time', '') 
                 arr_full = legs[-1].get('arrival_airport', {}).get('time', '') 
                 if not dep_full or not arr_full: continue
@@ -339,9 +330,10 @@ class LogisticsTools:
                     "Flight": " / ".join([l.get('flight_number', '') for l in legs]),
                     "Origin": legs[0].get('departure_airport', {}).get('id', 'UNK'),
                     "Dep Time": dep_full.split()[-1], 
+                    "Dep Full": dep_full,             
                     "Dest": legs[-1].get('arrival_airport', {}).get('id', 'UNK'),
                     "Arr Time": arr_full.split()[-1], 
-                    "Arr Full": arr_full,
+                    "Arr Full": arr_full,             
                     "Duration": f"{f.get('total_duration',0)//60}h {f.get('total_duration',0)%60}m",
                     "Conn Apt": conn_apt,
                     "Conn Time": conn_time_str,
@@ -385,7 +377,7 @@ with st.sidebar:
         del_date_obj = st.date_input("Delivery Date", default_del)
         del_time = st.time_input("Must Arrive By (HH:MM)", datetime.time(18, 0))
         del_offset = (del_date_obj - p_date).days
-        if del_offset < 0:
+        if mode == "One-Time (Ad-Hoc)" and del_offset < 0:
             st.error("⚠️ Delivery Date cannot be before Pickup Date.")
             st.stop()
 
@@ -494,24 +486,36 @@ if run_btn:
                 
                 search_date_obj = datetime.datetime.strptime(day_obj['date'], "%Y-%m-%d")
                 
+                # Hours Lookup
                 if (p_code, airline) not in airline_hours_cache:
                      airline_hours_cache[(p_code, airline)] = tools.get_cargo_hours(p_code, airline, search_date_obj)
                 if (d_code, airline) not in airline_hours_cache:
                      airline_hours_cache[(d_code, airline)] = tools.get_cargo_hours(d_code, airline, search_date_obj)
 
+                # STRICT REJECTION
                 p_hours = airline_hours_cache[(p_code, airline)]
-                tender_dt = datetime.datetime.strptime(f['Dep Time'], "%H:%M") - datetime.timedelta(minutes=120)
-                tender_time_str = tender_dt.strftime("%H:%M")
-                
-                if not tools.check_time_in_range(tender_time_str, p_hours['hours']):
-                    reject_reason = f"Origin Closed ({p_hours['hours']})"
+                if p_hours['hours'] == "No Cargo":
+                    reject_reason = "No Cargo Facility at Origin"
+                elif p_hours['hours'] == "CLOSED":
+                    reject_reason = "Origin Facility Closed (Day)"
 
                 if not reject_reason:
-                    d_hours = airline_hours_cache[(d_code, airline)]
+                    tender_dt = datetime.datetime.strptime(f['Dep Time'], "%H:%M") - datetime.timedelta(minutes=120)
+                    tender_time_str = tender_dt.strftime("%H:%M")
+                    if not tools.check_time_in_range(tender_time_str, p_hours['hours']):
+                        reject_reason = f"Origin Closed ({p_hours['hours']})"
+
+                d_hours = airline_hours_cache[(d_code, airline)]
+                if d_hours['hours'] == "No Cargo" and not reject_reason:
+                    reject_reason = "No Cargo Facility at Dest"
+
+                if not reject_reason:
                     rec_dt = datetime.datetime.strptime(f['Arr Time'], "%H:%M") + datetime.timedelta(minutes=60)
                     rec_time_str = rec_dt.strftime("%H:%M")
                     if not tools.check_time_in_range(rec_time_str, d_hours['hours']):
                          f['Note'] = f"⚠️ AM Recovery ({d_hours['hours']})"
+                    else:
+                        f['Note'] = "OK"
 
                 if f['Dep Time'] < earliest_dep_str and not reject_reason: 
                     reject_reason = f"Too Early (Dep {f['Dep Time']})"
@@ -521,16 +525,9 @@ if run_btn:
                     
                 if latest_arr_dt and not reject_reason:
                     try:
-                        flight_arr_dt = datetime.datetime.strptime(f['Arr Full'], "%Y-%m-%d %H:%M") if 'T' in f['Arr Full'] else datetime.datetime.strptime(f"{day_obj['date']} {f['Arr Time']}", "%Y-%m-%d %H:%M")
-                        # Date math fix for overnight
-                        if f['Arr Time'] < f['Dep Time']: flight_arr_dt += datetime.timedelta(days=1)
-                        
-                        loop_deadline = datetime.datetime.strptime(day_obj['date'], "%Y-%m-%d") + datetime.timedelta(days=del_offset)
-                        loop_deadline = loop_deadline.replace(hour=del_time.hour, minute=del_time.minute)
-                        loop_latest_arr = loop_deadline - datetime.timedelta(minutes=total_post)
-                        
-                        if flight_arr_dt > loop_latest_arr:
-                             reject_reason = f"Arrives Too Late ({f['Arr Time']})"
+                        flight_arr_dt = datetime.datetime.strptime(f['Arr Full'], "%Y-%m-%d %H:%M")
+                        if flight_arr_dt.date() > (datetime.datetime.strptime(day_obj['date'], "%Y-%m-%d").date() + datetime.timedelta(days=del_offset)):
+                             reject_reason = f"Arrives Too Late (Day+)"
                     except: pass
 
                 if reject_reason:
@@ -540,7 +537,8 @@ if run_btn:
                 else:
                     f['Days of Op'] = day_obj['day']
                     f['Dest Hours'] = d_hours['hours']
-                    f['Track'] = f"https://flightaware.com/live/flight/{f['Flight']}"
+                    # ADDED TRACKING
+                    f['Track'] = f"https://flightaware.com/live/flight/{f['Airline']}{f['Flight'].replace(f['Airline'], '')}"
                     valid_flights.append(f)
         
         status.update(label="Analysis Complete!", state="complete", expanded=False)
@@ -609,13 +607,14 @@ if run_btn:
             final_rows.append(f)
             
         df = pd.DataFrame(final_rows)
-        cols = ["Airline", "Flight", "Days of Op", "Origin", "Dep Time", "Dest", "Arr Time", "Dest Hours", "Note", "Duration", "Conn Apt", "Track"]
+        cols = ["Airline", "Flight", "Days of Op", "Origin", "Dep Time", "Dest", "Arr Time", "Dest Hours", "Note", "Duration", "Conn Apt", "Conn Time", "Track"]
         st.dataframe(
             df[cols], 
             hide_index=True, 
             use_container_width=True,
             column_config={
-                "Track": st.column_config.LinkColumn("Tracker", display_text="Live Status")
+                "Track": st.column_config.LinkColumn("Tracker", display_text="Track Flight"),
+                "Note": st.column_config.TextColumn("Status")
             }
         )
         

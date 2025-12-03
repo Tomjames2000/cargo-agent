@@ -8,20 +8,87 @@ from dateutil import parser, relativedelta
 from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
 
-# IMPORT THE NEW MODULE (Make sure modules/fra_engine.py exists!)
+# IMPORT FLIGHT RELIABILITY MODULE
 try:
     from modules.fra_engine import analyze_reliability
-    HAS_FRA_MODULE = True
+    HAS_FRA = True
 except ImportError:
-    HAS_FRA_MODULE = False
+    HAS_FRA = False
 
 # ==============================================================================
-# 1. SECURITY & CONFIG
+# 1. VISUAL CONFIGURATION (Dark Mode / Command Center)
 # ==============================================================================
-st.set_page_config(page_title="Cargo Logistics Master", layout="wide", page_icon="✈️")
+st.set_page_config(
+    page_title="Cargo Logistics Master", 
+    layout="wide", 
+    page_icon="✈️",
+    initial_sidebar_state="expanded"
+)
 
+# Custom CSS for "Command Center" look
+st.markdown("""
+<style>
+    /* Card Styling */
+    .metric-card {
+        background-color: #1e293b;
+        border: 1px solid #334155;
+        padding: 20px;
+        border-radius: 10px;
+        color: #f8fafc;
+        height: 100%;
+    }
+    .metric-header {
+        color: #94a3b8;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 8px;
+    }
+    .metric-value {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #f8fafc;
+    }
+    /* Timeline Styling */
+    .timeline-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #0f172a;
+        padding: 25px;
+        border-radius: 12px;
+        border: 1px solid #1e293b;
+        margin: 20px 0;
+        color: #e2e8f0;
+    }
+    .timeline-point {
+        text-align: center;
+        position: relative;
+        z-index: 2;
+    }
+    .timeline-line {
+        flex-grow: 1;
+        height: 4px;
+        background: linear-gradient(90deg, #3b82f6 0%, #10b981 100%);
+        margin: 0 15px;
+        border-radius: 2px;
+        opacity: 0.5;
+    }
+    .status-badge {
+        background-color: #3b82f6;
+        color: white;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        font-weight: bold;
+    }
+</style>
+""", unsafe_allow_html=True)
+
+# ==============================================================================
+# 2. SECURITY
+# ==============================================================================
 def check_password():
-    """Returns `True` if the user had the correct password."""
     def password_entered():
         if st.session_state["password"] == st.secrets["APP_PASSWORD"]:
             st.session_state["password_correct"] = True
@@ -30,11 +97,11 @@ def check_password():
             st.session_state["password_correct"] = False
 
     if "password_correct" not in st.session_state:
-        st.text_input("🔒 Enter Team Password:", type="password", on_change=password_entered, key="password")
+        st.text_input("🔒 Authorization Code:", type="password", on_change=password_entered, key="password")
         return False
     elif not st.session_state["password_correct"]:
-        st.text_input("🔒 Enter Team Password:", type="password", on_change=password_entered, key="password")
-        st.error("⛔ Incorrect Password")
+        st.text_input("🔒 Authorization Code:", type="password", on_change=password_entered, key="password")
+        st.error("⛔ Access Denied")
         return False
     else:
         return True
@@ -47,22 +114,21 @@ try:
     GOOGLE_MAPS_KEY = st.secrets.get("GOOGLE_MAPS_KEY", None)
     AVIATION_EDGE_KEY = st.secrets.get("AVIATION_EDGE_KEY", None)
 except:
-    st.error("❌ System Error: API Keys missing in Secrets.")
+    st.error("❌ Critical Error: API Keys missing.")
     st.stop()
 
 # ==============================================================================
-# 2. LOGISTICS ENGINE (Class)
+# 3. LOGISTICS ENGINE
 # ==============================================================================
-# ... [Keep the LogisticsTools Class EXACTLY as it was in v45] ...
-# (I will paste the class below for completeness, but it is unchanged)
 class LogisticsTools:
     def __init__(self):
-        self.geolocator = Nominatim(user_agent="cargo_app_prod_v46_tabs", timeout=10)
+        self.geolocator = Nominatim(user_agent="cargo_command_v53", timeout=10)
         self.master_df = None
         try:
             self.master_df = pd.read_csv("cargo_master.csv")
             self.master_df.columns = [c.strip().lower().replace(" ", "_") for c in self.master_df.columns]
-        except Exception: pass
+        except: pass
+        
         self.AIRPORT_DB = {
             "SEA": {"name": "Seattle-Tacoma Intl", "coords": (47.4489, -122.3094)},
             "PDX": {"name": "Portland Intl", "coords": (45.5887, -122.5975)},
@@ -104,12 +170,10 @@ class LogisticsTools:
     def get_airport_details(self, code):
         code = code.upper()
         if AVIATION_EDGE_KEY:
-            url = "https://aviation-edge.com/v2/public/airportDatabase"
             try:
-                r = requests.get(url, params={"key": AVIATION_EDGE_KEY, "codeIataAirport": code}, timeout=5)
-                data = r.json()
-                if data and isinstance(data, list):
-                    return {"code": code, "name": data[0].get("nameAirport", code), "coords": (float(data[0]['latitudeAirport']), float(data[0]['longitudeAirport']))}
+                r = requests.get("https://aviation-edge.com/v2/public/airportDatabase", params={"key": AVIATION_EDGE_KEY, "codeIataAirport": code}, timeout=5)
+                d = r.json()
+                if d and isinstance(d, list): return {"code": code, "name": d[0].get("nameAirport", code), "coords": (float(d[0]['latitudeAirport']), float(d[0]['longitudeAirport']))}
             except: pass
         if self.master_df is not None:
             match = self.master_df[self.master_df['airport_code'] == code]
@@ -131,13 +195,13 @@ class LogisticsTools:
         url = "https://serpapi.com/search"
         try:
             r = requests.get(url, params={"engine": "google", "q": f"{airline} cargo hours {airport_code} {day_name}", "api_key": SERPAPI_KEY, "num": 1}, timeout=5)
-            snip = r.json()["organic_results"][0].get("snippet", "") if "organic_results" in r.json() else "No details"
+            snip = r.json().get("organic_results", [{}])[0].get("snippet", "No data")
             return {"status": "Unverified", "hours": f"Web: {snip[:40]}...", "source": "Web Search"}
         except: return {"status": "Unknown", "hours": "Unknown", "source": "No Data"}
 
     def check_time_in_range(self, target_time, range_str):
         if any(x in range_str.lower() for x in ["no cargo", "closed", "n/a"]): return False
-        if "24" in range_str or "Daily" in range_str: return True
+        if "24" in range_str or "daily" in range_str: return True
         try:
             times = re.findall(r'\d{1,2}:\d{2}', range_str)
             if len(times) != 2: return True
@@ -151,21 +215,29 @@ class LogisticsTools:
         user_coords = self._get_coords(address)
         if not user_coords: return None
         candidates = []
+        
+        # API Search
         if AVIATION_EDGE_KEY:
             try:
                 r = requests.get("https://aviation-edge.com/v2/public/nearby", params={"key": AVIATION_EDGE_KEY, "lat": user_coords[0], "lng": user_coords[1], "distance": 150}, timeout=8)
-                data = r.json()
-                if isinstance(data, list):
-                    for apt in data:
-                        if len(apt.get("codeIataAirport", "")) == 3: candidates.append({"code": apt.get("codeIataAirport").upper(), "name": apt.get("nameAirport"), "air_miles": round(float(apt.get("distance")) * 0.621371, 1)})
-                    if candidates:
-                        candidates.sort(key=lambda x: x["air_miles"])
-                        return candidates[:3]
+                for apt in r.json():
+                    if len(apt.get("codeIataAirport", "")) == 3: candidates.append({"code": apt.get("codeIataAirport").upper(), "name": apt.get("nameAirport"), "air_miles": round(float(apt.get("distance")) * 0.621371, 1)})
             except: pass
         
-        for code, data in self.AIRPORT_DB.items():
-            dist = geodesic(user_coords, data["coords"]).miles
-            candidates.append({"code": code, "name": data["name"], "air_miles": round(dist, 1)})
+        # Fallback Search
+        if not candidates:
+            for code, data in self.AIRPORT_DB.items():
+                dist = geodesic(user_coords, data["coords"]).miles
+                candidates.append({"code": code, "name": data["name"], "air_miles": round(dist, 1)})
+            if self.master_df is not None:
+                try:
+                    unique = self.master_df[['airport_code', 'airport_name', 'latitude_deg', 'longitude_deg']].drop_duplicates()
+                    for _, row in unique.iterrows():
+                        if row['airport_code'] not in self.AIRPORT_DB:
+                            dist = geodesic(user_coords, (row['latitude_deg'], row['longitude_deg'])).miles
+                            candidates.append({"code": row['airport_code'], "name": row['airport_name'], "air_miles": round(dist, 1)})
+                except: pass
+
         candidates.sort(key=lambda x: x["air_miles"])
         return candidates[:3]
 
@@ -194,11 +266,10 @@ class LogisticsTools:
                 sec = data['routes'][0]['duration']
                 return {"miles": round(data['routes'][0]['distance'] * 0.000621371, 1), "time_str": f"{int(sec // 3600)}h {int((sec % 3600) // 60)}m", "time_min": round(sec/60)}
         except: pass
-        
         dist = geodesic(coords_start, coords_end).miles * 1.3
         return {"miles": round(dist, 1), "time_str": f"{int((dist/50) + 0.5)}h {int(((dist/50) + 0.5)*60)%60}m (Est)", "time_min": int(((dist/50) + 0.5)*60)}
 
-    def search_flights(self, origin, dest, date, show_all_airlines=False):
+    def search_flights(self, origin, dest, date, show_all=False):
         # 1. Aviation Edge
         if AVIATION_EDGE_KEY:
             try:
@@ -208,236 +279,251 @@ class LogisticsTools:
                     results = []
                     for f in data:
                         airline = f.get('airline', {}).get('iataCode', 'UNK')
-                        if not show_all_airlines and airline not in ["WN","AA","DL","UA"]: continue
-                        
-                        dep_time_full = f.get('departure', {}).get('scheduledTime', '')
-                        arr_time_full = f.get('arrival', {}).get('scheduledTime', '')
-                        
+                        if not show_all and airline not in ["WN","AA","DL","UA"]: continue
+                        dep_time = f.get('departure', {}).get('scheduledTime', '')
+                        arr_time = f.get('arrival', {}).get('scheduledTime', '')
                         try:
-                            dur = (datetime.datetime.strptime(arr_time_full.split('.')[0], "%Y-%m-%dT%H:%M:%S") - datetime.datetime.strptime(dep_time_full.split('.')[0], "%Y-%m-%dT%H:%M:%S")).total_seconds()/60
+                            dur = (datetime.datetime.strptime(arr_time.split('.')[0], "%Y-%m-%dT%H:%M:%S") - datetime.datetime.strptime(dep_time.split('.')[0], "%Y-%m-%dT%H:%M:%S")).total_seconds()/60
                             dur_str = f"{int(dur//60)}h {int(dur%60)}m"
                         except: dur_str = "N/A"
-
                         results.append({
                             "Airline": airline, "Flight": f"{airline}{f.get('flight',{}).get('iataNumber','')}",
-                            "Origin": f.get('departure', {}).get('iataCode', origin), "Dep Time": dep_time_full.split('T')[-1][:5], "Dep Full": dep_time_full,
-                            "Dest": f.get('arrival', {}).get('iataCode', dest), "Arr Time": arr_time_full.split('T')[-1][:5], "Arr Full": arr_time_full,
+                            "Origin": f.get('departure', {}).get('iataCode', origin), "Dep Time": dep_time.split('T')[-1][:5], "Dep Full": dep_time,
+                            "Dest": f.get('arrival', {}).get('iataCode', dest), "Arr Time": arr_time.split('T')[-1][:5], "Arr Full": arr_time,
                             "Duration": dur_str, "Conn Apt": "Direct", "Conn Time": "N/A", "Conn Min": 0
                         })
                     if results: return results
             except: pass
 
-        # 2. SerpApi Backup
+        # 2. SerpApi
         try:
             params = {"engine": "google_flights", "departure_id": origin, "arrival_id": dest, "outbound_date": date, "type": "2", "hl": "en", "gl": "us", "currency": "USD", "api_key": SERPAPI_KEY}
-            if not show_all_airlines: params["include_airlines"] = "WN,AA,DL,UA"
+            if not show_all: params["include_airlines"] = "WN,AA,DL,UA"
             r = requests.get("https://serpapi.com/search", params=params)
             data = r.json()
             results = []
-            if "best_flights" in data or "other_flights" in data:
-                for f in (data.get("best_flights", []) + data.get("other_flights", []))[:20]:
-                    legs = f.get('flights', [])
-                    if not legs: continue
-                    layovers = f.get('layovers', [])
-                    dep_full = legs[0].get('departure_airport', {}).get('time', '')
-                    arr_full = legs[-1].get('arrival_airport', {}).get('time', '')
-                    results.append({
-                        "Airline": legs[0].get('airline', 'UNK'),
-                        "Flight": " / ".join([l.get('flight_number', '') for l in legs]),
-                        "Origin": legs[0].get('departure_airport', {}).get('id', 'UNK'),
-                        "Dep Time": dep_full.split()[-1], "Dep Full": dep_full,
-                        "Dest": legs[-1].get('arrival_airport', {}).get('id', 'UNK'),
-                        "Arr Time": arr_full.split()[-1], "Arr Full": arr_full,
-                        "Duration": f"{f.get('total_duration',0)//60}h {f.get('total_duration',0)%60}m",
-                        "Conn Apt": layovers[0].get('id', 'Direct') if layovers else "Direct",
-                        "Conn Time": f"{layovers[0].get('duration',0)//60}h {layovers[0].get('duration',0)%60}m" if layovers else "N/A",
-                        "Conn Min": layovers[0].get('duration', 0) if layovers else 0
-                    })
+            raw = data.get("best_flights", []) + data.get("other_flights", [])
+            for f in raw[:20]:
+                legs = f.get('flights', [])
+                if not legs: continue
+                layovers = f.get('layovers', [])
+                dep_full = legs[0].get('departure_airport', {}).get('time', '')
+                arr_full = legs[-1].get('arrival_airport', {}).get('time', '')
+                results.append({
+                    "Airline": legs[0].get('airline', 'UNK'),
+                    "Flight": " / ".join([l.get('flight_number', '') for l in legs]),
+                    "Origin": legs[0].get('departure_airport', {}).get('id', 'UNK'),
+                    "Dep Time": dep_full.split()[-1], "Dep Full": dep_full,
+                    "Dest": legs[-1].get('arrival_airport', {}).get('id', 'UNK'),
+                    "Arr Time": arr_full.split()[-1], "Arr Full": arr_full,
+                    "Duration": f"{f.get('total_duration',0)//60}h {f.get('total_duration',0)%60}m",
+                    "Conn Apt": layovers[0].get('id', 'Direct') if layovers else "Direct",
+                    "Conn Time": f"{layovers[0].get('duration',0)//60}h {layovers[0].get('duration',0)%60}m" if layovers else "N/A",
+                    "Conn Min": layovers[0].get('duration', 0) if layovers else 0
+                })
             return results
         except: return []
 
 # ==============================================================================
-# 3. MAIN INTERFACE (TABS)
+# 3. DASHBOARD UI (Left Sidebar)
+# ==============================================================================
+st.sidebar.title("🎮 Control Panel")
+
+# --- INPUTS ---
+st.sidebar.markdown("**1. Shipment Mode**")
+mode = st.sidebar.radio("Frequency", ["One-Time (Ad-Hoc)", "Reoccurring"], label_visibility="collapsed")
+
+st.sidebar.markdown("**2. Locations**")
+p_addr = st.sidebar.text_input("Pickup Address", "2008 Altom Ct, St. Louis, MO 63146")
+p_manual = st.sidebar.text_input("Origin Override (Opt)", placeholder="e.g. STL")
+st.sidebar.markdown("⬇️")
+d_addr = st.sidebar.text_input("Delivery Address", "1250 E Hadley St, Phoenix, AZ 85034")
+d_manual = st.sidebar.text_input("Dest Override (Opt)", placeholder="e.g. PHX")
+
+st.sidebar.markdown("**3. Timing**")
+p_time = st.sidebar.time_input("Ready Time", datetime.time(9, 0))
+
+if mode == "One-Time (Ad-Hoc)":
+    p_date = st.sidebar.date_input("Pickup Date", datetime.date.today() + datetime.timedelta(days=1))
+else:
+    p_date = datetime.date.today()
+
+has_deadline = st.sidebar.checkbox("Strict Delivery Deadline?", value=True)
+del_date_obj = None
+del_time = None
+del_offset = 0
+
+if has_deadline:
+    default_del = p_date + datetime.timedelta(days=1)
+    del_date_obj = st.sidebar.date_input("Delivery Date", default_del)
+    del_time = st.sidebar.time_input("Must Arrive By", datetime.time(18, 0))
+    del_offset = (del_date_obj - p_date).days
+
+days_to_search = []
+if mode == "One-Time (Ad-Hoc)":
+    days_to_search = [{"day": "One-Time", "date": p_date.strftime("%Y-%m-%d")}]
+else:
+    days_selected = st.sidebar.multiselect("Days", ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"], ["Mon", "Wed", "Fri"])
+    day_map = {"Mon":0, "Tue":1, "Wed":2, "Thu":3, "Fri":4, "Sat":5, "Sun":6}
+    today = datetime.date.today()
+    for d in days_selected:
+        target = day_map[d]
+        diff = target - today.weekday()
+        if diff <= 0: diff += 7
+        days_to_search.append({"day": d, "date": (today + datetime.timedelta(days=diff)).strftime("%Y-%m-%d")})
+
+with st.sidebar.expander("⚙️ Settings"):
+    custom_p_buff = st.sidebar.number_input("Pickup Buffer", 120)
+    custom_d_buff = st.sidebar.number_input("Del Buffer", 120)
+    min_conn = st.sidebar.number_input("Min Conn", 60)
+    show_all = st.sidebar.checkbox("Show All Airlines", False)
+
+run_btn = st.sidebar.button("🚀 Run Analysis", type="primary")
+
+# ==============================================================================
+# 4. INTELLIGENCE PANEL (Main Area)
 # ==============================================================================
 
-st.title("Logistics Command Center")
-tab1, tab2 = st.tabs(["🚛 Logistics Planner", "🌦️ Risk Analyzer"])
-
-# --- TAB 1: LOGISTICS PLANNER (Your Original App) ---
-with tab1:
-    st.header("Verified Door-to-Door Scheduler")
+if run_btn:
+    tools = LogisticsTools()
     
-    col1, col2 = st.columns([1, 2])
-    
-    with col1: # CONTROLS
-        mode = st.radio("Frequency", ["One-Time (Ad-Hoc)", "Reoccurring"])
-        p_addr = st.text_input("Pickup Address", "2008 Altom Ct, St. Louis, MO 63146")
-        p_manual = st.text_input("Origin Override (Opt)", placeholder="e.g. STL")
-        d_addr = st.text_input("Delivery Address", "1250 E Hadley St, Phoenix, AZ 85034")
-        d_manual = st.text_input("Dest Override (Opt)", placeholder="e.g. PHX")
+    with st.status("📡 Establishing Logistics Chain...", expanded=True) as status:
         
-        p_time = st.time_input("Ready Time", datetime.time(9, 0))
+        # 1. GEOGRAPHY
+        st.write("📍 Locations...")
+        p_res = [tools.get_airport_details(p_manual)] if p_manual else tools.find_nearest_airports(p_addr)
+        d_res = [tools.get_airport_details(d_manual)] if d_manual else tools.find_nearest_airports(d_addr)
         
-        if mode == "One-Time (Ad-Hoc)":
-            p_date = st.date_input("Pickup Date", datetime.date.today() + datetime.timedelta(days=1))
-            days_to_search = [{"day": "One-Time", "date": p_date.strftime("%Y-%m-%d")}]
-        else:
-            days_selected = st.multiselect("Days", ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"], ["Mon", "Wed", "Fri"])
-            today = datetime.date.today()
-            day_map = {"Mon":0, "Tue":1, "Wed":2, "Thu":3, "Fri":4, "Sat":5, "Sun":6}
-            days_to_search = []
-            for d in days_selected:
-                diff = day_map[d] - today.weekday()
-                if diff <= 0: diff += 7
-                days_to_search.append({"day": d, "date": (today + datetime.timedelta(days=diff)).strftime("%Y-%m-%d")})
-                
-        has_deadline = st.checkbox("Strict Deadline?", value=True)
-        del_time = None
-        del_offset = 0
+        if not p_res or not d_res:
+            st.error("Location Error")
+            st.stop()
         
-        if has_deadline:
-            del_time = st.time_input("Must Arrive By", datetime.time(18, 0))
-            if mode == "One-Time (Ad-Hoc)":
-                 d_date = st.date_input("Delivery Date", p_date + datetime.timedelta(days=1))
-                 del_offset = (d_date - p_date).days
-            else:
-                 offset_opt = st.selectbox("Transit Days", ["Same Day", "Next Day (+1)", "+2 Days"], index=1)
-                 del_offset = 0 if "Same" in offset_opt else (1 if "Next" in offset_opt else 2)
+        p_apt, d_apt = p_res[0], d_res[0]
+        p_code, p_name = p_apt['code'], p_apt['name']
+        d_code, d_name = d_apt['code'], d_apt['name']
+        
+        # 2. DRIVE METRICS
+        st.write(f"🚚 Routing ({p_code}-{d_code})...")
+        d1 = tools.get_road_metrics(p_addr, p_code) or {"miles": 20, "time_str": "30m", "time_min": 30}
+        d2 = tools.get_road_metrics(d_code, d_addr) or {"miles": 20, "time_str": "30m", "time_min": 30}
+        
+        # 3. BUFFER MATH
+        p_drive_used = max(d1['time_min'], custom_p_buff)
+        total_prep = p_drive_used + 60
+        
+        base_dt = p_date if mode == "One-Time (Ad-Hoc)" else datetime.datetime.strptime(days_to_search[0]['date'], "%Y-%m-%d").date()
+        earliest_dep = datetime.datetime.combine(base_dt, p_time) + datetime.timedelta(minutes=total_prep)
+        earliest_str = earliest_dep.strftime("%H:%M")
+        
+        latest_arr_dt = None
+        total_post = 0
+        if del_time:
+            d_drive_used = max(d2['time_min'], custom_d_buff)
+            total_post = d_drive_used + 60
+            dummy_del = datetime.datetime.combine(base_dt + datetime.timedelta(days=del_offset), del_time)
+            latest_arr_dt = dummy_del - datetime.timedelta(minutes=total_post)
 
-        with st.expander("Settings"):
-            custom_p_buff = st.number_input("Pickup Buffer", 120)
-            custom_d_buff = st.number_input("Del Buffer", 120)
-            show_all = st.checkbox("Show All Airlines", False)
-
-        run_logistics = st.button("Generate Plan", type="primary")
-
-    with col2: # RESULTS
-        if run_logistics:
-            tools = LogisticsTools()
-            with st.status("Calculating...", expanded=True):
-                # 1. Geo
-                st.write("📍 Locations...")
-                p_res = [tools.get_airport_details(p_manual)] if p_manual else tools.find_nearest_airports(p_addr)
-                d_res = [tools.get_airport_details(d_manual)] if d_manual else tools.find_nearest_airports(d_addr)
+        # 4. FLIGHTS & FRA
+        st.write("✈️ Analyzing Flights & Risk...")
+        valid, rejected, airline_hours = [], [], {}
+        
+        for day in days_to_search:
+            raw = tools.search_flights(p_code, d_code, day['date'], show_all)
+            for f in raw:
+                # Hours Logic
+                s_date = datetime.datetime.strptime(day['date'], "%Y-%m-%d")
+                if (p_code, f['Airline']) not in airline_hours:
+                    airline_hours[(p_code, f['Airline'])] = tools.get_cargo_hours(p_code, f['Airline'], s_date)
+                if (d_code, f['Airline']) not in airline_hours:
+                    airline_hours[(d_code, f['Airline'])] = tools.get_cargo_hours(d_code, f['Airline'], s_date)
                 
-                if not p_res or not d_res:
-                    st.error("Location Error")
-                    st.stop()
-                    
-                p_code, d_code = p_res[0]['code'], d_res[0]['code']
-                p_name, d_name = p_res[0].get('name',''), d_res[0].get('name','')
+                p_h = airline_hours[(p_code, f['Airline'])]
+                d_h = airline_hours[(d_code, f['Airline'])]
                 
-                # 2. Road
-                st.write("🚚 Drives...")
-                d1 = tools.get_road_metrics(p_addr, p_code) or {"miles": 20, "time_str": "30m (Est)", "time_min": 30}
-                d2 = tools.get_road_metrics(d_code, d_addr) or {"miles": 20, "time_str": "30m (Est)", "time_min": 30}
+                # Reject Logic
+                reason = None
+                if p_h['hours'] == "No Cargo": reason = "No Origin Cargo Facility"
                 
-                # 3. Math
-                total_prep = max(d1['time_min'], custom_p_buff) + 60
-                total_post = max(d2['time_min'], custom_d_buff) + 60
+                tender_dt = datetime.datetime.strptime(f['Dep Time'], "%H:%M") - datetime.timedelta(minutes=120)
+                if not tools.check_time_in_range(tender_dt.strftime("%H:%M"), p_h['hours']): reason = f"Origin Closed ({p_h['hours']})"
                 
-                base_date = p_date if mode == "One-Time (Ad-Hoc)" else datetime.datetime.strptime(days_to_search[0]['date'], "%Y-%m-%d").date()
-                earliest_dep = datetime.datetime.combine(base_date, p_time) + datetime.timedelta(minutes=total_prep)
-                earliest_str = earliest_dep.strftime("%H:%M")
+                if f['Dep Time'] < earliest_str: reason = f"Too Early ({f['Dep Time']})"
+                if f['Conn Apt'] != "Direct" and f['Conn Min'] < min_conn: reason = "Short Connection"
                 
-                latest_arr_dt = None
-                if del_time:
-                    dummy_del = datetime.datetime.combine(base_date + datetime.timedelta(days=del_offset), del_time)
-                    latest_arr_dt = dummy_del - datetime.timedelta(minutes=total_post)
-
-                # 4. Flights
-                st.write("✈️ Flights...")
-                valid, rejected, hours_cache = [], [], {}
-                
-                for day_obj in days_to_search:
-                    raw = tools.search_flights(p_code, d_code, day_obj['date'], show_all)
-                    for f in raw:
-                        reject = None
-                        airline = f['Airline']
-                        s_date = datetime.datetime.strptime(day_obj['date'], "%Y-%m-%d")
+                if latest_arr_dt:
+                    try:
+                        f_dt = datetime.datetime.strptime(f['Arr Full'], "%Y-%m-%d %H:%M") if 'T' in f['Arr Full'] else datetime.datetime.strptime(f"{day['date']} {f['Arr Time']}", "%Y-%m-%d %H:%M")
+                        # Date adjust
+                        if f['Arr Time'] < f['Dep Time']: f_dt += datetime.timedelta(days=1)
                         
-                        if (p_code, airline) not in hours_cache: hours_cache[(p_code, airline)] = tools.get_cargo_hours(p_code, airline, s_date)
-                        if (d_code, airline) not in hours_cache: hours_cache[(d_code, airline)] = tools.get_cargo_hours(d_code, airline, s_date)
+                        # Compare against dummy deadline for loop
+                        loop_dl = datetime.datetime.strptime(day['date'], "%Y-%m-%d") + datetime.timedelta(days=del_offset)
+                        loop_dl = loop_dl.replace(hour=del_time.hour, minute=del_time.minute)
+                        loop_limit = loop_dl - datetime.timedelta(minutes=total_post)
                         
-                        p_h = hours_cache[(p_code, airline)]
-                        tender_time = (datetime.datetime.strptime(f['Dep Time'], "%H:%M") - datetime.timedelta(minutes=120)).strftime("%H:%M")
-                        if not tools.check_time_in_range(tender_time, p_h['hours']): reject = f"Org Closed ({p_h['hours']})"
-                        
-                        if f['Dep Time'] < earliest_str: reject = f"Too Early ({f['Dep Time']})"
-                        
-                        if latest_arr_dt and not reject:
-                            try:
-                                f_dt = datetime.datetime.strptime(f['Arr Full'], "%Y-%m-%d %H:%M") if 'T' not in f['Arr Full'] else datetime.datetime.strptime(f['Arr Full'].split('.')[0], "%Y-%m-%dT%H:%M:%S")
-                                if f_dt.time() > latest_arr_dt.time() and (f_dt.date() - s_date.date()).days >= del_offset: reject = "Late Arrival"
-                            except: pass
-
-                        if reject:
-                            f['Reason'] = reject
-                            rejected.append(f)
-                        else:
-                            f['Days of Op'] = day_obj['day']
-                            rec_time = (datetime.datetime.strptime(f['Arr Time'], "%H:%M") + datetime.timedelta(minutes=60)).strftime("%H:%M")
-                            d_h = hours_cache[(d_code, airline)]['hours']
-                            f['Note'] = f"⚠️ AM Recovery ({d_h})" if not tools.check_time_in_range(rec_time, d_h) else "OK"
-                            valid.append(f)
-
-            # RENDER
-            st.success(f"Plan: {p_code} -> {d_code}")
-            st.info(f"Pickup Drive: {d1['miles']} mi ({d1['time_str']}) | Earliest Dep: {earliest_str}")
-            st.info(f"Delivery Drive: {d2['miles']} mi ({d2['time_str']}) | Latest Arr: {latest_arr_dt.strftime('%H:%M') if latest_arr_dt else 'N/A'}")
-            
-            if valid:
-                # Aggregate
-                grouped = {}
-                for f in valid:
-                    k = (f['Airline'], f['Flight'], f['Dep Time'])
-                    if k not in grouped: grouped[k] = {**f, 'Days of Op': {f['Days of Op']}}
-                    else: grouped[k]['Days of Op'].add(f['Days of Op'])
+                        if f_dt > loop_limit: reason = "Arrives Too Late"
+                    except: pass
                 
-                rows = []
-                for f in grouped.values():
-                    f['Days of Op'] = ", ".join(sorted(list(f['Days of Op'])))
-                    rows.append(f)
-                
-                st.dataframe(pd.DataFrame(rows)[["Airline", "Flight", "Days of Op", "Dep Time", "Arr Time", "Note", "Conn Apt"]], hide_index=True, use_container_width=True)
-            elif rejected:
-                st.warning("No valid flights. See rejected:")
-                st.dataframe(pd.DataFrame(rejected)[["Airline", "Flight", "Dep Time", "Reason"]], hide_index=True)
-            else:
-                st.error("No flights found.")
-
-# --- TAB 2: RISK ANALYZER (New Module) ---
-with tab2:
-    st.header("✈️ Flight Risk Engine")
-    
-    if not HAS_FRA_MODULE:
-        st.warning("⚠️ `modules/fra_engine.py` not found. Please create the file to enable this tab.")
-    else:
-        with st.form("risk_check"):
-            c1, c2 = st.columns([3, 1])
-            f_num = c1.text_input("Flight Number (IATA)", "UA2404")
-            c2.write("")
-            c2.write("")
-            check_btn = c2.form_submit_button("Analyze Risk", type="primary")
-            
-        if check_btn:
-            api_key = st.secrets.get("AVIATION_EDGE_KEY", None)
-            if not api_key:
-                st.error("Aviation Edge Key missing.")
-            else:
-                with st.status("Analyzing Weather & Regs..."):
-                    res = analyze_reliability(f_num, api_key)
-                
-                if "error" in res:
-                    st.error(res['error'])
+                if reason:
+                    f['Reason'] = reason
+                    f['Day'] = day['day']
+                    rejected.append(f)
                 else:
-                    m1, m2, m3 = st.columns(3)
-                    color = "normal" if res['score'] > 60 else "inverse"
-                    m1.metric("Reliability Score", f"{res['score']}/100", res['status'], delta_color=color)
-                    m2.metric("Dest", res['flight_info']['dest_icao'])
-                    m3.metric("Status", res['flight_info']['status'].upper())
+                    # FRA Integration
+                    fra_score, fra_risk = 100, []
+                    if HAS_FRA and AVIATION_EDGE_KEY:
+                        fra_res = analyze_reliability(f['Flight'], AVIATION_EDGE_KEY)
+                        if "score" in fra_res:
+                            fra_score, fra_risk = fra_res['score'], fra_res['risk_factors']
                     
-                    if res['risk_factors']:
-                        st.error(f"Risk Factors: {', '.join(res['risk_factors'])}")
-                    else:
-                        st.success("✅ No major weather risks detected.")
+                    # Build Note
+                    rec_time = (datetime.datetime.strptime(f['Arr Time'], "%H:%M") + datetime.timedelta(minutes=60)).strftime("%H:%M")
+                    
+                    note_parts = []
+                    if not tools.check_time_in_range(rec_time, d_h['hours']): note_parts.append(f"⚠️ AM Recovery ({d_h['hours']})")
+                    if fra_risk: note_parts.append(f"⛈️ Risk: {fra_risk[0]}")
+                    
+                    f['Notes'] = " ".join(note_parts) if note_parts else "Standard Ops"
+                    f['Reliability'] = fra_score
+                    f['Days of Op'] = day['day']
+                    valid.append(f)
+
+        status.update(label="Mission Plan Generated", state="complete", expanded=False)
+
+    # --- A. EXECUTIVE SUMMARY ---
+    st.markdown("## 📊 Executive Summary")
+    
+    if valid:
+        # Recommendation Logic
+        best = sorted(valid, key=lambda x: (x['Arr Time'], -x['Reliability']))[0]
+        rec_text = f"The recommended routing is via **{best['Airline']} Flight {best['Flight']}**."
+        
+        if "AM Recovery" in best['Notes']:
+            rec_text += " Note: Flight arrives during facility closure; freight will be recoverable next morning."
+        elif best['Reliability'] < 70:
+            rec_text += " ⚠️ Caution: High risk of weather delay on this route."
+        else:
+            rec_text += " This option offers the optimal balance of transit time and reliability."
+            
+        st.info(f"**Recommendation:** {rec_text}")
+    else:
+        st.error("No valid flights found that meet all constraints.")
+
+    # Metrics
+    m1, m2, m3 = st.columns(3)
+    m1.metric("Origin Drive", f"{d1['time_str']}", f"{d1['miles']} mi")
+    m2.metric("Air Transit", valid[0]['Duration'] if valid else "N/A", f"{len(valid)} Options")
+    m3.metric("Dest Drive", f"{d2['time_str']}", f"{d2['miles']} mi")
+
+    # --- B. TIMELINE VISUALIZATION ---
+    st.markdown("### ⛓️ Logistics Chain Visualization")
+    timeline_html = f"""
+    <div class="timeline-container">
+        <div class="timeline-point">
+            <div style="font-size:24px">📦</div>
+            <div style="font-weight:bold">Pickup</div>
+            <div style="color:#4ade80">{p_time.strftime('%H:%M')}</div>
+        </div>
+        <div class="timeline-line"></div>
+        <div class="timeline-point">
+            <div style="font-size:24px

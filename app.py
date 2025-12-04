@@ -71,11 +71,10 @@ st.markdown("""
         border-radius: 2px;
         opacity: 0.5;
     }
-    .stForm {
-        border: 1px solid #334155;
-        border-radius: 10px;
-        padding: 20px;
-        margin-top: 15px;
+    /* Make the data editor checkboxes larger and centered if possible */
+    [data-testid="stCheckbox"] {
+        display: flex;
+        justify-content: center;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -104,12 +103,11 @@ def check_password():
 if not check_password():
     st.stop()
 
-# Securely load keys with .get() to prevent crashes if missing
+# Securely load keys
 SERPAPI_KEY = st.secrets.get("SERPAPI_KEY")
 GOOGLE_MAPS_KEY = st.secrets.get("GOOGLE_MAPS_KEY")
 AVIATION_EDGE_KEY = st.secrets.get("AVIATION_EDGE_KEY")
 
-# Warnings for missing critical keys
 if not SERPAPI_KEY: 
     st.warning("⚠️ SERPAPI_KEY is missing. Web-based backup search will be disabled.")
 if not AVIATION_EDGE_KEY: 
@@ -120,7 +118,7 @@ if not AVIATION_EDGE_KEY:
 # ==============================================================================
 class LogisticsTools:
     def __init__(self):
-        self.geolocator = Nominatim(user_agent="cargo_logistics_master_v1", timeout=10)
+        self.geolocator = Nominatim(user_agent="cargo_command_v59_interactive", timeout=10)
         self.master_df = None
         try:
             self.master_df = pd.read_csv("cargo_master.csv")
@@ -154,26 +152,18 @@ class LogisticsTools:
         }
 
     def _get_coords(self, location: str):
-        # 1. Master CSV
         if self.master_df is not None and len(location) == 3:
             match = self.master_df[self.master_df['airport_code'] == location.upper()]
             if not match.empty: return (match.iloc[0]['latitude_deg'], match.iloc[0]['longitude_deg'])
-        # 2. Internal DB
         if location.upper() in self.AIRPORT_DB: return self.AIRPORT_DB[location.upper()]["coords"]
-        
-        # 3. Google Maps
         if GOOGLE_MAPS_KEY:
             try:
                 url = "https://maps.googleapis.com/maps/api/geocode/json"
                 params = {"address": location, "key": GOOGLE_MAPS_KEY}
                 r = requests.get(url, params=params, timeout=5)
                 data = r.json()
-                if data['status'] == 'OK': 
-                    loc = data['results'][0]['geometry']['location']
-                    return (loc['lat'], loc['lng'])
+                if data['status'] == 'OK': return (data['results'][0]['geometry']['location']['lat'], data['results'][0]['geometry']['location']['lng'])
             except: pass
-            
-        # 4. Fallback Nominatim
         try:
             clean = location.replace("Suite", "").replace("#", "").split(",")[0] + ", " + location.split(",")[-1]
             loc = self.geolocator.geocode(clean)
@@ -199,18 +189,13 @@ class LogisticsTools:
         day_name = date_obj.strftime("%A")
         col_map = {"Saturday": "saturday", "Sunday": "sunday"}
         day_col = col_map.get(day_name, "weekday") 
-        
-        # 1. Check CSV
         if self.master_df is not None:
             mask = (self.master_df['airport_code'] == airport_code) & (self.master_df['airline'].str.contains(airline, case=False, na=False))
             row = self.master_df[mask]
             if not row.empty:
                 hours_str = str(row.iloc[0][day_col])
-                if any(x in hours_str.lower() for x in ['nan', 'closed', 'n/a', 'no cargo']): 
-                    return {"status": "Closed", "hours": "No Cargo", "source": "Master File"}
+                if any(x in hours_str.lower() for x in ['nan', 'closed', 'n/a', 'no cargo']): return {"status": "Closed", "hours": "No Cargo", "source": "Master File"}
                 return {"status": "Open", "hours": hours_str, "source": "Master File"}
-        
-        # 2. Real-Time Web Search
         url = "https://serpapi.com/search"
         if SERPAPI_KEY:
             try:
@@ -218,7 +203,6 @@ class LogisticsTools:
                 snip = r.json().get("organic_results", [{}])[0].get("snippet", "No data")
                 return {"status": "Unverified", "hours": f"Web: {snip[:40]}...", "source": "Web Search"}
             except: pass
-            
         return {"status": "Unknown", "hours": "Unknown", "source": "No Data"}
 
     def check_time_in_range(self, target_time, range_str):
@@ -227,8 +211,7 @@ class LogisticsTools:
         try:
             times = re.findall(r'\d{1,2}:\d{2}', range_str)
             if len(times) != 2: return True
-            start = datetime.datetime.strptime(times[0], "%H:%M").time()
-            end = datetime.datetime.strptime(times[1], "%H:%M").time()
+            start, end = datetime.datetime.strptime(times[0], "%H:%M").time(), datetime.datetime.strptime(times[1], "%H:%M").time()
             check = datetime.datetime.strptime(target_time, "%H:%M").time()
             if start <= end: return start <= check <= end
             else: return start <= check or check <= end
@@ -255,26 +238,16 @@ class LogisticsTools:
         user_coords = self._get_coords(address)
         if not user_coords: return None
         candidates = []
-        
-        # Real-Time API
         if AVIATION_EDGE_KEY:
             try:
                 r = requests.get("https://aviation-edge.com/v2/public/nearby", params={"key": AVIATION_EDGE_KEY, "lat": user_coords[0], "lng": user_coords[1], "distance": 150}, timeout=8)
                 for apt in r.json():
-                    if len(apt.get("codeIataAirport", "")) == 3: 
-                        candidates.append({
-                            "code": apt.get("codeIataAirport").upper(), 
-                            "name": apt.get("nameAirport"), 
-                            "air_miles": round(float(apt.get("distance")) * 0.621371, 1)
-                        })
+                    if len(apt.get("codeIataAirport", "")) == 3: candidates.append({"code": apt.get("codeIataAirport").upper(), "name": apt.get("nameAirport"), "air_miles": round(float(apt.get("distance")) * 0.621371, 1)})
             except: pass
-            
-        # Fallback DB
         if not candidates:
             for code, data in self.AIRPORT_DB.items():
                 dist = geodesic(user_coords, data["coords"]).miles
                 candidates.append({"code": code, "name": data["name"], "air_miles": round(dist, 1)})
-        
         candidates.sort(key=lambda x: x["air_miles"])
         return candidates[:3]
 
@@ -282,8 +255,6 @@ class LogisticsTools:
         coords_start = self._get_coords(origin)
         coords_end = self._get_coords(destination)
         if not coords_start or not coords_end: return None
-        
-        # 1. Google Maps (Real-Time)
         if GOOGLE_MAPS_KEY:
             try:
                 url = "https://maps.googleapis.com/maps/api/distancematrix/json"
@@ -292,34 +263,20 @@ class LogisticsTools:
                 data = r.json()
                 if data['status'] == 'OK':
                     elem = data['rows'][0]['elements'][0]
-                    if elem['status'] == 'OK':
-                        return {
-                            "miles": round(elem['distance']['value'] * 0.000621371, 1), 
-                            "time_str": f"{int(elem['duration_in_traffic']['value'] // 3600)}h {int((elem['duration_in_traffic']['value'] % 3600) // 60)}m", 
-                            "time_min": round(elem['duration_in_traffic']['value']/60)
-                        }
+                    if elem['status'] == 'OK': return {"miles": round(elem['distance']['value'] * 0.000621371, 1), "time_str": f"{int(elem.get('duration_in_traffic', elem['duration'])['value'] // 3600)}h {int((elem.get('duration_in_traffic', elem['duration'])['value'] % 3600) // 60)}m", "time_min": round(elem.get('duration_in_traffic', elem['duration'])['value']/60)}
             except: pass
-
-        # 2. OSRM (Backup)
         url = f"https://router.project-osrm.org/route/v1/driving/{coords_start[1]},{coords_start[0]};{coords_end[1]},{coords_end[0]}"
         try:
             r = requests.get(url, params={"overview": "false"}, headers={"User-Agent": "CargoApp/1.0"}, timeout=15)
             data = r.json()
             if data.get("code") == "Ok":
                 sec = data['routes'][0]['duration']
-                return {
-                    "miles": round(data['routes'][0]['distance'] * 0.000621371, 1), 
-                    "time_str": f"{int(sec // 3600)}h {int((sec % 3600) // 60)}m", 
-                    "time_min": round(sec/60)
-                }
+                return {"miles": round(data['routes'][0]['distance'] * 0.000621371, 1), "time_str": f"{int(sec // 3600)}h {int((sec % 3600) // 60)}m", "time_min": round(sec/60)}
         except: pass
-        
-        # 3. Geodesic (Last Resort)
         dist = geodesic(coords_start, coords_end).miles * 1.3
         return {"miles": round(dist, 1), "time_str": f"{int((dist/50) + 0.5)}h {int(((dist/50) + 0.5)*60)%60}m (Est)", "time_min": int(((dist/50) + 0.5)*60)}
 
     def search_flights(self, origin, dest, date, show_all_airlines=False):
-        # 1. Aviation Edge (Real-Time)
         if AVIATION_EDGE_KEY:
             try:
                 r = requests.get("https://aviation-edge.com/v2/public/flightsFuture", params={"key": AVIATION_EDGE_KEY, "type": "departure", "iataCode": origin, "date": date, "arr_iataCode": dest}, timeout=10)
@@ -329,36 +286,21 @@ class LogisticsTools:
                     for f in data:
                         airline = f.get('airline', {}).get('iataCode', 'UNK')
                         if not show_all_airlines and airline not in ["WN","AA","DL","UA"]: continue
-                        
                         dep_time = f.get('departure', {}).get('scheduledTime', '')
                         arr_time = f.get('arrival', {}).get('scheduledTime', '')
-                        
-                        # Ensure valid data
                         if not dep_time or not arr_time: continue
-
                         try:
                             dur = (datetime.datetime.strptime(arr_time.split('.')[0], "%Y-%m-%dT%H:%M:%S") - datetime.datetime.strptime(dep_time.split('.')[0], "%Y-%m-%dT%H:%M:%S")).total_seconds()/60
                             dur_str = f"{int(dur//60)}h {int(dur%60)}m"
                         except: dur_str = "N/A"
-                        
                         results.append({
-                            "Airline": airline, 
-                            "Flight": f"{airline}{f.get('flight',{}).get('iataNumber','')}",
-                            "Origin": f.get('departure', {}).get('iataCode', origin), 
-                            "Dep Time": dep_time.split('T')[-1][:5], 
-                            "Dep Full": dep_time,
-                            "Dest": f.get('arrival', {}).get('iataCode', dest), 
-                            "Arr Time": arr_time.split('T')[-1][:5], 
-                            "Arr Full": arr_time,
-                            "Duration": dur_str, 
-                            "Conn Apt": "Direct", 
-                            "Conn Time": "N/A", 
-                            "Conn Min": 0
+                            "Airline": airline, "Flight": f"{airline}{f.get('flight',{}).get('iataNumber','')}",
+                            "Origin": f.get('departure', {}).get('iataCode', origin), "Dep Time": dep_time.split('T')[-1][:5], "Dep Full": dep_time,
+                            "Dest": f.get('arrival', {}).get('iataCode', dest), "Arr Time": arr_time.split('T')[-1][:5], "Arr Full": arr_time,
+                            "Duration": dur_str, "Conn Apt": "Direct", "Conn Time": "N/A", "Conn Min": 0
                         })
                     if results: return results
             except: pass
-
-        # 2. SerpApi (Backup)
         if SERPAPI_KEY:
             try:
                 params = {"engine": "google_flights", "departure_id": origin, "arrival_id": dest, "outbound_date": date, "type": "2", "hl": "en", "gl": "us", "currency": "USD", "api_key": SERPAPI_KEY}
@@ -371,14 +313,11 @@ class LogisticsTools:
                     legs = f.get('flights', [])
                     if not legs: continue
                     layovers = f.get('layovers', [])
-                    
                     conn_apt = layovers[0].get('id', 'Direct') if layovers else "Direct"
                     conn_min = layovers[0].get('duration', 0) if layovers else 0
                     conn_time_str = f"{conn_min//60}h {conn_min%60}m" if layovers else "N/A"
-                    
                     dep_full = legs[0].get('departure_airport', {}).get('time', '')
                     arr_full = legs[-1].get('arrival_airport', {}).get('time', '')
-                    
                     results.append({
                         "Airline": legs[0].get('airline', 'UNK'),
                         "Flight": " / ".join([l.get('flight_number', '') for l in legs]),
@@ -387,67 +326,66 @@ class LogisticsTools:
                         "Dest": legs[-1].get('arrival_airport', {}).get('id', 'UNK'),
                         "Arr Time": arr_full.split()[-1], "Arr Full": arr_full,
                         "Duration": f"{f.get('total_duration',0)//60}h {f.get('total_duration',0)%60}m",
-                        "Conn Apt": conn_apt, 
-                        "Conn Time": conn_time_str, 
-                        "Conn Min": conn_min
+                        "Conn Apt": conn_apt, "Conn Time": conn_time_str, "Conn Min": conn_min
                     })
                 return results
             except: return []
         return []
 
 # ==============================================================================
-# 4. FLIGHT PLAN GENERATION LOGIC
+# 4. FLIGHT PLAN GENERATION
 # ==============================================================================
-def create_flight_plan_table(selections, all_flights_map, p_time, del_time, del_offset, p_code, d_code):
+def create_flight_plan_table(plan_data, p_time, del_time, del_offset, p_code, d_code):
+    # plan_data is a dictionary where key is Day and value is the 'edited' dataframe for that day
     plan_rows = []
-    
     day_order = {"Mon": 0, "Tue": 1, "Wed": 2, "Thu": 3, "Fri": 4, "Sat": 5, "Sun": 6}
-    sorted_days = sorted(selections.keys(), key=lambda d: day_order.get(d, 99))
     
-    for day in sorted_days:
-        primary_key = selections[day]['primary']
-        backup_key = selections[day]['backup']
+    for day, df_day in plan_data.items():
+        # Find Primary
+        primaries = df_day[df_day['Primary'] == True]
+        backups = df_day[df_day['Backup'] == True]
         
-        if primary_key not in all_flights_map: continue 
+        if primaries.empty: continue # Skip days with no primary selected
+        
+        # Take the first selected primary
+        p_flight = primaries.iloc[0]
+        b_flight = backups.iloc[0] if not backups.empty else None
+        
+        # Construct Row
+        flt_parts = p_flight['Flight'].split(' / ')
+        cnx_flt = flt_parts[1] if len(flt_parts) > 1 else 'N/A'
+        
+        backup_str = "N/A"
+        backup_time_str = "N/A"
+        if b_flight is not None:
+            backup_str = f"{b_flight['Airline']}{b_flight['Flight'].split(' / ')[0]}"
+            # We need to access the raw datetime objects which might be lost in the editor view
+            # So we rely on the string formatted columns we created for the editor
+            backup_time_str = f"ETD: {b_flight['Dep DateTime Str'].split(' ')[1]} / ETA: {b_flight['Arr DateTime Str'].split(' ')[1]}"
 
-        primary_flight = all_flights_map[primary_key]
-        backup_flight = all_flights_map.get(backup_key)
-        
-        required_pickup = p_time.strftime('%H:%M')
-        due_time = del_time.strftime('%H:%M') if del_time else 'N/A'
-        
-        flt_parts = primary_flight['Flight'].split(' / ')
-        cnx_flt = flt_parts[1] if primary_flight['Conn Apt'] != 'Direct' and len(flt_parts) > 1 else 'N/A'
-        
-        backup_flts_str = 'N/A'
-        backup_flt_times_str = 'N/A'
-        if backup_flight:
-            backup_flts_str = f"{backup_flight['Airline']}{backup_flight['Flight'].split(' / ')[0]}"
-            backup_flt_times_str = f"ETD: {backup_flight['Dep DateTime'].strftime('%H:%M')} / ETA: {backup_flight['Arr DateTime'].strftime('%H:%M')}"
-        
         plan_rows.append({
-            "DATE": primary_flight['Dep DateTime'].strftime('%m/%d/%y'),
+            "DATE": p_flight['Dep DateTime Str'].split(' ')[0], # Extract MM/DD
             "DAY": day,
-            "REQ'D PICK UP": required_pickup,
+            "REQ'D PICK UP": p_time.strftime('%H:%M'),
             "ORIGIN": p_code,
             "DEST": d_code,
-            "AIRLINE": primary_flight['Airline'],
+            "AIRLINE": p_flight['Airline'],
             "FLT #": flt_parts[0],
-            "ETD": primary_flight['Dep DateTime'].strftime('%H:%M'),
+            "ETD": p_flight['Dep DateTime Str'].split(' ')[1],
             "CNX FLT": cnx_flt,
-            "CNX CITY": primary_flight['Conn Apt'] if primary_flight['Conn Apt'] != 'Direct' else 'N/A',
-            "ETA": primary_flight['Arr DateTime'].strftime('%H:%M'),
-            "DUE TIME": due_time,
-            "PREBOOK #": "", 
-            "BACKUP FLTS": backup_flts_str,
-            "BACKUP FLT TIMES": backup_flt_times_str,
-            "NOTES": primary_flight['Notes']
+            "CNX CITY": "Direct" if "Direct" in str(p_flight.get('Conn Apt', '')) else "Layover", # Simplified for display
+            "ETA": p_flight['Arr DateTime Str'].split(' ')[1],
+            "DUE TIME": del_time.strftime('%H:%M') if del_time else 'N/A',
+            "PREBOOK #": "",
+            "BACKUP FLTS": backup_str,
+            "BACKUP FLT TIMES": backup_time_str,
+            "NOTES": p_flight['Notes']
         })
         
     df_plan = pd.DataFrame(plan_rows)
-    df_plan['SortKey'] = df_plan['DAY'].apply(lambda x: day_order.get(x, 99))
-    df_plan = df_plan.sort_values(by='SortKey').drop(columns='SortKey')
-    
+    if not df_plan.empty:
+        df_plan['SortKey'] = df_plan['DAY'].apply(lambda x: day_order.get(x, 99))
+        df_plan = df_plan.sort_values(by='SortKey').drop(columns='SortKey')
     return df_plan
 
 # ==============================================================================
@@ -455,12 +393,9 @@ def create_flight_plan_table(selections, all_flights_map, p_time, del_time, del_
 # ==============================================================================
 
 st.sidebar.title("🎮 Control Panel")
-
-# --- Logistics Mode Selection ---
 st.sidebar.markdown("**0. Logistics Mode**")
 mode_selection = st.sidebar.radio("Function", ["Flight Scheduler", "Flight Reliability Analyzer"], label_visibility="collapsed")
 
-# --- INPUTS ---
 st.sidebar.markdown("**1. Shipment Mode**")
 mode = st.sidebar.radio("Frequency", ["One-Time (Ad-Hoc)", "Reoccurring"], label_visibility="collapsed")
 
@@ -508,7 +443,6 @@ else:
         days_to_search.append({"day": d, "date": (today + datetime.timedelta(days=diff)).strftime("%Y-%m-%d")})
     days_to_search.sort(key=lambda x: day_map.get(x['day'], 99))
 
-# --- Adjusters & Filters ---
 with st.sidebar.expander("⚙️ Adjusters & Filters"):
     st.sidebar.markdown("**Time Buffers (Minutes)**")
     custom_p_buff = st.sidebar.number_input("Pickup Buffer", value=120, step=30)
@@ -523,18 +457,21 @@ run_btn = st.sidebar.button("🚀 Run Analysis", type="primary")
 # --- Session State ---
 if 'flight_plan_df' not in st.session_state: st.session_state.flight_plan_df = None
 if 'valid_flights' not in st.session_state: st.session_state.valid_flights = []
-if 'valid_flights_map' not in st.session_state: st.session_state.valid_flights_map = {}
+if 'grouped_flights' not in st.session_state: st.session_state.grouped_flights = {}
 if 'p_code' not in st.session_state: st.session_state.p_code = None
 if 'd_code' not in st.session_state: st.session_state.d_code = None
 if 'earliest_dep_str' not in st.session_state: st.session_state.earliest_dep_str = "N/A"
 if 'latest_arr_str' not in st.session_state: st.session_state.latest_arr_str = "N/A"
 if 'drive_metrics' not in st.session_state: st.session_state.drive_metrics = {}
 if 'airline_hours_cache' not in st.session_state: st.session_state.airline_hours_cache = {}
+# NEW: State to hold the editable dataframes
+if 'editor_data' not in st.session_state: st.session_state.editor_data = {}
 
 if run_btn:
     st.session_state.flight_plan_df = None 
     st.session_state.valid_flights = []
-    st.session_state.valid_flights_map = {}
+    st.session_state.grouped_flights = {}
+    st.session_state.editor_data = {}
     st.session_state.airline_hours_cache = {}
     
     if mode_selection == "Flight Reliability Analyzer":
@@ -561,7 +498,6 @@ if run_btn:
         tools = LogisticsTools()
         
         with st.status("📡 Establishing Logistics Chain...", expanded=True) as status:
-            
             p_res = [tools.get_airport_details(p_manual)] if p_manual else tools.find_nearest_airports(p_addr)
             d_res = [tools.get_airport_details(d_manual)] if d_manual else tools.find_nearest_airports(d_addr)
             
@@ -596,7 +532,7 @@ if run_btn:
                 raw_data = tools.search_flights(p_code, d_code, day_obj['date'], show_all_airlines)
                 if not raw_data: continue
                 
-                for i, f in enumerate(raw_data):
+                for f in raw_data:
                     reject_reason = None
                     airline = f['Airline']
                     s_date = datetime.datetime.strptime(day_obj['date'], "%Y-%m-%d").date()
@@ -674,22 +610,27 @@ if run_btn:
                             f['Origin Hours'] = p_h['hours']
                             f['Dest Hours'] = d_h['hours']
                             f['Track'] = f"https://flightaware.com/live/flight/{f['Flight'].split(' / ')[0]}"
-                            f['ID'] = f"{day_obj['day']}-{i}-{f['Flight']}"
                             
                             valid_flights.append(f)
                         except: pass
 
             valid_flights.sort(key=lambda x: (x['Days of Op'], x['Total Transit Min']))
             st.session_state.valid_flights = valid_flights
-            st.session_state.valid_flights_map = {f['ID']: f for f in valid_flights}
-
-            grouped_flights_for_display = {}
+            
+            # Group flights by day for the Interactive Editor
+            grouped = {}
             for f in valid_flights:
                 day = f['Days of Op']
-                if day not in grouped_flights_for_display: grouped_flights_for_display[day] = []
-                display_label = f"({f['Total Transit Str']}) {f['Airline']}{f['Flight'].split(' / ')[0]} - Dep {f['Dep Time']} / Arr {f['Arr Time']} ({f['Reliability']}%)"
-                grouped_flights_for_display[day].append({"id": f['ID'], "label": display_label, "flight": f})
-            st.session_state.grouped_flights = grouped_flights_for_display
+                if day not in grouped: grouped[day] = []
+                # Add checkboxes init state
+                f_display = f.copy()
+                f_display['Primary'] = False
+                f_display['Backup'] = False
+                f_display['Dep DateTime Str'] = f['Dep DateTime'].strftime('%m/%d %H:%M')
+                f_display['Arr DateTime Str'] = f['Arr DateTime'].strftime('%m/%d %H:%M')
+                grouped[day].append(f_display)
+            
+            st.session_state.grouped_flights = grouped
             status.update(label="Mission Plan Generated", state="complete", expanded=False)
 
 if st.session_state.valid_flights:
@@ -705,17 +646,16 @@ if st.session_state.valid_flights:
 
     m1, m2, m3 = st.columns(3)
     m1.metric("Origin Drive", f"{d1['time_str']}", f"{d1['miles']} mi")
-    m2.metric("Air Transit", valid_flights[0]['Total Transit Str'], f"{len(st.session_state.grouped_flights)} Day(s)")
+    m2.metric("Air Transit", valid_flights[0]['Total Transit Str'], f"{len(valid_flights)} Options")
     m3.metric("Dest Drive", f"{d2['time_str']}", f"{d2['miles']} mi")
 
-    # --- Visual Timeline ---
+    # --- Timeline ---
     best_pickup_dt = best['Dep DateTime'].date() 
+    best_pickup_date_str = best_pickup_dt.strftime('%m/%d')
     best_dep_date = best['Dep DateTime'].strftime('%m/%d')
     best_arr_date = best['Arr DateTime'].strftime('%m/%d')
-    best_pickup_date_str = best_pickup_dt.strftime('%m/%d')
-    deadline_date_obj = best_pickup_dt + datetime.timedelta(days=del_offset)
-    deadline_date_str = deadline_date_obj.strftime('%m/%d')
-
+    deadline_date_str = (best_pickup_dt + datetime.timedelta(days=del_offset)).strftime('%m/%d')
+    
     st.markdown("### ⛓️ Logistics Chain Visualization")
     st.markdown(f"""
     <div class="timeline-container">
@@ -731,78 +671,91 @@ if st.session_state.valid_flights:
     </div>
     """, unsafe_allow_html=True)
 
-    # --- Origin / Destination Cards ---
-    origin_hours_list = []
-    dest_hours_list = []
+    # --- Origin/Dest Cards ---
     unique_airlines = sorted(list(set(f['Airline'] for f in valid_flights)))
-    for airline in unique_airlines:
-        p_h = st.session_state.airline_hours_cache.get((p_code, airline))
-        d_h = st.session_state.airline_hours_cache.get((d_code, airline))
-        if p_h: origin_hours_list.append(f"**{airline}:** {p_h['hours']}")
-        if d_h: dest_hours_list.append(f"**{airline}:** {d_h['hours']}")
-    origin_hours_str = "<br>".join(origin_hours_list)
-    dest_hours_str = "<br>".join(dest_hours_list)
-
+    origin_hours_list = [f"**{a}:** {st.session_state.airline_hours_cache.get((p_code, a), {}).get('hours','N/A')}" for a in unique_airlines]
+    dest_hours_list = [f"**{a}:** {st.session_state.airline_hours_cache.get((d_code, a), {}).get('hours','N/A')}" for a in unique_airlines]
+    
     c1, c2 = st.columns(2)
     with c1:
-        st.markdown(f"""<div class="metric-card"><div class="metric-header">ORIGIN: {p_code}</div><div class="metric-value">{st.session_state.drive_metrics['p_name']}</div><div style="margin-top:10px; font-size:0.9rem">📍 <strong>Drive:</strong> {d1['miles']} mi ({d1['time_str']})<br>🗓️ <strong>Pickup Date:</strong> {best_pickup_date_str} ({p_time.strftime('%H:%M')})<br>⏰ <strong>Earliest Dep:</strong> {st.session_state.earliest_dep_str}<br>🏢 <strong>Cargo Hours (by Airline):</strong><br><div style="font-size: 0.8rem; margin-top: 5px;">{origin_hours_str}</div></div></div>""", unsafe_allow_html=True)
+        st.markdown(f"""<div class="metric-card"><div class="metric-header">ORIGIN: {p_code}</div><div class="metric-value">{st.session_state.drive_metrics['p_name']}</div><div style="margin-top:10px; font-size:0.9rem">📍 <strong>Drive:</strong> {d1['miles']} mi ({d1['time_str']})<br>🗓️ <strong>Pickup Date:</strong> {best_pickup_date_str} ({p_time.strftime('%H:%M')})<br>⏰ <strong>Earliest Dep:</strong> {st.session_state.earliest_dep_str}<br>🏢 <strong>Cargo Hours:</strong><br><div style="font-size: 0.8rem; margin-top: 5px;">{"<br>".join(origin_hours_list)}</div></div></div>""", unsafe_allow_html=True)
     with c2:
-        st.markdown(f"""<div class="metric-card"><div class="metric-header">DESTINATION: {d_code}</div><div class="metric-value">{st.session_state.drive_metrics['d_name']}</div><div style="margin-top:10px; font-size:0.9rem">📍 <strong>Drive:</strong> {d2['miles']} mi ({d2['time_str']})<br>🗓️ <strong>Delivery Deadline:</strong> {deadline_date_str} ({del_time.strftime('%H:%M') if del_time else 'Open'})<br>⏰ <strong>Latest Arr:</strong> {st.session_state.latest_arr_str}<br>🏢 <strong>Cargo Hours (by Airline):</strong><br><div style="font-size: 0.8rem; margin-top: 5px;">{dest_hours_str}</div></div></div>""", unsafe_allow_html=True)
+        st.markdown(f"""<div class="metric-card"><div class="metric-header">DESTINATION: {d_code}</div><div class="metric-value">{st.session_state.drive_metrics['d_name']}</div><div style="margin-top:10px; font-size:0.9rem">📍 <strong>Drive:</strong> {d2['miles']} mi ({d2['time_str']})<br>🗓️ <strong>Deadline:</strong> {deadline_date_str} ({del_time.strftime('%H:%M') if del_time else 'Open'})<br>⏰ <strong>Latest Arr:</strong> {st.session_state.latest_arr_str}<br>🏢 <strong>Cargo Hours:</strong><br><div style="font-size: 0.8rem; margin-top: 5px;">{"<br>".join(dest_hours_list)}</div></div></div>""", unsafe_allow_html=True)
 
     st.markdown("---")
 
-    if mode == "Reoccurring" and st.session_state.get('grouped_flights'):
+    # ======================================================================
+    # D. RECURRING PLAN BUILDER (INTERACTIVE CHECKBOXES)
+    # ======================================================================
+    if mode == "Reoccurring" and st.session_state.grouped_flights:
         st.markdown("### 🛠️ Recurring Flight Plan Builder")
-        st.info("Select a **Primary Flight** and an optional **Backup Flight** for each day to generate your master flight plan.")
-        with st.form("flight_plan_form"):
-            selections = {}
-            days_to_display = st.session_state.grouped_flights
-            cols = st.columns(min(3, len(days_to_display)))
-            day_keys = sorted(days_to_display.keys(), key=lambda d: day_map.get(d, 99))
-            for i, day in enumerate(day_keys):
-                flights = days_to_display[day]
-                with cols[i % 3]:
-                    st.subheader(f"🗓️ {day}")
-                    options = [f['label'] for f in flights]
-                    ids = [f['id'] for f in flights]
-                    primary_label = st.selectbox(f"**Primary Flight ({day})**", options=options, index=0, key=f"primary_{day}")
-                    backup_options = ["N/A - No Backup"] + options
-                    backup_ids = ["N/A"] + ids
-                    backup_label = st.selectbox(f"**Backup Flight ({day})**", options=backup_options, index=0, key=f"backup_{day}")
-                    selections[day] = {'primary': ids[options.index(primary_label)], 'backup': backup_ids[backup_options.index(backup_label)]}
+        st.info("Select your **Primary** and **Backup** flights using the checkboxes below.")
+        
+        # Columns to show in editor
+        editor_cols = ["Primary", "Backup", "Airline", "Flight", "Dep DateTime Str", "Arr DateTime Str", "Total Transit Str", "Notes", "Reliability"]
+        
+        day_map = {"Mon":0, "Tue":1, "Wed":2, "Thu":3, "Fri":4, "Sat":5, "Sun":6}
+        sorted_days = sorted(st.session_state.grouped_flights.keys(), key=lambda d: day_map.get(d, 99))
+        
+        with st.form("flight_selector_form"):
+            for day in sorted_days:
+                st.subheader(f"🗓️ {day}")
+                flights_df = pd.DataFrame(st.session_state.grouped_flights[day])
+                
+                # Use Data Editor for checkboxes
+                edited_df = st.data_editor(
+                    flights_df[editor_cols],
+                    key=f"editor_{day}",
+                    hide_index=True,
+                    use_container_width=True,
+                    column_config={
+                        "Primary": st.column_config.CheckboxColumn("Primary", default=False),
+                        "Backup": st.column_config.CheckboxColumn("Backup", default=False),
+                        "Dep DateTime Str": st.column_config.TextColumn("Departure"),
+                        "Arr DateTime Str": st.column_config.TextColumn("Arrival"),
+                        "Total Transit Str": st.column_config.TextColumn("Total Time"),
+                        "Reliability": st.column_config.ProgressColumn("Risk", format="%d%%", min_value=0, max_value=100)
+                    }
+                )
+                # Store the edited state to process later
+                st.session_state.editor_data[day] = edited_df
+            
             st.markdown("---")
             submitted = st.form_submit_button("✅ Build Final Plan", type="primary")
+            
         if submitted:
-            st.session_state.flight_plan_df = create_flight_plan_table(selections, st.session_state.valid_flights_map, p_time, del_time, del_offset, p_code, d_code)
+            st.session_state.flight_plan_df = create_flight_plan_table(st.session_state.editor_data, p_time, del_time, del_offset, p_code, d_code)
             st.rerun()
 
-    elif mode == "One-Time (Ad-Hoc)" and st.session_state.valid_flights:
+    # ONE-TIME MODE DISPLAY
+    elif mode == "One-Time (Ad-Hoc)" and valid_flights:
         st.markdown("### ✅ Recommended Flights (One-Time)")
-        df = pd.DataFrame(st.session_state.valid_flights)
-        df = df.sort_values(by='Total Transit Min')
-        df['Dep DateTime Str'] = df['Dep DateTime'].dt.strftime('%m/%d %H:%M')
-        df['Arr DateTime Str'] = df['Arr DateTime'].dt.strftime('%m/%d %H:%M')
-        cols_to_display = ["Airline", "Flight", "Dep DateTime Str", "Arr DateTime Str", "Origin Hours", "Dest Hours", "Total Transit Str", "Notes", "Reliability", "Track"]
-        st.dataframe(df[cols_to_display], hide_index=True, use_container_width=True, column_config={
-            "Dep DateTime Str": st.column_config.TextColumn("Departure (Date/Time)"),
-            "Arr DateTime Str": st.column_config.TextColumn("Arrival (Date/Time)"),
-            "Total Transit Str": st.column_config.TextColumn("Total Transit (End-to-End)"),
-            "Origin Hours": st.column_config.TextColumn("Origin Cargo Hours", width="small"), 
-            "Dest Hours": st.column_config.TextColumn("Dest Cargo Hours", width="small"),
-            "Reliability": st.column_config.ProgressColumn("Risk Score", format="%d%%", min_value=0, max_value=100),
-            "Track": st.column_config.LinkColumn("Tracker", display_text="Live Status"),
-            "Notes": st.column_config.TextColumn("Operational Notes", width="large")
-        })
+        df_ot = pd.DataFrame(valid_flights)
+        df_ot = df_ot.sort_values(by='Total Transit Min')
+        df_ot['Dep DateTime Str'] = df_ot['Dep DateTime'].dt.strftime('%m/%d %H:%M')
+        df_ot['Arr DateTime Str'] = df_ot['Arr DateTime'].dt.strftime('%m/%d %H:%M')
+        
+        cols_ot = ["Airline", "Flight", "Dep DateTime Str", "Arr DateTime Str", "Origin Hours", "Dest Hours", "Total Transit Str", "Notes", "Reliability", "Track"]
+        st.dataframe(
+            df_ot[cols_ot], 
+            hide_index=True, 
+            use_container_width=True,
+            column_config={
+                "Dep DateTime Str": st.column_config.TextColumn("Departure"),
+                "Arr DateTime Str": st.column_config.TextColumn("Arrival"),
+                "Total Transit Str": st.column_config.TextColumn("Total Transit"),
+                "Origin Hours": st.column_config.TextColumn("Origin Hours", width="small"), 
+                "Dest Hours": st.column_config.TextColumn("Dest Hours", width="small"),
+                "Reliability": st.column_config.ProgressColumn("Risk", format="%d%%", min_value=0, max_value=100),
+                "Track": st.column_config.LinkColumn("Tracker", display_text="Track"),
+            }
+        )
         st.markdown("---")
 
 if st.session_state.flight_plan_df is not None:
     st.markdown("## ✈️ Final Recurring Flight Plan")
     PLAN_COLUMNS = ["DATE", "DAY", "REQ'D PICK UP", "ORIGIN", "DEST", "AIRLINE", "FLT #", "ETD", "CNX FLT", "CNX CITY", "ETA", "DUE TIME", "PREBOOK #", "BACKUP FLTS", "BACKUP FLT TIMES", "NOTES"]
-    st.dataframe(st.session_state.flight_plan_df[PLAN_COLUMNS], hide_index=True, use_container_width=True, column_config={
-        "REQ'D PICK UP": st.column_config.TextColumn("REQ'D PICK UP", help="The time freight must be ready for driver pickup."),
-        "DUE TIME": st.column_config.TextColumn("DUE TIME", help="The final delivery deadline at the consignee's address."),
-        "BACKUP FLTS": st.column_config.TextColumn("BACKUP FLTS", help="The designated alternative flight."),
-        "BACKUP FLT TIMES": st.column_config.TextColumn("BACKUP FLT TIMES", help="ETD/ETA of the backup flight."),
-        "PREBOOK #": st.column_config.TextColumn("PREBOOK #", help="Manual Pre-booking or Airway Bill number.")
-    })
+    st.dataframe(st.session_state.flight_plan_df[PLAN_COLUMNS], hide_index=True, use_container_width=True)
     st.markdown("---")
+elif run_btn and not st.session_state.valid_flights:
+    st.error("No valid flights found.")

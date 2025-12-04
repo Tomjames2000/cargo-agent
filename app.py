@@ -408,13 +408,42 @@ else:
         if diff <= 0: diff += 7
         days_to_search.append({"day": d, "date": (today + datetime.timedelta(days=diff)).strftime("%Y-%m-%d")})
 
-# --- Adjusters & Filters (Hidden as requested) ---
-custom_p_buff = 120
-custom_d_buff = 120
-min_conn_filter = 60
-show_all_airlines = False
+# --- Adjusters & Filters (Now fully functional) ---
 with st.sidebar.expander("⚙️ Adjusters & Filters"):
-    st.sidebar.write("Using default logic values (Buffers: 120min, Min Conn: 60min, Major Airlines only).")
+    st.sidebar.markdown("**Time Buffers (Minutes)**")
+    custom_p_buff = st.sidebar.number_input(
+        "Pickup Buffer (Pre-Flight Time)", 
+        value=120, 
+        min_value=30, 
+        max_value=240, 
+        step=30, 
+        key="p_buff_input", 
+        help="Minimum required time before departure for freight drop-off and processing (Tender Time)."
+    )
+    custom_d_buff = st.sidebar.number_input(
+        "Delivery Buffer (Post-Arrival Time)", 
+        value=120, 
+        min_value=30, 
+        max_value=240, 
+        step=30, 
+        key="d_buff_input", 
+        help="Minimum required time after arrival for freight recovery and processing."
+    )
+    st.sidebar.markdown("---")
+    min_conn_filter = st.sidebar.number_input(
+        "Minimum Connection Time (Minutes)", 
+        value=60, 
+        min_value=15, 
+        max_value=180, 
+        step=15, 
+        key="conn_input"
+    )
+    st.sidebar.markdown("---")
+    show_all_airlines = st.sidebar.checkbox(
+        "Show All Airlines (Bypass Major Carrier filter)", 
+        value=False, 
+        key="all_airlines_check"
+    )
 
 run_btn = st.sidebar.button("🚀 Run Analysis", type="primary")
 
@@ -492,8 +521,9 @@ if run_btn:
             d2 = tools.get_road_metrics(d_code, d_addr) or {"miles": 20, "time_str": "30m", "time_min": 30}
             
             # 3. MATH
+            # Use the adjustable custom buffer as the minimum time required
             p_drive_used = max(d1['time_min'], custom_p_buff)
-            total_prep = p_drive_used + 60
+            total_prep = p_drive_used + 60 # + 60 minutes for processing/security/etc.
             
             base_dt = p_date if mode == "One-Time (Ad-Hoc)" else datetime.datetime.strptime(days_to_search[0]['date'], "%Y-%m-%d").date()
             earliest_dep = datetime.datetime.combine(base_dt, p_time) + datetime.timedelta(minutes=total_prep)
@@ -522,7 +552,7 @@ if run_btn:
                     reject_reason = None
                     airline = f['Airline']
                     
-                    s_date = datetime.datetime.strptime(day_obj['date'], "%Y-%m-%d")
+                    s_date = datetime.datetime.strptime(day_obj['date'], "%Y-%m-%d").date()
                     
                     # Cache lookup for Origin and Destination Hours
                     if (p_code, airline) not in airline_hours_cache:
@@ -535,7 +565,8 @@ if run_btn:
                     
                     if p_h['hours'] == "No Cargo": reject_reason = "No Origin Cargo Facility"
                     
-                    tender_dt = datetime.datetime.strptime(f['Dep Time'], "%H:%M") - datetime.timedelta(minutes=120)
+                    # Tender Check: Use the adjustable custom_p_buff for the required drop-off time BEFORE departure
+                    tender_dt = datetime.datetime.strptime(f['Dep Time'], "%H:%M") - datetime.timedelta(minutes=custom_p_buff)
                     if not tools.check_time_in_range(tender_dt.strftime("%H:%M"), p_h['hours']): reject_reason = f"Origin Closed ({p_h['hours']})"
                     
                     if f['Dep Time'] < earliest_dep_str: reject_reason = f"Too Early ({f['Dep Time']})"
@@ -616,6 +647,30 @@ if run_btn:
 
             status.update(label="Mission Plan Generated", state="complete", expanded=False)
 
+        # ======================================================================
+        # CARD HOUR AGGREGATION
+        # ======================================================================
+        origin_hours_str = ""
+        dest_hours_str = ""
+        if valid_flights:
+            # Get unique airlines from the valid flights list
+            unique_airlines = sorted(list(set(f['Airline'] for f in valid_flights)))
+            s_date = datetime.datetime.strptime(days_to_search[0]['date'], "%Y-%m-%d").date()
+            
+            origin_hours_list = []
+            dest_hours_list = []
+            
+            for airline in unique_airlines:
+                # Retrieve hours from cache (guaranteed to be there for valid flights)
+                p_h = airline_hours_cache.get((p_code, airline))
+                d_h = airline_hours_cache.get((d_code, airline))
+
+                if p_h: origin_hours_list.append(f"**{airline}:** {p_h['hours']}")
+                if d_h: dest_hours_list.append(f"**{airline}:** {d_h['hours']}")
+                
+            origin_hours_str = "<br>".join(origin_hours_list)
+            dest_hours_str = "<br>".join(dest_hours_list)
+        
         # --- A. EXECUTIVE SUMMARY ---
         st.markdown("## 📊 Executive Summary")
         
@@ -671,7 +726,7 @@ if run_btn:
         """
         st.markdown(timeline_html, unsafe_allow_html=True)
 
-        # --- C. ORIGIN / DEST CARDS (Updated to use best flight hours) ---
+        # --- C. ORIGIN / DEST CARDS (Updated to show all airline hours) ---
         if valid_flights:
             c1, c2 = st.columns(2)
             with c1:
@@ -682,8 +737,10 @@ if run_btn:
                     <div style="margin-top:10px; font-size:0.9rem">
                         📍 <strong>Drive:</strong> {d1['miles']} mi ({d1['time_str']})<br>
                         ⏰ <strong>Earliest Dep:</strong> {earliest_dep_str}<br>
-                        🏢 <strong>Cargo Hours:</strong><br>
-                        {best.get('Origin Hours', 'N/A')} ({best['Airline']} Cargo)
+                        🏢 <strong>Cargo Hours (by Airline):</strong><br>
+                        <div style="font-size: 0.8rem; margin-top: 5px;">
+                            {origin_hours_str}
+                        </div>
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
@@ -696,8 +753,10 @@ if run_btn:
                     <div style="margin-top:10px; font-size:0.9rem">
                         📍 <strong>Drive:</strong> {d2['miles']} mi ({d2['time_str']})<br>
                         ⏰ <strong>Latest Arr:</strong> {latest_arr_str if latest_arr_dt else 'N/A'}<br>
-                        🏢 <strong>Cargo Hours:</strong><br>
-                        {best.get('Dest Hours', 'N/A')} ({best['Airline']} Cargo)
+                        🏢 <strong>Cargo Hours (by Airline):</strong><br>
+                        <div style="font-size: 0.8rem; margin-top: 5px;">
+                            {dest_hours_str}
+                        </div>
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
@@ -721,7 +780,7 @@ if run_btn:
                 rows.append(f)
                 
             df = pd.DataFrame(rows)
-            # FINAL COLUMN LIST with Origin Hours added
+            # FINAL COLUMN LIST (Origin Hours and Dest Hours included here)
             cols = ["Airline", "Flight", "Days of Op", "Dep Time", "Arr Time", "Origin Hours", "Dest Hours", "Total Transit Str", "Notes", "Reliability", "Track"]
             
             st.dataframe(
@@ -730,7 +789,7 @@ if run_btn:
                 use_container_width=True,
                 column_config={
                     "Total Transit Str": st.column_config.TextColumn("Total Transit (End-to-End)"),
-                    "Origin Hours": st.column_config.TextColumn("Origin Cargo Hours", width="small"), # NEW COLUMN CONFIG
+                    "Origin Hours": st.column_config.TextColumn("Origin Cargo Hours", width="small"), 
                     "Dest Hours": st.column_config.TextColumn("Dest Cargo Hours", width="small"),
                     "Reliability": st.column_config.ProgressColumn(
                         "Risk Score",
@@ -743,7 +802,7 @@ if run_btn:
                 }
             )
 
-            # NEW: Risk Score Explanation
+            # Risk Score Explanation
             st.markdown("---")
             st.markdown("""
             **Reliability Risk Score Explanation:**

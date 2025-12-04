@@ -358,6 +358,10 @@ class LogisticsTools:
 
 st.sidebar.title("🎮 Control Panel")
 
+# --- NEW: Logistics Mode Selection ---
+st.sidebar.markdown("**0. Logistics Mode**")
+mode_selection = st.sidebar.radio("Function", ["Flight Scheduler", "Flight Reliability Analyzer"], label_visibility="collapsed")
+
 # --- INPUTS ---
 st.sidebar.markdown("**1. Shipment Mode**")
 mode = st.sidebar.radio("Frequency", ["One-Time (Ad-Hoc)", "Reoccurring"], label_visibility="collapsed")
@@ -404,317 +408,351 @@ else:
         if diff <= 0: diff += 7
         days_to_search.append({"day": d, "date": (today + datetime.timedelta(days=diff)).strftime("%Y-%m-%d")})
 
+# --- Adjusters & Filters (Hidden as requested) ---
+custom_p_buff = 120
+custom_d_buff = 120
+min_conn_filter = 60
+show_all_airlines = False
 with st.sidebar.expander("⚙️ Adjusters & Filters"):
-    custom_p_buff = st.sidebar.number_input("Pickup Buffer", 120)
-    custom_d_buff = st.sidebar.number_input("Del Buffer", 120)
-    min_conn_filter = st.sidebar.number_input("Min Conn", 60)
-    show_all_airlines = st.sidebar.checkbox("Show All Airlines", value=False)
+    st.sidebar.write("Using default logic values (Buffers: 120min, Min Conn: 60min, Major Airlines only).")
 
 run_btn = st.sidebar.button("🚀 Run Analysis", type="primary")
 
 # --- MAIN OUTPUT ---
+
 if run_btn:
-    # SAFETY INIT
-    p_code = d_code = p_name = d_name = "Unknown"
-    d1 = d2 = {"miles": 0, "time_str": "N/A", "time_min": 0}
-    earliest_dep_str = "N/A"
-    latest_arr_str = "N/A"
-    total_prep = total_post = 0
-    valid_flights = []
-    rejected_flights = []
-    airline_hours_cache = {}
-    
-    tools = LogisticsTools()
-    
-    with st.status("📡 Establishing Logistics Chain...", expanded=True) as status:
+    # ======================================================================
+    # FLIGHT RELIABILITY ANALYZER (FRA) MODE
+    # ======================================================================
+    if mode_selection == "Flight Reliability Analyzer":
+        st.markdown("## ⛈️ Flight Reliability Analyzer (FRA) Mode")
+        st.info("Run an instant risk check for a specific flight number.")
         
-        # 1. GEOGRAPHY
-        st.write("📍 Geocoding Locations...")
-        p_res = [tools.get_airport_details(p_manual)] if p_manual else tools.find_nearest_airports(p_addr)
-        d_res = [tools.get_airport_details(d_manual)] if d_manual else tools.find_nearest_airports(d_addr)
+        f_num = st.text_input("Full Flight Number (e.g., AA2345)", placeholder="AirlineCode + Number")
         
-        if not p_res or not p_res[0]:
-            st.error(f"Could not resolve Pickup. Check address or override code.")
-            st.stop()
-        if not d_res or not d_res[0]:
-            st.error(f"Could not resolve Delivery. Check address or override code.")
-            st.stop()
-            
-        p_apt, d_apt = p_res[0], d_res[0]
-        p_code, p_name = p_apt['code'], p_apt['name']
-        d_code, d_name = d_apt['code'], d_apt['name']
-        
-        # 2. DRIVE METRICS
-        st.write(f"🚚 Routing ({p_code}-{d_code})...")
-        d1 = tools.get_road_metrics(p_addr, p_code) or {"miles": 20, "time_str": "30m", "time_min": 30}
-        d2 = tools.get_road_metrics(d_code, d_addr) or {"miles": 20, "time_str": "30m", "time_min": 30}
-        
-        # 3. MATH
-        p_drive_used = max(d1['time_min'], custom_p_buff)
-        total_prep = p_drive_used + 60
-        
-        base_dt = p_date if mode == "One-Time (Ad-Hoc)" else datetime.datetime.strptime(days_to_search[0]['date'], "%Y-%m-%d").date()
-        earliest_dep = datetime.datetime.combine(base_dt, p_time) + datetime.timedelta(minutes=total_prep)
-        earliest_dep_str = earliest_dep.strftime("%H:%M")
-        
-        latest_arr_dt = None
-        
-        if has_deadline and del_time:
-            d_drive_used = max(d2['time_min'], custom_d_buff)
-            total_post = d_drive_used + 60
-            dummy_del = datetime.datetime.combine(base_dt + datetime.timedelta(days=del_offset), del_time)
-            latest_arr_dt = dummy_del - datetime.timedelta(minutes=total_post)
-            latest_arr_str = latest_arr_dt.strftime("%H:%M")
-        
-        # 4. FLIGHTS
-        st.write("✈️ Analyzing Flights & Risk...")
-        
-        for day_obj in days_to_search:
-            raw_data = tools.search_flights(p_code, d_code, day_obj['date'], show_all_airlines)
-            if isinstance(raw_data, dict) and "error" in raw_data:
-                st.error(f"Flight API Error: {raw_data['error']}")
-                continue
-            if not raw_data: continue
-            
-            for f in raw_data:
-                reject_reason = None
-                airline = f['Airline']
+        if f_num and HAS_FRA and AVIATION_EDGE_KEY:
+            with st.spinner(f"Analyzing {f_num}..."):
+                res = analyze_reliability(f_num, AVIATION_EDGE_KEY)
                 
-                s_date = datetime.datetime.strptime(day_obj['date'], "%Y-%m-%d")
-                if (p_code, airline) not in airline_hours_cache:
-                    airline_hours_cache[(p_code, airline)] = tools.get_cargo_hours(p_code, airline, s_date)
-                if (d_code, airline) not in airline_hours_cache:
-                    airline_hours_cache[(d_code, airline)] = tools.get_cargo_hours(d_code, airline, s_date)
-                
-                p_h = airline_hours_cache[(p_code, airline)]
-                d_h = airline_hours_cache[(d_code, airline)]
-                
-                if p_h['hours'] == "No Cargo": reject_reason = "No Origin Cargo Facility"
-                
-                tender_dt = datetime.datetime.strptime(f['Dep Time'], "%H:%M") - datetime.timedelta(minutes=120)
-                if not tools.check_time_in_range(tender_dt.strftime("%H:%M"), p_h['hours']): reject_reason = f"Origin Closed ({p_h['hours']})"
-                
-                if f['Dep Time'] < earliest_dep_str: reject_reason = f"Too Early ({f['Dep Time']})"
-                if f['Conn Apt'] != "Direct" and f['Conn Min'] < min_conn_filter: reject_reason = "Short Connection"
-                
-                if latest_arr_dt:
-                    try:
-                        f_dt = parser.parse(f['Arr Full'])
-                        # Handle overnight flights
-                        if f_dt < parser.parse(f['Dep Full']): f_dt += datetime.timedelta(days=1)
-                        
-                        loop_dl = datetime.datetime.strptime(day_obj['date'], "%Y-%m-%d") + datetime.timedelta(days=del_offset)
-                        loop_dl = loop_dl.replace(hour=del_time.hour, minute=del_time.minute)
-                        loop_limit = loop_dl - datetime.timedelta(minutes=total_post)
-                        
-                        if f_dt > loop_limit: reject_reason = "Arrives Too Late"
-                    except: pass
-                
-                if reject_reason:
-                    f['Reason'] = reject_reason
-                    f['Day'] = day_obj['day']
-                    rejected_flights.append(f)
+                if "score" in res:
+                    score, risks = res['score'], res['risk_factors']
+                    st.metric(f"Risk Score for {f_num}", f"{score}%", help="Higher score is lower risk.")
+                    st.markdown(f"**Risk Factors:** {', '.join(risks) if risks else 'None detected.'}")
+                    
+                    st.markdown("---")
+                    st.markdown("""
+                    **Reliability Risk Score Explanation:**
+                    * **100%:** Represents the **lowest risk** of flight cancellation or significant delay.
+                    * **1%:** Represents the **highest risk** of flight cancellation or significant delay.
+                    The score is derived from historical flight data (e.g., cancellation rates, on-time performance) analyzed by the Flight Reliability Analyzer (FRA).
+                    """)
                 else:
-                    # --- TARGET 1: Total Transit Time Calculation (Baseline) ---
-                    try:
-                        # 1. Calculate the scheduled Air Transit Time (including layovers)
-                        dep_dt_full = parser.parse(f['Dep Full'])
-                        arr_dt_full = parser.parse(f['Arr Full'])
+                    st.error("Could not retrieve data for this flight or an API error occurred. Check the flight number format.")
+        elif f_num and not HAS_FRA:
+            st.warning("The Flight Reliability Analyzer module is not installed or configured.")
 
-                        # Robustly determine the arrival date
-                        if arr_dt_full < dep_dt_full: arr_dt_full += datetime.timedelta(days=1)
-                        air_transit_min = int((arr_dt_full - dep_dt_full).total_seconds() / 60)
-
-                        # total_prep and total_post are calculated earlier in the run_btn block
-                        
-                        # Initial Total Transit Time (Minutes)
-                        total_transit_min = total_prep + air_transit_min + total_post
-                        
-                        f['Total Transit Min'] = total_transit_min
-                        f['Total Transit Str'] = f"{total_transit_min//60}h {total_transit_min%60}m"
-                        f['Duration'] = f['Total Transit Str'] # Update Duration column with Total Transit
-                        
-                        
-                        # --- TARGET 2: Recovery Delay Check & Total Transit Update ---
-                        
-                        # Scheduled recovery time (Arr Time + 60 min)
-                        scheduled_recovery_dt = arr_dt_full + datetime.timedelta(minutes=60)
-                        recovery_note = ""
-
-                        # Check if scheduled recovery is outside the destination's operating hours
-                        if not tools.check_time_in_range(scheduled_recovery_dt.strftime("%H:%M"), d_h['hours']):
-                            
-                            # Calculate the actual next open time
-                            next_open_dt = tools.get_next_open_time(scheduled_recovery_dt, d_h['hours'])
-                            
-                            # Actual Recovery Time = Next Open + 30 minutes for final prep (buffer)
-                            actual_recovery_dt = next_open_dt + datetime.timedelta(minutes=30) 
-                            
-                            # Calculate Delay and update Total Transit Time
-                            delay_min = int((actual_recovery_dt - scheduled_recovery_dt).total_seconds() / 60)
-                            
-                            if delay_min > 0:
-                                total_transit_min += delay_min
-                                f['Total Transit Min'] = total_transit_min
-                                f['Total Transit Str'] = f"{total_transit_min//60}h {total_transit_min%60}m (DELAYED)"
-                                f['Duration'] = f['Total Transit Str']
-                                
-                                # Set detailed recovery note
-                                recovery_note = f"⚠️ Recovery Delay: Available {actual_recovery_dt.strftime('%m/%d %H:%M')}"
-
-                    except Exception as e:
-                        f['Total Transit Min'] = 99999
-                        f['Total Transit Str'] = "Error"
-                        f['Duration'] = "Error"
-                        recovery_note = f"Logic Error: {e}"
-                        
-                    # --- FRA Integration and Final Note Assembly ---
-                    fra_score, fra_risk = 100, []
-                    if HAS_FRA and AVIATION_EDGE_KEY:
-                        # Use only the first flight number for tracking/risk analysis
-                        flight_num_for_fra = f['Flight'].split(' / ')[0]
-                        res = analyze_reliability(flight_num_for_fra, AVIATION_EDGE_KEY)
-                        if "score" in res:
-                            fra_score, fra_risk = res['score'], res['risk_factors']
-                            
-                    note_parts = []
-                    if recovery_note: note_parts.append(recovery_note)
-                    if fra_risk: note_parts.append(f"⛈️ Risk: {fra_risk[0]}")
-                    
-                    f['Notes'] = " ".join(note_parts) if note_parts else "Standard Ops"
-                    f['Reliability'] = fra_score
-                    f['Days of Op'] = day_obj['day']
-                    f['Dest Hours'] = d_h['hours']
-                    f['Track'] = f"https://flightaware.com/live/flight/{f['Flight'].split(' / ')[0]}"
-                    
-                    valid_flights.append(f)
-
-        status.update(label="Mission Plan Generated", state="complete", expanded=False)
-
-    # --- A. EXECUTIVE SUMMARY ---
-    st.markdown("## 📊 Executive Summary")
-    
-    if valid_flights:
-        # UPDATED SORTING KEY: Use Total Transit Min as the primary sort, then Reliability
-        best = sorted(valid_flights, key=lambda x: (x['Total Transit Min'], -x['Reliability']))[0]
-        rec_text = f"The recommended routing is via **{best['Airline']} Flight {best['Flight']}**."
-        if "Recovery Delay" in best['Notes']: rec_text += f" Note: Delivery is delayed until **{best['Notes'].split('Available ')[-1]}** due to facility hours."
-        elif best['Reliability'] < 70: rec_text += " ⚠️ Caution: High risk of weather delay on this route."
-        else: rec_text += " This option offers the optimal balance of transit time and reliability."
-        st.info(f"**Recommendation:** {rec_text}")
-    else:
-        st.error("No valid flights found that meet all constraints.")
-
-    m1, m2, m3 = st.columns(3)
-    m1.metric("Origin Drive", f"{d1['time_str']}", f"{d1['miles']} mi")
-    m2.metric("Air Transit", valid_flights[0]['Duration'] if valid_flights else "N/A", f"{len(valid_flights)} Options")
-    m3.metric("Dest Drive", f"{d2['time_str']}", f"{d2['miles']} mi")
-
-    # --- B. VISUAL TIMELINE ---
-    st.markdown("### ⛓️ Logistics Chain Visualization")
-    timeline_html = f"""
-    <div class="timeline-container">
-        <div class="timeline-point">
-            <div style="font-size:24px">📦</div>
-            <div style="font-weight:bold">Pickup</div>
-            <div style="color:#4ade80">{p_time.strftime('%H:%M')}</div>
-        </div>
-        <div class="timeline-line"></div>
-        <div class="timeline-point">
-            <div style="font-size:24px">🚛</div>
-            <div style="font-size:12px; color:#94a3b8">{d1['time_str']}</div>
-        </div>
-        <div class="timeline-line"></div>
-        <div class="timeline-point">
-            <div style="font-size:24px">🛫</div>
-            <div style="font-weight:bold">Departs</div>
-            <div style="color:#facc15">{valid_flights[0]['Dep Time'] if valid_flights else '--:--'}</div>
-        </div>
-        <div class="timeline-line"></div>
-        <div class="timeline-point">
-            <div style="font-size:24px">🛬</div>
-            <div style="font-weight:bold">Arrives</div>
-            <div style="color:#facc15">{valid_flights[0]['Arr Time'] if valid_flights else '--:--'}</div>
-        </div>
-        <div class="timeline-line"></div>
-        <div class="timeline-point">
-            <div style="font-size:24px">🏁</div>
-            <div style="font-weight:bold">Deadline</div>
-            <div style="color:#f87171">{del_time.strftime('%H:%M') if del_time else 'Open'}</div>
-        </div>
-    </div>
-    """
-    st.markdown(timeline_html, unsafe_allow_html=True)
-
-    # --- C. ORIGIN / DEST CARDS ---
-    c1, c2 = st.columns(2)
-    with c1:
-        st.markdown(f"""
-        <div class="metric-card">
-            <div class="metric-header">ORIGIN: {p_code}</div>
-            <div class="metric-value">{p_name}</div>
-            <div style="margin-top:10px; font-size:0.9rem">
-                📍 <strong>Drive:</strong> {d1['miles']} mi ({d1['time_str']})<br>
-                ⏰ <strong>Earliest Dep:</strong> {earliest_dep_str}<br>
-                🏢 <strong>Facility Hours:</strong><br>
-                {list(airline_hours_cache.values())[0]['hours'] if airline_hours_cache else 'N/A'}
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-
-    with c2:
-        st.markdown(f"""
-        <div class="metric-card">
-            <div class="metric-header">DESTINATION: {d_code}</div>
-            <div class="metric-value">{d_name}</div>
-            <div style="margin-top:10px; font-size:0.9rem">
-                📍 <strong>Drive:</strong> {d2['miles']} mi ({d2['time_str']})<br>
-                ⏰ <strong>Latest Arr:</strong> {latest_arr_str if latest_arr_dt else 'N/A'}<br>
-                🏢 <strong>Facility Hours:</strong><br>
-                {list(airline_hours_cache.values())[1]['hours'] if len(airline_hours_cache)>1 else 'N/A'}
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-
-    # --- D. TACTICAL TABLE ---
-    st.markdown("### ✅ Recommended Flights")
-    if valid_flights:
-        grouped = {}
-        for f in valid_flights:
-            key = (f['Airline'], f['Flight'], f['Dep Time'], f['Arr Time'])
-            if key not in grouped:
-                grouped[key] = f.copy()
-                grouped[key]['Days of Op'] = {f['Days of Op']}
-            else:
-                grouped[key]['Days of Op'].add(f['Days of Op'])
+    # ======================================================================
+    # FLIGHT SCHEDULER (MAIN) MODE
+    # ======================================================================
+    elif mode_selection == "Flight Scheduler":
         
-        rows = []
-        for f in grouped.values():
-            days = sorted(list(f['Days of Op']), key=lambda x: ["Mon","Tue","Wed","Thu","Fri","Sat","Sun","One-Time"].index(x) if x in ["Mon","Tue","Wed","Thu","Fri","Sat","Sun","One-Time"] else 99)
-            f['Days of Op'] = ", ".join(days)
-            rows.append(f)
+        # SAFETY INIT
+        p_code = d_code = p_name = d_name = "Unknown"
+        d1 = d2 = {"miles": 0, "time_str": "N/A", "time_min": 0}
+        earliest_dep_str = "N/A"
+        latest_arr_str = "N/A"
+        total_prep = total_post = 0
+        valid_flights = []
+        rejected_flights = []
+        airline_hours_cache = {}
+        
+        tools = LogisticsTools()
+        
+        with st.status("📡 Establishing Logistics Chain...", expanded=True) as status:
             
-        df = pd.DataFrame(rows)
-        # FINAL COLUMN LIST
-        cols = ["Airline", "Flight", "Days of Op", "Dep Time", "Arr Time", "Dest Hours", "Total Transit Str", "Notes", "Reliability", "Track"]
+            # 1. GEOGRAPHY
+            st.write("📍 Geocoding Locations...")
+            p_res = [tools.get_airport_details(p_manual)] if p_manual else tools.find_nearest_airports(p_addr)
+            d_res = [tools.get_airport_details(d_manual)] if d_manual else tools.find_nearest_airports(d_addr)
+            
+            if not p_res or not p_res[0]:
+                st.error(f"Could not resolve Pickup. Check address or override code.")
+                st.stop()
+            if not d_res or not d_res[0]:
+                st.error(f"Could not resolve Delivery. Check address or override code.")
+                st.stop()
+                
+            p_apt, d_apt = p_res[0], d_res[0]
+            p_code, p_name = p_apt['code'], p_apt['name']
+            d_code, d_name = d_apt['code'], d_apt['name']
+            
+            # 2. DRIVE METRICS
+            st.write(f"🚚 Routing ({p_code}-{d_code})...")
+            d1 = tools.get_road_metrics(p_addr, p_code) or {"miles": 20, "time_str": "30m", "time_min": 30}
+            d2 = tools.get_road_metrics(d_code, d_addr) or {"miles": 20, "time_str": "30m", "time_min": 30}
+            
+            # 3. MATH
+            p_drive_used = max(d1['time_min'], custom_p_buff)
+            total_prep = p_drive_used + 60
+            
+            base_dt = p_date if mode == "One-Time (Ad-Hoc)" else datetime.datetime.strptime(days_to_search[0]['date'], "%Y-%m-%d").date()
+            earliest_dep = datetime.datetime.combine(base_dt, p_time) + datetime.timedelta(minutes=total_prep)
+            earliest_dep_str = earliest_dep.strftime("%H:%M")
+            
+            latest_arr_dt = None
+            
+            if has_deadline and del_time:
+                d_drive_used = max(d2['time_min'], custom_d_buff)
+                total_post = d_drive_used + 60
+                dummy_del = datetime.datetime.combine(base_dt + datetime.timedelta(days=del_offset), del_time)
+                latest_arr_dt = dummy_del - datetime.timedelta(minutes=total_post)
+                latest_arr_str = latest_arr_dt.strftime("%H:%M")
+            
+            # 4. FLIGHTS
+            st.write("✈️ Analyzing Flights & Risk...")
+            
+            for day_obj in days_to_search:
+                raw_data = tools.search_flights(p_code, d_code, day_obj['date'], show_all_airlines)
+                if isinstance(raw_data, dict) and "error" in raw_data:
+                    st.error(f"Flight API Error: {raw_data['error']}")
+                    continue
+                if not raw_data: continue
+                
+                for f in raw_data:
+                    reject_reason = None
+                    airline = f['Airline']
+                    
+                    s_date = datetime.datetime.strptime(day_obj['date'], "%Y-%m-%d")
+                    
+                    # Cache lookup for Origin and Destination Hours
+                    if (p_code, airline) not in airline_hours_cache:
+                        airline_hours_cache[(p_code, airline)] = tools.get_cargo_hours(p_code, airline, s_date)
+                    if (d_code, airline) not in airline_hours_cache:
+                        airline_hours_cache[(d_code, airline)] = tools.get_cargo_hours(d_code, airline, s_date)
+                    
+                    p_h = airline_hours_cache[(p_code, airline)]
+                    d_h = airline_hours_cache[(d_code, airline)]
+                    
+                    if p_h['hours'] == "No Cargo": reject_reason = "No Origin Cargo Facility"
+                    
+                    tender_dt = datetime.datetime.strptime(f['Dep Time'], "%H:%M") - datetime.timedelta(minutes=120)
+                    if not tools.check_time_in_range(tender_dt.strftime("%H:%M"), p_h['hours']): reject_reason = f"Origin Closed ({p_h['hours']})"
+                    
+                    if f['Dep Time'] < earliest_dep_str: reject_reason = f"Too Early ({f['Dep Time']})"
+                    if f['Conn Apt'] != "Direct" and f['Conn Min'] < min_conn_filter: reject_reason = "Short Connection"
+                    
+                    if latest_arr_dt:
+                        try:
+                            f_dt = parser.parse(f['Arr Full'])
+                            if f_dt < parser.parse(f['Dep Full']): f_dt += datetime.timedelta(days=1)
+                            
+                            loop_dl = datetime.datetime.strptime(day_obj['date'], "%Y-%m-%d") + datetime.timedelta(days=del_offset)
+                            loop_dl = loop_dl.replace(hour=del_time.hour, minute=del_time.minute)
+                            loop_limit = loop_dl - datetime.timedelta(minutes=total_post)
+                            
+                            if f_dt > loop_limit: reject_reason = "Arrives Too Late"
+                        except: pass
+                    
+                    if reject_reason:
+                        f['Reason'] = reject_reason
+                        f['Day'] = day_obj['day']
+                        rejected_flights.append(f)
+                    else:
+                        # --- TARGET 1: Total Transit Time Calculation (Baseline) ---
+                        try:
+                            dep_dt_full = parser.parse(f['Dep Full'])
+                            arr_dt_full = parser.parse(f['Arr Full'])
+
+                            if arr_dt_full < dep_dt_full: arr_dt_full += datetime.timedelta(days=1)
+                            air_transit_min = int((arr_dt_full - dep_dt_full).total_seconds() / 60)
+                            total_transit_min = total_prep + air_transit_min + total_post
+                            
+                            f['Total Transit Min'] = total_transit_min
+                            f['Total Transit Str'] = f"{total_transit_min//60}h {total_transit_min%60}m"
+                            f['Duration'] = f['Total Transit Str']
+                            
+                            # --- TARGET 2: Recovery Delay Check & Total Transit Update ---
+                            scheduled_recovery_dt = arr_dt_full + datetime.timedelta(minutes=60)
+                            recovery_note = ""
+
+                            if not tools.check_time_in_range(scheduled_recovery_dt.strftime("%H:%M"), d_h['hours']):
+                                next_open_dt = tools.get_next_open_time(scheduled_recovery_dt, d_h['hours'])
+                                actual_recovery_dt = next_open_dt + datetime.timedelta(minutes=30) 
+                                delay_min = int((actual_recovery_dt - scheduled_recovery_dt).total_seconds() / 60)
+                                
+                                if delay_min > 0:
+                                    total_transit_min += delay_min
+                                    f['Total Transit Min'] = total_transit_min
+                                    f['Total Transit Str'] = f"{total_transit_min//60}h {total_transit_min%60}m (DELAYED)"
+                                    f['Duration'] = f['Total Transit Str']
+                                    recovery_note = f"⚠️ Recovery Delay: Available {actual_recovery_dt.strftime('%m/%d %H:%M')}"
+
+                        except Exception as e:
+                            f['Total Transit Min'] = 99999
+                            f['Total Transit Str'] = "Error"
+                            f['Duration'] = "Error"
+                            recovery_note = f"Logic Error: {e}"
+                            
+                        # --- FRA Integration and Final Note Assembly ---
+                        fra_score, fra_risk = 100, []
+                        if HAS_FRA and AVIATION_EDGE_KEY:
+                            flight_num_for_fra = f['Flight'].split(' / ')[0]
+                            res = analyze_reliability(flight_num_for_fra, AVIATION_EDGE_KEY)
+                            if "score" in res:
+                                fra_score, fra_risk = res['score'], res['risk_factors']
+                                
+                        note_parts = []
+                        if recovery_note: note_parts.append(recovery_note)
+                        if fra_risk: note_parts.append(f"⛈️ Risk: {fra_risk[0]}")
+                        
+                        f['Notes'] = " ".join(note_parts) if note_parts else "Standard Ops"
+                        f['Reliability'] = fra_score
+                        f['Days of Op'] = day_obj['day']
+                        f['Origin Hours'] = p_h['hours'] # NEW: Origin Hours
+                        f['Dest Hours'] = d_h['hours']
+                        f['Track'] = f"https://flightaware.com/live/flight/{f['Flight'].split(' / ')[0]}"
+                        
+                        valid_flights.append(f)
+
+            status.update(label="Mission Plan Generated", state="complete", expanded=False)
+
+        # --- A. EXECUTIVE SUMMARY ---
+        st.markdown("## 📊 Executive Summary")
         
-        st.dataframe(
-            df[cols], 
-            hide_index=True, 
-            use_container_width=True,
-            column_config={
-                "Total Transit Str": st.column_config.TextColumn("Total Transit (End-to-End)"), # NEW/UPDATED COLUMN
-                "Reliability": st.column_config.ProgressColumn(
-                    "Risk Score",
-                    format="%d%%",
-                    min_value=0,
-                    max_value=100,
-                ),
-                "Track": st.column_config.LinkColumn("Tracker", display_text="Live Status"),
-                "Notes": st.column_config.TextColumn("Operational Notes", width="large")
-            }
-        )
-    else:
-        if rejected_flights:
-            with st.expander("View Rejected Options"):
-                st.dataframe(pd.DataFrame(rejected_flights)[["Airline", "Flight", "Dep Time", "Reason"]])
+        if valid_flights:
+            # UPDATED SORTING KEY
+            best = sorted(valid_flights, key=lambda x: (x['Total Transit Min'], -x['Reliability']))[0]
+            rec_text = f"The recommended routing is via **{best['Airline']} Flight {best['Flight']}**."
+            if "Recovery Delay" in best['Notes']: rec_text += f" Note: Delivery is delayed until **{best['Notes'].split('Available ')[-1]}** due to facility hours."
+            elif best['Reliability'] < 70: rec_text += " ⚠️ Caution: High risk of weather delay on this route."
+            else: rec_text += " This option offers the optimal balance of transit time and reliability."
+            st.info(f"**Recommendation:** {rec_text}")
+        else:
+            st.error("No valid flights found that meet all constraints.")
+
+        m1, m2, m3 = st.columns(3)
+        m1.metric("Origin Drive", f"{d1['time_str']}", f"{d1['miles']} mi")
+        m2.metric("Air Transit", valid_flights[0]['Duration'] if valid_flights else "N/A", f"{len(valid_flights)} Options")
+        m3.metric("Dest Drive", f"{d2['time_str']}", f"{d2['miles']} mi")
+
+        # --- B. VISUAL TIMELINE ---
+        st.markdown("### ⛓️ Logistics Chain Visualization")
+        timeline_html = f"""
+        <div class="timeline-container">
+            <div class="timeline-point">
+                <div style="font-size:24px">📦</div>
+                <div style="font-weight:bold">Pickup</div>
+                <div style="color:#4ade80">{p_time.strftime('%H:%M')}</div>
+            </div>
+            <div class="timeline-line"></div>
+            <div class="timeline-point">
+                <div style="font-size:24px">🚛</div>
+                <div style="font-size:12px; color:#94a3b8">{d1['time_str']}</div>
+            </div>
+            <div class="timeline-line"></div>
+            <div class="timeline-point">
+                <div style="font-size:24px">🛫</div>
+                <div style="font-weight:bold">Departs</div>
+                <div style="color:#facc15">{valid_flights[0]['Dep Time'] if valid_flights else '--:--'}</div>
+            </div>
+            <div class="timeline-line"></div>
+            <div class="timeline-point">
+                <div style="font-size:24px">🛬</div>
+                <div style="font-weight:bold">Arrives</div>
+                <div style="color:#facc15">{valid_flights[0]['Arr Time'] if valid_flights else '--:--'}</div>
+            </div>
+            <div class="timeline-line"></div>
+            <div class="timeline-point">
+                <div style="font-size:24px">🏁</div>
+                <div style="font-weight:bold">Deadline</div>
+                <div style="color:#f87171">{del_time.strftime('%H:%M') if del_time else 'Open'}</div>
+            </div>
+        </div>
+        """
+        st.markdown(timeline_html, unsafe_allow_html=True)
+
+        # --- C. ORIGIN / DEST CARDS (Updated to use best flight hours) ---
+        if valid_flights:
+            c1, c2 = st.columns(2)
+            with c1:
+                st.markdown(f"""
+                <div class="metric-card">
+                    <div class="metric-header">ORIGIN: {p_code}</div>
+                    <div class="metric-value">{p_name}</div>
+                    <div style="margin-top:10px; font-size:0.9rem">
+                        📍 <strong>Drive:</strong> {d1['miles']} mi ({d1['time_str']})<br>
+                        ⏰ <strong>Earliest Dep:</strong> {earliest_dep_str}<br>
+                        🏢 <strong>Cargo Hours:</strong><br>
+                        {best.get('Origin Hours', 'N/A')} ({best['Airline']} Cargo)
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+
+            with c2:
+                st.markdown(f"""
+                <div class="metric-card">
+                    <div class="metric-header">DESTINATION: {d_code}</div>
+                    <div class="metric-value">{d_name}</div>
+                    <div style="margin-top:10px; font-size:0.9rem">
+                        📍 <strong>Drive:</strong> {d2['miles']} mi ({d2['time_str']})<br>
+                        ⏰ <strong>Latest Arr:</strong> {latest_arr_str if latest_arr_dt else 'N/A'}<br>
+                        🏢 <strong>Cargo Hours:</strong><br>
+                        {best.get('Dest Hours', 'N/A')} ({best['Airline']} Cargo)
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+
+        # --- D. TACTICAL TABLE ---
+        st.markdown("### ✅ Recommended Flights")
+        if valid_flights:
+            grouped = {}
+            for f in valid_flights:
+                key = (f['Airline'], f['Flight'], f['Dep Time'], f['Arr Time'])
+                if key not in grouped:
+                    grouped[key] = f.copy()
+                    grouped[key]['Days of Op'] = {f['Days of Op']}
+                else:
+                    grouped[key]['Days of Op'].add(f['Days of Op'])
+            
+            rows = []
+            for f in grouped.values():
+                days = sorted(list(f['Days of Op']), key=lambda x: ["Mon","Tue","Wed","Thu","Fri","Sat","Sun","One-Time"].index(x) if x in ["Mon","Tue","Wed","Thu","Fri","Sat","Sun","One-Time"] else 99)
+                f['Days of Op'] = ", ".join(days)
+                rows.append(f)
+                
+            df = pd.DataFrame(rows)
+            # FINAL COLUMN LIST with Origin Hours added
+            cols = ["Airline", "Flight", "Days of Op", "Dep Time", "Arr Time", "Origin Hours", "Dest Hours", "Total Transit Str", "Notes", "Reliability", "Track"]
+            
+            st.dataframe(
+                df[cols], 
+                hide_index=True, 
+                use_container_width=True,
+                column_config={
+                    "Total Transit Str": st.column_config.TextColumn("Total Transit (End-to-End)"),
+                    "Origin Hours": st.column_config.TextColumn("Origin Cargo Hours", width="small"), # NEW COLUMN CONFIG
+                    "Dest Hours": st.column_config.TextColumn("Dest Cargo Hours", width="small"),
+                    "Reliability": st.column_config.ProgressColumn(
+                        "Risk Score",
+                        format="%d%%",
+                        min_value=0,
+                        max_value=100,
+                    ),
+                    "Track": st.column_config.LinkColumn("Tracker", display_text="Live Status"),
+                    "Notes": st.column_config.TextColumn("Operational Notes", width="large")
+                }
+            )
+
+            # NEW: Risk Score Explanation
+            st.markdown("---")
+            st.markdown("""
+            **Reliability Risk Score Explanation:**
+            * **100%:** Represents the **lowest risk** of flight cancellation or significant delay.
+            * **1%:** Represents the **highest risk** of flight cancellation or significant delay.
+            
+            The score is derived from historical flight data (e.g., cancellation rates, on-time performance) analyzed by the Flight Reliability Analyzer (FRA).
+            """)
+        else:
+            if rejected_flights:
+                with st.expander("View Rejected Options"):
+                    st.dataframe(pd.DataFrame(rejected_flights)[["Airline", "Flight", "Dep Time", "Reason"]])
